@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -O3 -rdynamic CMakeFiles/RegWriteSpeed.dir/RegWriteSpeed.cpp.o -o RegWriteSpeed   -L/home/ubuntu/SCServo_Linux/examples/sandbox/RegWriteSpeed/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/RegWriteSpeed/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic 

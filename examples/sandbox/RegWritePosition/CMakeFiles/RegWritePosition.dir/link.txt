@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -O3 -rdynamic CMakeFiles/RegWritePosition.dir/RegWritePosition.cpp.o -o RegWritePosition   -L/home/ubuntu/SCServo_Linux/examples/sandbox/RegWritePosition/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/RegWritePosition/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic 

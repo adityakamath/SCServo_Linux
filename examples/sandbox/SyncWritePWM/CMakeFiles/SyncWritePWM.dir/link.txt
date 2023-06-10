@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -O3 -rdynamic CMakeFiles/SyncWritePWM.dir/SyncWritePWM.cpp.o -o SyncWritePWM   -L/home/ubuntu/SCServo_Linux/examples/sandbox/SyncWritePWM/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/SyncWritePWM/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic 

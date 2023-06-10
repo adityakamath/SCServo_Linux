@@ -61,7 +61,7 @@ void SCSCL::SyncWritePos(u8 ID[], u8 IDN, u16 Position[], u16 Time[], u16 Speed[
         Host2SCS(bBuf+4, bBuf+5, V);
         memcpy(offbuf[i], bBuf, 6);
     }
-    snycWrite(ID, IDN, SCSCL_GOAL_POSITION_L, (u8*)offbuf, 6);
+    syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, (u8*)offbuf, 6);
 }
 
 int SCSCL::PWMMode(u8 ID)

@@ -75,7 +75,7 @@ void SMS_STS::SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 AC
         Host2SCS(bBuf+5, bBuf+6, V);
         memcpy(offbuf[i], bBuf, 7);
     }
-    snycWrite(ID, IDN, SMS_STS_ACC, (u8*)offbuf, 7);
+    syncWrite(ID, IDN, SMS_STS_ACC, (u8*)offbuf, 7);
 }
 
 int SMS_STS::Mode(u8 ID, u8 mode)
@@ -131,11 +131,11 @@ void SMS_STS::SyncWriteSpe(u8 ID[], u8 IDN, s16 Speed[], u8 ACC[])
 		}else{
 			bBuf[0] = 0;
 		}
-        regWrite(ID[i], SMS_STS_ACC, bBuf, 1);
+        genWrite(ID[i], SMS_STS_ACC, bBuf, 1);
         Host2SCS(bBuf+0, bBuf+1, Speed[i]);
         memcpy(offbuf[i], bBuf, 2);
     }
-    snycWrite(ID, IDN, SMS_STS_GOAL_SPEED_L, (u8*)offbuf, 2);
+    syncWrite(ID, IDN, SMS_STS_GOAL_SPEED_L, (u8*)offbuf, 2);
 }
 
 int SMS_STS::WritePwm(u8 ID, s16 Pwm)
@@ -174,7 +174,7 @@ void SMS_STS::SyncWritePwm(u8 ID[], u8 IDN, s16 Pwm[])
         Host2SCS(bBuf+0, bBuf+1, Pwm[i]);
         memcpy(offbuf[i], bBuf, 2);
     }
-    snycWrite(ID, IDN, SMS_STS_GOAL_TIME_L, (u8*)offbuf, 2);
+    syncWrite(ID, IDN, SMS_STS_GOAL_TIME_L, (u8*)offbuf, 2);
 }
 
 int SMS_STS::EnableTorque(u8 ID, u8 Enable)

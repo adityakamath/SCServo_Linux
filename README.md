@@ -50,6 +50,15 @@ SCS class<---SCSerial class<---SMSCL class
                                SMS_STS class
 ```
 
-## Modified examples
+## Modifications
 
-My modified examples used for testing on my robot can be found in `examples/sandbox/`. The normal examples have comments written in Chinese, but I've updated the examples in the sandbox with English comments. 
+I added and updated the following methods in `SMS_STS.h/.cpp`:
+* Updated `WheelMode(ID)` to `Mode(ID, mode)`. Now instead of setting only Mode 1 (closed-loop wheel mode), the function can be used to set either of the following:
+    * Mode 0: Servo mode
+    * Mode 1: Closed loop wheel mode
+    * Mode 2: Open loop wheel mode
+* Added `WritePwm(ID, PWM)` to set PWM values in Mode 2
+* Added `regWriteSpe(ID, Speed, Acc)` and `syncWriteSpe(ID[], IDN, Speed[], Acc[])` to write Speed values to an individual motor asynchronously, and to multiple motors in sync, respectively, to be used in Mode 1. The asynchronous write function works as expected, but as of now, `syncWriteSpe()` does not function correctly.
+* Added `regWritePwm(ID, Speed, Acc)` and `syncWritePwm(ID[], IDN, Speed[], Acc[])` to write PWM values to an individual motor asynchronously, and to multiple motors in sync, respectively, to be used in Mode 2. Both new functions work as expected.
+
+My modified examples used for testing on my robot can be found in `examples/sandbox/`. I've also added examples to support the newly added functions, but specific to my application - a 3 omni-wheeled robot. The normal examples have comments written in Chinese, but I've updated the examples in the sandbox with English comments. 

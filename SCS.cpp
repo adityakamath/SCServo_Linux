@@ -121,7 +121,7 @@ int SCS::RegWriteAction(u8 ID)
 
 //同步写指令
 //舵机ID[]数组，IDN数组长度，MemAddr内存表地址，写入数据，写入长度
-void SCS::snycWrite(u8 ID[], u8 IDN, u8 MemAddr, u8 *nDat, u8 nLen)
+void SCS::syncWrite(u8 ID[], u8 IDN, u8 MemAddr, u8 *nDat, u8 nLen)
 {
 	rFlushSCS();
 	u8 mesLen = ((nLen+1)*IDN+4);

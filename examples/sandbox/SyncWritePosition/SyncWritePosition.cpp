@@ -10,7 +10,7 @@ SMS_STS sm_st;
 
 u8 ID[3] = {11, 12, 13};
 s16 P0[3] = {2048, 2048, 2048}; // = 1/2 rotation = Pi radians
-s16 P1[3] = {4095, 1024, 0}; // = 1, 1/4, 0 rotations
+s16 P1[3] = {4095, 4095, 4095}; // = 1 rotation = 2 Pi radians
 u16 V[3] = {2400, 2400, 2400}; // steps/s
 u8 A[3] = {50, 50, 50}; //*100 steps/s^2
 

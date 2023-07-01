@@ -14,7 +14,7 @@ s16 Zero[3] = {0, 0, 0};
 //max speed = 3400 steps/s, using 50% here
 s16 Speed1[3] = {-1700, -1700, -1700}; //forward
 s16 Speed2[3] = {1700, 1700, 1700}; //reverse
-u8 Acc[3] = {50, 50, 50}; // 0 to 254
+u8 Acc[3] = {127, 127, 127}; // 0 to 254
 
 void signalHandler(int signum) {
     if (signum == SIGINT) {

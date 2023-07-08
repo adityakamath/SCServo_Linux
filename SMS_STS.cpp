@@ -81,6 +81,7 @@ void SMS_STS::SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 AC
 int SMS_STS::Mode(u8 ID, u8 mode)
 {
 	// Modes: 0 (servo mode), 1 (closed-loop) or 2 (open-loop)
+    // Mode 3 (stepper mode) is not implemented
     if(!(mode == 0 || mode == 1 || mode == 2)){
         Err = 1;
         return -1;

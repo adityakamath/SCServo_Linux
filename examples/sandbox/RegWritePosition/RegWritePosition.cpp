@@ -17,11 +17,10 @@ u8 A = 50; //*100 steps/s^2
 void signalHandler(int signum) {
     if (signum == SIGINT) {
         for(int i=0; i<sizeof(ID); i++){
-            sm_st.RegWritePosEx(ID[i], P0, V, A);//Go to Pos=2048 with Vel=2400 steps/s and Acc=50*100 steps/s^2
+            sm_st.EnableTorque(ID[i], 0);
         }
-        sm_st.RegWriteAction();
-		std::cout<<"Terminated! pos = "<<static_cast<int>(P0)<<std::endl;
         sm_st.end();
+		std::cout<<"Terminated + Torque Disabled"<<std::endl;
         exit(0);
     }
 }

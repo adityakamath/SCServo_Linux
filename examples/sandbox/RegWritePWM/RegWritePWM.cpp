@@ -17,11 +17,10 @@ s16 Pwm2[3] = {-500, -500, -500};
 void signalHandler(int signum) {
     if (signum == SIGINT) {
         for(int i=0; i<sizeof(ID); i++){
-            sm_st.RegWritePwm(ID[i], Zero[i]); //ID, PWM=0
+            sm_st.EnableTorque(ID[i], 0);
         }
-        sm_st.RegWriteAction();
-		std::cout<<"Terminated! PWM = "<<0<<"%"<<std::endl;
         sm_st.end();
+		std::cout<<"Terminated + Torque Disabled"<<std::endl;
         exit(0);
     }
 }

@@ -16,9 +16,11 @@ u8 A[3] = {50, 50, 50}; //*100 steps/s^2
 
 void signalHandler(int signum) {
     if (signum == SIGINT) {
-        sm_st.SyncWritePosEx(ID, sizeof(ID), P0, V, A);//go to Pos=2048 with Vel=2400 steps/s and Acc=50*100 steps/s^2
-		std::cout<<"Terminated! pos = 2048, 2048, 2048"<<std::endl;
+        for(int i=0; i<sizeof(ID); i++){
+            sm_st.EnableTorque(ID[i], 0);
+        }
         sm_st.end();
+		std::cout<<"Terminated + Torque Disabled"<<std::endl;
         exit(0);
     }
 }

@@ -19,11 +19,10 @@ u8 Acc[3] = {127, 127, 127}; // 0 to 254
 void signalHandler(int signum) {
     if (signum == SIGINT) {
         for(int i=0; i<sizeof(ID); i++){
-            sm_st.RegWriteSpe(ID[i], Zero[i], Acc[i]); //ID, Speed=0 steps/s, Acc=50*100 steps/s^2
+            sm_st.EnableTorque(ID[i], 0);
         }
-        sm_st.RegWriteAction();
-		std::cout<<"Terminated! Speed = "<<0<<"%"<<std::endl;
         sm_st.end();
+		std::cout<<"Terminated + Torque Disabled"<<std::endl;
         exit(0);
     }
 }

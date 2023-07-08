@@ -18,9 +18,11 @@ u8 Acc[3] = {50, 50, 50}; // 0 to 254
 
 void signalHandler(int signum) {
     if (signum == SIGINT) {
-        sm_st.SyncWriteSpe(ID, sizeof(ID), Zero, Acc); //ID, Speed=0 steps/s, Acc=50*100 steps/s^2
-		std::cout<<"Terminated! Speed = "<<0<<"%"<<std::endl;
+        for(int i=0; i<sizeof(ID); i++){
+            sm_st.EnableTorque(ID[i], 0);
+        }
         sm_st.end();
+		std::cout<<"Terminated + Torque Disabled"<<std::endl;
         exit(0);
     }
 }

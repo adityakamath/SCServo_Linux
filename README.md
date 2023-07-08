@@ -60,5 +60,6 @@ I added and updated the following methods in `SMS_STS.h/.cpp`:
 * Added `WritePwm(ID, PWM)` to set PWM values in Mode 2
 * Added `regWriteSpe(ID, Speed, Acc)` and `syncWriteSpe(ID[], IDN, Speed[], Acc[])` to write Speed values to an individual motor asynchronously, and to multiple motors in sync, respectively, to be used in Mode 1. The asynchronous write function works as expected, but as of now, `syncWriteSpe()` does not function correctly.
 * Added `regWritePwm(ID, Speed, Acc)` and `syncWritePwm(ID[], IDN, Speed[], Acc[])` to write PWM values to an individual motor asynchronously, and to multiple motors in sync, respectively, to be used in Mode 2. Both new functions work as expected.
+* Added a `SignalHandler()` function to each (Write) example, which disables torque when the termination signal (`CTRL+C`) is received. This stops the motors completely, and allows them to be rotated by hand.
 
 My modified examples used for testing on my robot can be found in `examples/sandbox/`. I've also added examples to support the newly added functions, but specific to my application - a 3 omni-wheeled robot. The normal examples have comments written in Chinese, but I've updated the examples in the sandbox with English comments. 

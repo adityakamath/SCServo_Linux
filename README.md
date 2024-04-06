@@ -10,7 +10,6 @@ Copy of SCServo_Linux SDK from [Feetech's official repository](https://gitee.com
 5. Execute the example: `sudo ./WritePos /dev/ttyUSB0`
    
 Note: Adjust /dev/ttyUSB0 according to the serial port of your device
-Note: The example provided is for the WritePos program in the SMS/STS folder under the aforementioned directory. Choose the appropriate testing directory based on your specific requirements. 
 
 ## Structure
 

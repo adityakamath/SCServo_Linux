@@ -8,7 +8,7 @@ The factory speed of the servo motor is 0.0146rpm, and the speed is changed to V
 
 SMS_STS sm_st;
 
-u8 ID[3] = {11, 12, 13};
+u8 ID[3] = {6, 12, 18};
 s16 Zero[3] = {0, 0, 0};
 
 s16 Pwm1[3] = {500, 500, 500};

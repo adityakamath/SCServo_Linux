@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/SCServo_Linux
+CMAKE_SOURCE_DIR = /home/ubuntu/ros2_ws/src/pan_tilt_ros/include/SCServo_Linux
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/SCServo_Linux
+CMAKE_BINARY_DIR = /home/ubuntu/ros2_ws/src/pan_tilt_ros/include/SCServo_Linux
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/SCServo.dir/clean
 CMakeFiles/SCServo.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SCServo.dir/build.make CMakeFiles/SCServo.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SCServo.dir/build.make CMakeFiles/SCServo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/SCServo_Linux/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target SCServo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/ros2_ws/src/pan_tilt_ros/include/SCServo_Linux/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target SCServo"
 .PHONY : CMakeFiles/SCServo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/SCServo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/SCServo_Linux/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/ros2_ws/src/pan_tilt_ros/include/SCServo_Linux/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/SCServo.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/SCServo_Linux/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/ros2_ws/src/pan_tilt_ros/include/SCServo_Linux/CMakeFiles 0
 .PHONY : CMakeFiles/SCServo.dir/rule
 
 # Convenience name for target.

@@ -45,33 +45,7 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
     fcntl(fd, F_SETFL, FNDELAY);
     tcgetattr(fd, &orgopt);
     tcgetattr(fd, &curopt);
-    speed_t CR_BAUDRATE;
-    switch(baudRate){
-    case 9600:
-        CR_BAUDRATE = B9600;
-        break;
-    case 19200:
-        CR_BAUDRATE = B19200;
-        break;
-    case 38400:
-        CR_BAUDRATE = B38400;
-        break;
-    case 57600:
-        CR_BAUDRATE = B57600;
-        break;
-    case 115200:
-        CR_BAUDRATE = B115200;
-        break;
-    case 500000:
-        CR_BAUDRATE = B500000;
-        break;
-    case 1000000:
-        CR_BAUDRATE = B1000000;
-        break;
-    default:
-		CR_BAUDRATE = B115200;
-        break;
-    }
+    speed_t CR_BAUDRATE = baudRate;
     cfsetispeed(&curopt, CR_BAUDRATE);
     cfsetospeed(&curopt, CR_BAUDRATE);
 
@@ -100,32 +74,7 @@ int SCSerial::setBaudRate(int baudRate)
 	}
     tcgetattr(fd, &orgopt);
     tcgetattr(fd, &curopt);
-    speed_t CR_BAUDRATE;
-    switch(baudRate){
-    case 9600:
-        CR_BAUDRATE = B9600;
-        break;
-    case 19200:
-        CR_BAUDRATE = B19200;
-        break;
-    case 38400:
-        CR_BAUDRATE = B38400;
-        break;
-    case 57600:
-        CR_BAUDRATE = B57600;
-        break;
-    case 115200:
-        CR_BAUDRATE = B115200;
-        break;
-    case 230400:
-        CR_BAUDRATE = B230400;
-	break;
-    case 500000:
-        CR_BAUDRATE = B500000;
-        break;
-    default:
-        break;
-    }
+    speed_t CR_BAUDRATE = baudRate;
     cfsetispeed(&curopt, CR_BAUDRATE);
     cfsetospeed(&curopt, CR_BAUDRATE);
     return 1;

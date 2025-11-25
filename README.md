@@ -1,5 +1,5 @@
 # SCServo_Linux
-Copy of SCServo_Linux SDK from [Feetech's official repository](https://gitee.com/ftservo/SCServoSDK/tree/master) with personal modifications for the SMS/STS series of serial bus servo motors. Uses [the 29/03/2022 release of the original SDK](https://gitee.com/ftservo/SCServoSDK/blob/master/SCServo_Linux_220329.7z).
+Copy of SCServo_Linux SDK from [Feetech's official repository](https://gitee.com/ftservo/SCServoSDK/tree/master) with personal modifications for the SMS/STS series of serial bus servo motors.
 
 ## Usage
 

@@ -1,0 +1,6 @@
+[submodule "build/extern/nanobind"]
+	path = build/extern/nanobind
+	url = https://github.com/wjakob/nanobind.git
+[submodule "build/build/extern/nanobind"]
+	path = build/build/extern/nanobind
+	url = https://github.com/wjakob/nanobind.git

@@ -288,7 +288,7 @@ For details, see the source code and example files included in this repository.
 
 
 Python bindings are available for the following classes:
-- `SMS_STS`, `SMSCL`, `SMSBL`, `SCSerial`, and `SCSCL` (core Feetech servo classes)
+- `SMS_STS`, `SMSCL`, `SMSBL`, and `SCSerial` (core Feetech servo classes)
 - All safe, default-constructible methods are exposed.
 - Array/pointer-based methods are wrapped for Python compatibility.
 - The bindings are implemented using [nanobind](https://github.com/wjakob/nanobind) for modern, high-performance Python/C++ integration.

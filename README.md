@@ -129,7 +129,7 @@ The SMS/STS servos support three operating modes:
 ## Examples
 
 ### Official Examples (`examples/SMS_STS/`)
-Standard examples with Chinese comments:
+Standard examples from Feetech SDK:
 - `WritePos` - Position control example
 - `WriteSpe` - Speed control example
 - `SyncWritePos` - Synchronized position control

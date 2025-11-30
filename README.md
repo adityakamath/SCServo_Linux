@@ -1,5 +1,5 @@
 # SCServo_Linux
-Copy of SCServo_Linux SDK from [Feetech's official repository](https://gitee.com/ftservo/SCServoSDK/tree/master) with personal modifications for the SMS/STS series of serial bus servo motors.
+SCServo_Linux SDK based on [Feetech's official repository](https://gitee.com/ftservo/SCServoSDK/tree/master) with personal modifications and performance improvements for the SMS/STS series of serial bus servo motors.
 
 ## Quick Start
 
@@ -294,8 +294,10 @@ Python bindings are available for the following classes:
 - The bindings are implemented using [nanobind](https://github.com/wjakob/nanobind) for modern, high-performance Python/C++ integration.
 
 **Usage:**
-- Install via `python setup.py develop` or use the built `.so` directly.
-- Example usage and API documentation are provided in the source and docstrings.
+- Build the library with CMake (see Quick Start section)
+- The compiled `.so` file can be imported directly in Python
+- See `examples/sandbox/python/sync_write_speed.py` for example usage
+- API documentation is provided in the C++ source docstrings
 
 **Limitations:**
 - Only methods with simple types are directly exposed.

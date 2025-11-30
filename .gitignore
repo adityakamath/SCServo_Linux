@@ -8,9 +8,6 @@ Makefile
 
 # Python build artifacts
 scservo_python.egg-info/
-scservo_python.cpython-*.so
-libSCServo.a
-libnanobind-static.a
 
 # Build artifacts in example subfolders
 examples/*/CMakeCache.txt
@@ -19,36 +16,6 @@ examples/*/cmake_install.cmake
 examples/*/Makefile
 
 # Compiled executables in examples (match directory name)
-examples/SCSCL/Broadcast/Broadcast
-examples/SCSCL/FeedBack/FeedBack
-examples/SCSCL/Ping/Ping
-examples/SCSCL/ProgramEprom/ProgramEprom
-examples/SCSCL/RegWritePos/RegWritePos
-examples/SCSCL/SyncWritePos/SyncWritePos
-examples/SCSCL/WritePWM/WritePWM
-examples/SCSCL/WritePos/WritePos
-examples/SMS_STS/Broadcast/Broadcast
-examples/SMS_STS/CalibrationOfs/CalibrationOfs
-examples/SMS_STS/FeedBack/FeedBack
-examples/SMS_STS/Ping/Ping
-examples/SMS_STS/ProgramEprom/ProgramEprom
-examples/SMS_STS/RegWritePos/RegWritePos
-examples/SMS_STS/SyncRead/SyncRead
-examples/SMS_STS/SyncWritePos/SyncWritePos
-examples/SMS_STS/WritePos/WritePos
-examples/SMS_STS/WriteSpe/WriteSpe
-examples/sandbox/*/Calibration
-examples/sandbox/*/MidpointCalib
-examples/sandbox/*/ReadData
-examples/sandbox/*/RegWritePWM
-examples/sandbox/*/RegWritePosition
-examples/sandbox/*/RegWriteSpeed
-examples/sandbox/*/SyncWritePWM
-examples/sandbox/*/SyncWritePosition
-examples/sandbox/*/SyncWriteSpeed
-examples/sandbox/*/WritePWM
-examples/sandbox/*/WritePosition
-examples/sandbox/*/WriteSpeed
 
 # Prerequisites
 *.d
@@ -63,22 +30,9 @@ examples/sandbox/*/WriteSpeed
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
 
 # Fortran module files
 *.mod
 *.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
 
-# Executables
-*.exe
-*.out
-*.app

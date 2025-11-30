@@ -99,7 +99,7 @@ The SMS/STS servos support three operating modes:
    - `WriteSpe(ID, Speed, Acc)` - Write speed to single motor
    - `RegWriteSpe(ID, Speed, Acc)` - Async write speed (execute with `RegWriteAction()`)
    - `SyncWriteSpe(ID[], IDN, Speed[], Acc[])` - Sync write to multiple motors
-   - **Known Issue:** `SyncWriteSpe()` currently not functioning correctly
+   - **Status:** All speed control functions working correctly
 
 3. **PWM Control (Mode 2)**
    - `WritePwm(ID, Pwm)` - Write PWM to single motor
@@ -271,9 +271,7 @@ Based on Feetech's official SDK. See original repository for license details.
 Contributions welcome! Please test thoroughly with actual hardware before submitting PRs.
 
 **Known TODOs:**
-- Fix `SyncWriteSpe()` function
 - Add support for Mode 3 (stepper mode)
-- Add more comprehensive examples
 - Improve error handling and reporting
 
 ## Major Code Improvements (2025)

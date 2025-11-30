@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11 -O3 -Wl,--dependency-file=CMakeFiles/ReadData.dir/link.d CMakeFiles/ReadData.dir/ReadData.cpp.o -o ReadData   -L/home/ubuntu/SCServo_Linux/examples/sandbox/ReadData/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/ReadData/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic

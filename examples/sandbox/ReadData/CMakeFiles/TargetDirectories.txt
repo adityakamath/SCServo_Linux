@@ -1,3 +1,0 @@
-/home/ubuntu/SCServo_Linux/examples/sandbox/ReadData/CMakeFiles/ReadData.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/ReadData/CMakeFiles/edit_cache.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/ReadData/CMakeFiles/rebuild_cache.dir

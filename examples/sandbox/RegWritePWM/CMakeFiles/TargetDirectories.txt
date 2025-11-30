@@ -1,3 +1,0 @@
-/home/ubuntu/SCServo_Linux/examples/sandbox/RegWritePWM/CMakeFiles/RegWritePWM.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/RegWritePWM/CMakeFiles/edit_cache.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/RegWritePWM/CMakeFiles/rebuild_cache.dir

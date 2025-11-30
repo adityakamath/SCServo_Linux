@@ -1,3 +1,0 @@
-/home/ubuntu/SCServo_Linux/examples/sandbox/WritePosition/CMakeFiles/WritePosition.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/WritePosition/CMakeFiles/edit_cache.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/WritePosition/CMakeFiles/rebuild_cache.dir

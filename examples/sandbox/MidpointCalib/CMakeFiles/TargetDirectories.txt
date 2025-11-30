@@ -1,3 +1,0 @@
-/home/ubuntu/SCServo_Linux/examples/sandbox/MidpointCalib/CMakeFiles/MidpointCalib.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/MidpointCalib/CMakeFiles/edit_cache.dir
-/home/ubuntu/SCServo_Linux/examples/sandbox/MidpointCalib/CMakeFiles/rebuild_cache.dir

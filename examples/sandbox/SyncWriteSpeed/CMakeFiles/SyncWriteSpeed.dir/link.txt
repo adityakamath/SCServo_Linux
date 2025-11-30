@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11 -O3 -Wl,--dependency-file=CMakeFiles/SyncWriteSpeed.dir/link.d CMakeFiles/SyncWriteSpeed.dir/SyncWriteSpeed.cpp.o -o SyncWriteSpeed   -L/home/ubuntu/SCServo_Linux/examples/sandbox/SyncWriteSpeed/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/SyncWriteSpeed/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic

@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11 -O3 -Wl,--dependency-file=CMakeFiles/WritePWM.dir/link.d CMakeFiles/WritePWM.dir/WritePWM.cpp.o -o WritePWM   -L/home/ubuntu/SCServo_Linux/examples/sandbox/WritePWM/../../..  -Wl,-rpath,/home/ubuntu/SCServo_Linux/examples/sandbox/WritePWM/../../.. -Wl,-Bstatic -lSCServo -Wl,-Bdynamic

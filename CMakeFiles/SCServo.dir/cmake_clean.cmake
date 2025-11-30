@@ -5,8 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/SCServo.dir/SCSCL.cpp.o.d"
   "CMakeFiles/SCServo.dir/SCSerial.cpp.o"
   "CMakeFiles/SCServo.dir/SCSerial.cpp.o.d"
-  "CMakeFiles/SCServo.dir/SMSBL.cpp.o"
-  "CMakeFiles/SCServo.dir/SMSBL.cpp.o.d"
   "CMakeFiles/SCServo.dir/SMSCL.cpp.o"
   "CMakeFiles/SCServo.dir/SMSCL.cpp.o.d"
   "CMakeFiles/SCServo.dir/SMS_STS.cpp.o"

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/WriteSpeed.dir/link.d"
   "CMakeFiles/WriteSpeed.dir/WriteSpeed.cpp.o"
   "CMakeFiles/WriteSpeed.dir/WriteSpeed.cpp.o.d"
   "WriteSpeed"

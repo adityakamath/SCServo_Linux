@@ -1,3 +1,9 @@
+/**
+ * @file RegWritePos.cpp
+ * @brief Example: Register write position for synchronized execution
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
 舵机出厂速度单位是0.0146rpm，速度为V=1500
 */

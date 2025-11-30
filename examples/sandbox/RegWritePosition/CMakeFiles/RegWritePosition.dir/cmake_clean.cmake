@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/RegWritePosition.dir/link.d"
   "CMakeFiles/RegWritePosition.dir/RegWritePosition.cpp.o"
   "CMakeFiles/RegWritePosition.dir/RegWritePosition.cpp.o.d"
   "RegWritePosition"

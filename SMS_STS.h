@@ -60,7 +60,24 @@
 #define SMS_STS_PRESENT_CURRENT_L 69
 #define SMS_STS_PRESENT_CURRENT_H 70
 
+// Bit position constants for data encoding
+#define SMS_STS_DIRECTION_BIT_POS 15    // Bit position for direction flag in position/speed
+#define SMS_STS_LOAD_DIRECTION_BIT_POS 10  // Bit position for direction flag in load/PWM
+
+// Operating mode values
+#define SMS_STS_MODE_SERVO 0        // Servo mode (position control)
+#define SMS_STS_MODE_WHEEL_CLOSED 1 // Wheel mode - closed loop (velocity control)
+#define SMS_STS_MODE_WHEEL_OPEN 2   // Wheel mode - open loop (PWM control)
+#define SMS_STS_MODE_STEPPER 3      // Stepper mode (not implemented in SDK)
+
+// Special servo IDs
+#define SMS_STS_BROADCAST_ID 0xFE   // Broadcast ID for all servos
+
+// Calibration command
+#define SMS_STS_CALIBRATION_CMD 128 // Command value for midpoint calibration
+
 #include "SCSerial.h"
+#include "INST.h"
 
 class SMS_STS : public SCSerial
 {

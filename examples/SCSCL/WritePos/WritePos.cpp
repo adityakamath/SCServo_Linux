@@ -1,3 +1,9 @@
+/**
+ * @file WritePos.cpp
+ * @brief Example: Write position commands to servo
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
 舵机出厂速度单位是0.0146rpm，速度为V=1500
 */

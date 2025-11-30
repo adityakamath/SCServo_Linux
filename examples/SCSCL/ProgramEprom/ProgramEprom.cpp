@@ -1,3 +1,9 @@
+/**
+ * @file ProgramEprom.cpp
+ * @brief Example: Program EEPROM parameters
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 

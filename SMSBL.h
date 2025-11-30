@@ -61,6 +61,7 @@
 #define SMSBL_PRESENT_CURRENT_H 70
 
 #include "SCSerial.h"
+#include "INST.h"
 
 class SMSBL : public SCSerial
 {

@@ -1,12 +1,20 @@
 /*
  * SCSerial.h
- * 飞特串行舵机硬件接口层程序
- * 日期: 2022.3.29
- * 作者: 
+ * Feetech Serial Servo Hardware Interface Layer Program
+ * Date: 2022.3.29
+ * Author: 
  */
 
 #include "SCSerial.h"
 
+/**
+ * @brief Default constructor
+ * 
+ * Initializes serial port with:
+ * - IOTimeOut = 100ms
+ * - fd = -1 (not open)
+ * - txBufLen = 0 (empty buffer)
+ */
 SCSerial::SCSerial()
 {
 	IOTimeOut = 100;
@@ -14,6 +22,11 @@ SCSerial::SCSerial()
 	txBufLen = 0;
 }
 
+/**
+ * @brief Constructor with endianness parameter
+ * 
+ * @param End Endianness flag (0=little-endian, 1=big-endian)
+ */
 SCSerial::SCSerial(u8 End):SCS(End)
 {
 	IOTimeOut = 100;
@@ -21,6 +34,12 @@ SCSerial::SCSerial(u8 End):SCS(End)
 	txBufLen = 0;
 }
 
+/**
+ * @brief Constructor with endianness and response level
+ * 
+ * @param End Endianness flag
+ * @param Level Response level
+ */
 SCSerial::SCSerial(u8 End, u8 Level):SCS(End, Level)
 {
 	IOTimeOut = 100;
@@ -28,6 +47,16 @@ SCSerial::SCSerial(u8 End, u8 Level):SCS(End, Level)
 	txBufLen = 0;
 }
 
+/**
+ * @brief Initialize and open serial port
+ * 
+ * Opens serial port with specified baud rate and configures it for
+ * 8N1 (8 data bits, no parity, 1 stop bit) communication in raw mode.
+ * 
+ * @param baudRate Baud rate (e.g., 1000000 for 1Mbps)
+ * @param serialPort Device path (e.g., "/dev/ttyUSB0")
+ * @return true on success, false on failure
+ */
 bool SCSerial::begin(int baudRate, const char* serialPort)
 {
 	if(fd != -1){
@@ -67,6 +96,12 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 	}
 }
 
+/**
+ * @brief Change serial port baud rate
+ * 
+ * @param baudRate New baud rate
+ * @return 1 on success, -1 if port not open
+ */
 int SCSerial::setBaudRate(int baudRate)
 { 
     if(fd==-1){
@@ -81,21 +116,22 @@ int SCSerial::setBaudRate(int baudRate)
 }
 
 int SCSerial::readSCS(unsigned char *nDat, int nLen)
-{	
+{
     int fs_sel;
     fd_set fs_read;
 	int rvLen = 0;
 
-    struct timeval time;
-
-    FD_ZERO(&fs_read);
-    FD_SET(fd,&fs_read);
-
-    time.tv_sec = 0;
-    time.tv_usec = IOTimeOut*1000;
-
     //使用select实现串口的多路通信
 	while(1){
+		// Reinitialize timeout for each select() call
+		// select() modifies the timeout structure on Linux
+		struct timeval time;
+		time.tv_sec = 0;
+		time.tv_usec = IOTimeOut*1000;
+
+		FD_ZERO(&fs_read);
+		FD_SET(fd,&fs_read);
+
 		fs_sel = select(fd+1, &fs_read, NULL, NULL, &time);
 		if(fs_sel){
 			rvLen += read(fd, nDat+rvLen, nLen-rvLen);
@@ -112,35 +148,84 @@ int SCSerial::readSCS(unsigned char *nDat, int nLen)
 	}
 }
 
+/**
+ * @brief Write data buffer to transmit buffer
+ * 
+ * Copies data to internal transmit buffer. Data is sent when wFlushSCS() is called.
+ * Includes NULL pointer and buffer overflow protection.
+ * 
+ * @param nDat Pointer to data to write
+ * @param nLen Number of bytes to write
+ * @return Current buffer length on success, -1 on error
+ */
 int SCSerial::writeSCS(unsigned char *nDat, int nLen)
 {
+	// NULL pointer check
+	if(!nDat){
+		return -1;
+	}
+
+	// Buffer overflow protection
+	if(txBufLen + nLen > SCSERVO_BUFFER_SIZE){
+		return -1;
+	}
 	while(nLen--){
 		txBuf[txBufLen++] = *nDat++;
 	}
 	return txBufLen;
 }
 
+/**
+ * @brief Write single byte to transmit buffer
+ * 
+ * @param bDat Byte to write
+ * @return Current buffer length on success, -1 if buffer full
+ */
 int SCSerial::writeSCS(unsigned char bDat)
 {
+	// Buffer overflow protection
+	if(txBufLen >= SCSERVO_BUFFER_SIZE){
+		return -1;
+	}
 	txBuf[txBufLen++] = bDat;
 	return txBufLen;
 }
 
+/**
+ * @brief Flush receive buffer
+ * 
+ * Discards any unread data in the serial port receive buffer.
+ */
 void SCSerial::rFlushSCS()
 {
 	tcflush(fd, TCIFLUSH);
 }
 
+/**
+ * @brief Flush transmit buffer
+ * 
+ * Sends all buffered data from txBuf to the serial port.
+ */
 void SCSerial::wFlushSCS()
 {
 	if(txBufLen){
-		txBufLen = write(fd, txBuf, txBufLen);
+		ssize_t written = write(fd, txBuf, txBufLen);
+		// Note: write errors are not critical for this protocol, servo will timeout
+		// In production code, consider checking: if(written < 0) { handle error }
+		(void)written;  // Suppress unused variable warning
 		txBufLen = 0;
 	}
 }
 
-void SCSerial::end()
+/**
+ * @brief Close serial port and cleanup
+ * 
+ * Closes the serial port file descriptor if open.
+ */
+void SCSerial::end() noexcept
 {
-	fd = -1;
-	close(fd);
+	if(fd != -1){
+		close(fd);
+		fd = -1;
+	}
 }

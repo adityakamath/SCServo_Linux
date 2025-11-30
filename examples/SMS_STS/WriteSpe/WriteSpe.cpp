@@ -1,5 +1,11 @@
+/**
+ * @file WriteSpe.cpp
+ * @brief Example: Write speed commands for wheel mode
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
-舵机出厂速度单位是0.0146rpm，速度改为V=2400
+Factory speed unit of servo is 0.0146rpm, speed changed to V=2400
 */
 
 
@@ -19,19 +25,19 @@ int main(int argc, char **argv)
         std::cout<<"Failed to init sms/sts motor!"<<std::endl;
         return 0;
     }
-	sm_st.Mode(1, 1);//恒速模式
+	sm_st.Mode(1, 1);//Constant speed mode
 	std::cout<<"mode = "<<1<<std::endl;
 	while(1){
-		sm_st.WriteSpe(1, 2400, 50);//舵机(ID1)以最高速度V=2400(步/秒)，加速度A=50(50*100步/秒^2)，旋转
+		sm_st.WriteSpe(1, 2400, 50);//Servo (ID1) with maximum speed V=2400 (steps/second), acceleration A=50 (50*100 steps/second^2), rotate
 		std::cout<<"speed = "<<2400<<std::endl;
 		sleep(2);
-		sm_st.WriteSpe(1, 0, 50);//舵机(ID1)以加速度A=50(50*100步/秒^2)，停止旋转(V=0)
+		sm_st.WriteSpe(1, 0, 50);//Servo (ID1) with acceleration A=50 (50*100 steps/second^2), stop rotating (V=0)
 		std::cout<<"speed = "<<0<<std::endl;
 		sleep(2);
-		sm_st.WriteSpe(1, -2400, 50);//舵机(ID1)以最高速度V=2400(步/秒)，加速度A=50(50*100步/秒^2)，反向旋转
+		sm_st.WriteSpe(1, -2400, 50);//Servo (ID1) with maximum speed V=2400 (steps/second), acceleration A=50 (50*100 steps/second^2), rotate in reverse
 		std::cout<<"speed = "<<-2400<<std::endl;
 		sleep(2);
-		sm_st.WriteSpe(1, 0, 50);//舵机(ID1)以加速度A=50(50*100步/秒^2)，停止旋转(V=0)
+		sm_st.WriteSpe(1, 0, 50);//Servo (ID1) with acceleration A=50 (50*100 steps/second^2), stop rotating (V=0)
 		std::cout<<"speed = "<<0<<std::endl;
 		sleep(2);
 	}

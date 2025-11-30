@@ -1,3 +1,9 @@
+/**
+ * @file ProgramEprom.cpp
+ * @brief Example: Program EEPROM parameters
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 
@@ -15,11 +21,11 @@ int main(int argc, char **argv)
         return 0;
     }
 
-	sm_st.unLockEprom(1);//打开EPROM保存功能
+	sm_st.unLockEprom(1);//Enable EPROM save function
 	std::cout<<"unLock Eprom"<<std::endl;
 	sm_st.writeByte(1, SMSBL_ID, 2);//ID
 	std::cout<<"write ID:"<<2<<std::endl;
-	sm_st.LockEprom(2);////关闭EPROM保存功能
+	sm_st.LockEprom(2);//Disable EPROM save function
 	std::cout<<"Lock Eprom"<<std::endl;
 	sm_st.end();
 	return 1;

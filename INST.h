@@ -23,4 +23,9 @@ typedef	long s32;
 #define INST_SYNC_READ 0x82
 #define INST_SYNC_WRITE 0x83
 
+// Buffer size constants
+#define SCSERVO_BUFFER_SIZE 255
+#define SCSERVO_HEADER_SIZE 6
+#define SCSERVO_MAX_DATA_SIZE (SCSERVO_BUFFER_SIZE - SCSERVO_HEADER_SIZE)  // 249 bytes
+
 #endif

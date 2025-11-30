@@ -1,3 +1,9 @@
+/**
+ * @file CalibrationOfs.cpp
+ * @brief Example: Calibrate servo center position offset
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 

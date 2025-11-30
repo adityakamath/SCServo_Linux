@@ -1,8 +1,15 @@
+/**
+ * @file SyncRead.cpp
+ * @brief Example: Synchronized read from multiple servos
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
-同步读指令，回读ID1与ID2两个舵机的位置与速度信息
+Synchronous read command, reads back position and speed information of two servos ID1 and ID2
 */
 
 #include <iostream>
+#include <cstdint>
 #include "SCServo.h"
 
 SMS_STS sm_st;
@@ -22,17 +29,17 @@ int main(int argc, char **argv)
         std::cout<<"Failed to init sms/sts motor!"<<std::endl;
         return 0;
     }
-	sm_st.syncReadBegin(sizeof(ID), sizeof(rxPacket));
+	sm_st.syncReadBegin(sizeof(ID)/sizeof(ID[0]), sizeof(rxPacket));
 	while(1){
-		sm_st.syncReadPacketTx(ID, sizeof(ID), SMS_STS_PRESENT_POSITION_L, sizeof(rxPacket));//同步读指令包发送
-		for(uint8_t i=0; i<sizeof(ID); i++){
-			//接收ID[i]同步读返回包
+		sm_st.syncReadPacketTx(ID, sizeof(ID)/sizeof(ID[0]), SMS_STS_PRESENT_POSITION_L, sizeof(rxPacket));//Synchronous read command packet transmission
+		for(uint8_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
+			//Receive ID[i] synchronous read return packet
 			if(!sm_st.syncReadPacketRx(ID[i], rxPacket)){
 				std::cout<<"ID:"<<(int)ID[i]<<" sync read error!"<<std::endl;
-				continue;//接收解码失败
+				continue;//Reception decoding failed
 			}
-			Position = sm_st.syncReadRxPacketToWrod(15);//解码两个字节 bit15为方向位,参数=0表示无方向位
-			Speed = sm_st.syncReadRxPacketToWrod(15);//解码两个字节 bit15为方向位,参数=0表示无方向位
+			Position = sm_st.syncReadRxPacketToWrod(15);//Decode two bytes, bit15 is direction bit, parameter=0 means no direction bit
+			Speed = sm_st.syncReadRxPacketToWrod(15);//Decode two bytes, bit15 is direction bit, parameter=0 means no direction bit
 			std::cout<<"ID:"<<int(ID[i])<<" Position:"<<Position<<" Speed:"<<Speed<<std::endl;
 		}
 		usleep(10*1000);

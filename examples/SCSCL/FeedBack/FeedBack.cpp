@@ -1,3 +1,9 @@
+/**
+ * @file FeedBack.cpp
+ * @brief Example: Read all feedback data from servo
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 

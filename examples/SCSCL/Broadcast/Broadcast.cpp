@@ -1,3 +1,9 @@
+/**
+ * @file Broadcast.cpp
+ * @brief Example: Broadcast command to all servos
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
 舵机出厂速度单位是0.0146rpm，速度为V=1500
 */

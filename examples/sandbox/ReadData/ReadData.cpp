@@ -1,3 +1,9 @@
+/**
+ * @file ReadData.cpp
+ * @brief Example: Read data from servo registers
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include <csignal>
 #include <cmath>
@@ -5,7 +11,7 @@
 
 SMS_STS sm_st;
 
-u8 ID[3] = {11, 12, 13};
+u8 ID[3] = {7, 8, 9};
 
 void signalHandler(int signum) {
     if (signum == SIGINT) {
@@ -39,7 +45,7 @@ int main(int argc, char **argv)
 		float Move[3];
 		float Current[3];
 
-		for(int i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
+		for(size_t i=0; i<sizeof(ID)/sizeof(ID[0])/sizeof(ID[0]); i++){
             if(sm_st.FeedBack(ID[i])!=-1){
                 // Conversions here: https://www.feetechrc.com/en/2020-05-13_56655.html
     			Pos[i] = sm_st.ReadPos(ID[i])*2*M_PI/4096.0; // 1 step=2*PI/4096.0 rad, 

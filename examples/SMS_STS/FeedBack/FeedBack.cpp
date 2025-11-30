@@ -1,3 +1,9 @@
+/**
+ * @file FeedBack.cpp
+ * @brief Example: Read all feedback data from servo
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 
@@ -22,9 +28,9 @@ int main(int argc, char **argv)
 		int Temper;
 		int Move;
 		int Current;
-		//一条指令读舵机所有反馈数据至缓冲区
+		//One command returns all servo feedback information
 		if(sm_st.FeedBack(1)!=-1){
-			Pos = sm_st.ReadPos(-1);//-1表示缓冲区数据，以下相同
+			Pos = sm_st.ReadPos(-1);//-1 means read cached data, same below
 			Speed = sm_st.ReadSpeed(-1);
 			Load = sm_st.ReadLoad(-1);
 			Voltage = sm_st.ReadVoltage(-1);
@@ -43,7 +49,7 @@ int main(int argc, char **argv)
 			std::cout<<"read err"<<std::endl;
 			sleep(1);
 		}
-		//一条指令读一个反馈数据
+		//One command reads one parameter
 		Pos = sm_st.ReadPos(1);
 		if(Pos!=-1){
 			std::cout<<"pos = "<<Pos<<std::endl;

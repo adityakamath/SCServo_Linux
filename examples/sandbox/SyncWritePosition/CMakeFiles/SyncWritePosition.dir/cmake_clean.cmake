@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SyncWritePosition.dir/link.d"
   "CMakeFiles/SyncWritePosition.dir/SyncWritePosition.cpp.o"
   "CMakeFiles/SyncWritePosition.dir/SyncWritePosition.cpp.o.d"
   "SyncWritePosition"

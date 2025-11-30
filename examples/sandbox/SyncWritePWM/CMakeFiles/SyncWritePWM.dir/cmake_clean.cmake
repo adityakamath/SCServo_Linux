@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SyncWritePWM.dir/link.d"
   "CMakeFiles/SyncWritePWM.dir/SyncWritePWM.cpp.o"
   "CMakeFiles/SyncWritePWM.dir/SyncWritePWM.cpp.o.d"
   "SyncWritePWM"

@@ -1,8 +1,8 @@
 /*
  * SMSCL.h
- * ·ÉÌØSMSCLÏµÁÐ´®ÐÐ¶æ»ú½Ó¿Ú
- * ÈÕÆÚ: 2020.6.17
- * ×÷Õß: 
+ * ï¿½ï¿½ï¿½ï¿½SMSCLÏµï¿½Ð´ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ó¿ï¿½
+ * ï¿½ï¿½ï¿½ï¿½: 2020.6.17
+ * ï¿½ï¿½ï¿½ï¿½: 
  */
 
 #ifndef _SMSCL_H
@@ -18,12 +18,12 @@
 #define	SMSCL_57600	6
 #define	SMSCL_38400	7
 
-//ÄÚ´æ±í¶¨Òå
-//-------EPROM(Ö»¶Á)--------
+//ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//-------EPROM(Ö»ï¿½ï¿½)--------
 #define SMSCL_VERSION_L 3
 #define SMSCL_VERSION_H 4
 
-//-------EPROM(¶ÁÐ´)--------
+//-------EPROM(ï¿½ï¿½Ð´)--------
 #define SMSCL_ID 5
 #define SMSCL_BAUD_RATE 6
 #define SMSCL_RETURN_DELAY_TIME 7
@@ -52,7 +52,7 @@
 #define SMSCL_MAX_CURRENT_L 36
 #define SMSCL_MAX_CURRENT_H 37	
 
-//-------SRAM(¶ÁÐ´)--------
+//-------SRAM(ï¿½ï¿½Ð´)--------
 #define SMSCL_TORQUE_ENABLE 40
 #define SMSCL_ACC 41
 #define SMSCL_GOAL_POSITION_L 42
@@ -63,7 +63,7 @@
 #define SMSCL_GOAL_SPEED_H 47
 #define SMSCL_LOCK 48
 
-//-------SRAM(Ö»¶Á)--------
+//-------SRAM(Ö»ï¿½ï¿½)--------
 #define SMSCL_PRESENT_POSITION_L 56
 #define SMSCL_PRESENT_POSITION_H 57
 #define SMSCL_PRESENT_SPEED_L 58
@@ -78,6 +78,7 @@
 #define SMSCL_PRESENT_CURRENT_H 70
 
 #include "SCSerial.h"
+#include "INST.h"
 
 class SMSCL : public SCSerial
 {
@@ -85,23 +86,23 @@ public:
 	SMSCL();
 	SMSCL(u8 End);
 	SMSCL(u8 End, u8 Level);
-	virtual int WritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//ÆÕÍ¨Ð´µ¥¸ö¶æ»úÎ»ÖÃÖ¸Áî
-	virtual int RegWritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//Òì²½Ð´µ¥¸ö¶æ»úÎ»ÖÃÖ¸Áî(RegWriteActionÉúÐ§)
-	virtual void SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 ACC[]);//Í¬²½Ð´¶à¸ö¶æ»úÎ»ÖÃÖ¸Áî
-	virtual int WheelMode(u8 ID);//ºãËÙÄ£Ê½
-	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);//ºãËÙÄ£Ê½¿ØÖÆÖ¸Áî
-	virtual int EnableTorque(u8 ID, u8 Enable);//Å¤Á¦¿ØÖÆÖ¸Áî
-	virtual int unLockEprom(u8 ID);//eprom½âËø
-	virtual int LockEprom(u8 ID);//eprom¼ÓËø
-	virtual int CalibrationOfs(u8 ID);//ÖÐÎ»Ð£×¼
-	virtual int FeedBack(int ID);//·´À¡¶æ»úÐÅÏ¢
-	virtual int ReadPos(int ID);//¶ÁÎ»ÖÃ
-	virtual int ReadSpeed(int ID);//¶ÁËÙ¶È
-	virtual int ReadLoad(int ID);//¶ÁÊä³öÖÁµç»úµÄµçÑ¹°Ù·Ö±È(0~1000)
-	virtual int ReadVoltage(int ID);//¶ÁµçÑ¹
-	virtual int ReadTemper(int ID);//¶ÁÎÂ¶È
-	virtual int ReadMove(int ID);////¶ÁÒÆ¶¯×´Ì¬
-	virtual int ReadCurrent(int ID);//¶ÁµçÁ÷
+	virtual int WritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//ï¿½ï¿½Í¨Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ö¸ï¿½ï¿½
+	virtual int RegWritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//ï¿½ì²½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ö¸ï¿½ï¿½(RegWriteActionï¿½ï¿½Ð§)
+	virtual void SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 ACC[]);//Í¬ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ö¸ï¿½ï¿½
+	virtual int WheelMode(u8 ID);//ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);//ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
+	virtual int EnableTorque(u8 ID, u8 Enable);//Å¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
+	virtual int unLockEprom(u8 ID);//epromï¿½ï¿½ï¿½ï¿½
+	virtual int LockEprom(u8 ID);//epromï¿½ï¿½ï¿½ï¿½
+	virtual int CalibrationOfs(u8 ID);//ï¿½ï¿½Î»Ð£×¼
+	virtual int FeedBack(int ID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	virtual int ReadPos(int ID);//ï¿½ï¿½Î»ï¿½ï¿½
+	virtual int ReadSpeed(int ID);//ï¿½ï¿½ï¿½Ù¶ï¿½
+	virtual int ReadLoad(int ID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ñ¹ï¿½Ù·Ö±ï¿½(0~1000)
+	virtual int ReadVoltage(int ID);//ï¿½ï¿½ï¿½ï¿½Ñ¹
+	virtual int ReadTemper(int ID);//ï¿½ï¿½ï¿½Â¶ï¿½
+	virtual int ReadMove(int ID);////ï¿½ï¿½ï¿½Æ¶ï¿½×´Ì¬
+	virtual int ReadCurrent(int ID);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 private:
 	u8 Mem[SMSCL_PRESENT_CURRENT_H-SMSCL_PRESENT_POSITION_L+1];
 };

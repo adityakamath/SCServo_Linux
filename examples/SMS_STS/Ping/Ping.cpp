@@ -1,5 +1,11 @@
+/**
+ * @file Ping.cpp
+ * @brief Example: Ping servo to check connectivity
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
-Ping指令测试,测试总线上相应ID舵机是否就绪,广播指令只适用于总线只有一个舵机情况
+Ping command test, tests whether the servo with the corresponding ID on the bus is ready. Broadcast command is only applicable when there is only one servo on the bus.
 */
 
 #include <iostream>

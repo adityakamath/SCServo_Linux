@@ -1,5 +1,23 @@
 *.ipynb_checkpoints
 
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Python build artifacts
+scservo_python.egg-info/
+scservo_python.cpython-*.so
+libSCServo.a
+libnanobind-static.a
+
+# Build artifacts in example subfolders
+examples/*/CMakeCache.txt
+examples/*/CMakeFiles/
+examples/*/cmake_install.cmake
+examples/*/Makefile
+
 # Prerequisites
 *.d
 

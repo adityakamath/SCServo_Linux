@@ -1,9 +1,15 @@
+/**
+ * @file MidpointCalib.cpp
+ * @brief Example: Midpoint calibration utility
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 #include <iostream>
 #include "SCServo.h"
 
 SMS_STS sm_st;
 
-u8 ID[3] = {11, 12, 13};
+u8 ID[3] = {7, 8, 9};
 
 int main(int argc, char **argv)
 {
@@ -18,7 +24,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    for(int i=0; i<sizeof(ID); i++){
+    for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
         sm_st.Mode(ID[i], 0); //set to servo mode
         sm_st.CalibrationOfs(ID[i]); //set starting position as midpoint: 2048 (=Pi radians)
     }

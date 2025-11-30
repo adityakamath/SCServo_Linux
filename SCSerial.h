@@ -23,6 +23,10 @@ public:
 	SCSerial(u8 End);
 	SCSerial(u8 End, u8 Level);
 
+	// Disable copying (Rule of Three/Five) - class owns file descriptor resource
+	SCSerial(const SCSerial&) = delete;
+	SCSerial& operator=(const SCSerial&) = delete;
+
 protected:
 	int writeSCS(unsigned char *nDat, int nLen);//输出nLen字节
 	int readSCS(unsigned char *nDat, int nLen);//输入nLen字节
@@ -36,12 +40,12 @@ public:
 	virtual int getErr(){  return Err;  }
 	virtual int setBaudRate(int baudRate);
 	virtual bool begin(int baudRate, const char* serialPort);
-	virtual void end();
+	virtual void end() noexcept;
 protected:
     int fd;//serial port handle
     struct termios orgopt;//fd ort opt
 	struct termios curopt;//fd cur opt
-	unsigned char txBuf[255];
+	unsigned char txBuf[SCSERVO_BUFFER_SIZE];
 	int txBufLen;
 };
 

@@ -1,3 +1,9 @@
+/**
+ * @file SyncWritePWM.cpp
+ * @brief Example: Synchronized PWM write to multiple servos
+ * 
+ * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ */
 /*
 The factory speed of the servo motor is 0.0146rpm, and the speed is changed to V=2400 steps/sec
 */
@@ -8,7 +14,7 @@ The factory speed of the servo motor is 0.0146rpm, and the speed is changed to V
 
 SMS_STS sm_st;
 
-u8 ID[3] = {11, 12, 13};
+u8 ID[3] = {7, 8, 9};
 s16 Zero[3] = {0, 0, 0};
 
 s16 Pwm1[3] = {500, 500, 500};
@@ -16,7 +22,7 @@ s16 Pwm2[3] = {-500, -500, -500};
 
 void signalHandler(int signum) {
     if (signum == SIGINT) {
-        for(int i=0; i<sizeof(ID); i++){
+        for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
             sm_st.EnableTorque(ID[i], 0);
         }
         sm_st.end();
@@ -40,24 +46,24 @@ int main(int argc, char **argv)
 
     signal(SIGINT, signalHandler);
     
-    for(int i=0; i<sizeof(ID); i++){
+    for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
         sm_st.Mode(ID[i], 2); //open loop wheel mode
     }
     
 	while(1){
-        sm_st.SyncWritePwm(ID, sizeof(ID), Pwm1); //ID, PWM=500 (50%, forward)
+        sm_st.SyncWritePwm(ID, sizeof(ID)/sizeof(ID[0]), Pwm1); //ID, PWM=500 (50%, forward)
 		std::cout<<"PWM = "<<50<<"%"<<std::endl;
 		sleep(2);
         
-        sm_st.SyncWritePwm(ID, sizeof(ID), Zero); //ID, PWM=0 (0%, stop)
+        sm_st.SyncWritePwm(ID, sizeof(ID)/sizeof(ID[0]), Zero); //ID, PWM=0 (0%, stop)
 		std::cout<<"PWM = "<<0<<"%"<<std::endl;
 		sleep(2);
 
-        sm_st.SyncWritePwm(ID, sizeof(ID), Pwm2); //ID, PWM=-500 (50%, reverse)
+        sm_st.SyncWritePwm(ID, sizeof(ID)/sizeof(ID[0]), Pwm2); //ID, PWM=-500 (50%, reverse)
 		std::cout<<"PWM = "<<-50<<"%"<<std::endl;
 		sleep(2);
         
-        sm_st.SyncWritePwm(ID, sizeof(ID), Zero); //ID, PWM=0 (0%, stop)
+        sm_st.SyncWritePwm(ID, sizeof(ID)/sizeof(ID[0]), Zero); //ID, PWM=0 (0%, stop)
 		std::cout<<"PWM = "<<0<<"%"<<std::endl;
 		sleep(2);
 	}

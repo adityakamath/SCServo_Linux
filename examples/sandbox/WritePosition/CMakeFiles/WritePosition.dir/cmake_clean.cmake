@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/WritePosition.dir/link.d"
   "CMakeFiles/WritePosition.dir/WritePosition.cpp.o"
   "CMakeFiles/WritePosition.dir/WritePosition.cpp.o.d"
   "WritePosition"

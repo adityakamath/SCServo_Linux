@@ -211,9 +211,7 @@ Error opening serial port: Permission denied
 - Check for mechanical binding
 - Verify power supply can provide sufficient current
 
-
-
-**5. Build Errors**
+**4. Build Errors**
 - Clean build directory: `rm -rf CMakeCache.txt CMakeFiles/`
 - Ensure CMake 3.0+ installed: `cmake --version`
 - Check compiler: `g++ --version`
@@ -263,22 +261,6 @@ Use motor ID 254 to send commands to all motors simultaneously:
 sm_st.EnableTorque(254, 1);  // Enable torque on all motors
 sm_st.Mode(254, 1);          // Set all motors to velocity mode
 ```
-
-## Integration with ROS/ROS2
-
-This C++ SDK can be integrated with ROS/ROS2 as an alternative to the Python `scservo-sdk`.
-
-**Advantages:**
-- Lower latency
-- Direct C++ integration with ROS nodes
-- Better performance for high-frequency control
-
-**Note:** The Python `scservo-sdk` is currently used in the `lekiwi_ros2` package and provides similar functionality with easier integration for Python-based nodes.
-
-## Related Projects
-
-- [lekiwi_ros2](https://github.com/yourusername/lekiwi_ros2) - ROS2 integration using Python scservo-sdk
-- [SCServo Python SDK](https://pypi.org/project/scservo-sdk/) - Official Python SDK
 
 ## License
 

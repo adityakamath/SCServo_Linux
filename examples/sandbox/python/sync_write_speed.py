@@ -49,13 +49,15 @@ def sync_write_speed_test():
         print("Failed to initialize serial bus!")
         return
     for motor_id in ID:
-        mode_ret = sm_st.writeByte(motor_id, 33, 1)
-        print()
-        print(f"Set Mode for motor {motor_id}")
+        mode_ret = sm_st.writeByte(motor_id, 33, 1) # Set velocity mode
+        print(f"Set Operating_Mode=1 (velocity) for motor {motor_id} (ret={mode_ret})")
+        time.sleep(0.1)
+        acc_ret = sm_st.writeByte(motor_id, 41, 254) # Set acceleration
+        print(f"Set Acceleration=254 for motor {motor_id} (ret={acc_ret})")
+        time.sleep(0.1)
         torque_ret = sm_st.EnableTorque(motor_id, 1)
-        print(f"Enable Torque for motor {motor_id}")
-        acc_ret = sm_st.writeByte(motor_id, 41, 254)
-        print(f"Set Acceleration for motor {motor_id}")
+        print(f"Enable Torque for motor {motor_id} (ret={torque_ret})")
+        time.sleep(0.1)
     time.sleep(0.5)
 
     min_cmd = -2400

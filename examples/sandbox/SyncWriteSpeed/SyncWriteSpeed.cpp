@@ -197,17 +197,20 @@ int main(int argc, char **argv)
 
     signal(SIGINT, signalHandler);
     
-    // Set mode, enable torque, and set acceleration to maximum for all motors
+    // Explicitly set registers for robust initialization
     std::cout << "Initializing motors..." << std::endl;
-        for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
-            int mode_ret = sm_st.Mode(ID[i], 1);
-            std::cout << "\nSet Mode for motor " << (int)ID[i] << std::endl;
-            int torque_ret = sm_st.EnableTorque(ID[i], 1);
-            std::cout << "Enable Torque for motor " << (int)ID[i] << std::endl;
-            int acc_ret = sm_st.writeByte(ID[i], SMS_STS_ACC, 254); // Set acceleration to max
-            std::cout << "Set Acceleration for motor " << (int)ID[i] << std::endl;
-        }
-        usleep(500000); // Wait 0.5s for motors to process mode/torque/acceleration
+    for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
+        int mode_ret = sm_st.writeByte(ID[i], SMS_STS_MODE, 1); // Set velocity mode
+        std::cout << "Set Operating_Mode=1 (velocity) for motor " << (int)ID[i] << " (ret=" << mode_ret << ")" << std::endl;
+        usleep(100000); // Wait 100ms for mode change
+        int acc_ret = sm_st.writeByte(ID[i], SMS_STS_ACC, 254); // Set acceleration to max
+        std::cout << "Set Acceleration=254 for motor " << (int)ID[i] << " (ret=" << acc_ret << ")" << std::endl;
+        usleep(100000); // Wait 100ms for acceleration
+        int torque_ret = sm_st.EnableTorque(ID[i], 1);
+        std::cout << "Enable Torque for motor " << (int)ID[i] << " (ret=" << torque_ret << ")" << std::endl;
+        usleep(100000); // Wait 100ms for torque enable
+    }
+    usleep(500000); // Wait 0.5s for all motors to process changes
     
     // Automatically test all motors together
     std::cout << "\n=== TEST ===" << std::endl;

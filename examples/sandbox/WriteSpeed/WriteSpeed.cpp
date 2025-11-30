@@ -49,8 +49,17 @@ int main(int argc, char **argv)
     signal(SIGINT, signalHandler);
     
     for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
-        sm_st.Mode(ID[i], 1); //closed loop wheel mode
+        int mode_ret = sm_st.writeByte(ID[i], SMS_STS_MODE, 1); // Set velocity mode
+        std::cout << "Set Operating_Mode=1 (velocity) for motor " << (int)ID[i] << " (ret=" << mode_ret << ")" << std::endl;
+        usleep(100000);
+        int acc_ret = sm_st.writeByte(ID[i], SMS_STS_ACC, Acc[i]); // Set acceleration
+        std::cout << "Set Acceleration=" << (int)Acc[i] << " for motor " << (int)ID[i] << " (ret=" << acc_ret << ")" << std::endl;
+        usleep(100000);
+        int torque_ret = sm_st.EnableTorque(ID[i], 1);
+        std::cout << "Enable Torque for motor " << (int)ID[i] << " (ret=" << torque_ret << ")" << std::endl;
+        usleep(100000);
     }
+    usleep(500000);
     
 	while(1){
         for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){

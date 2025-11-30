@@ -47,8 +47,14 @@ int main(int argc, char **argv)
     signal(SIGINT, signalHandler);
     
     for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
-        sm_st.Mode(ID[i], 2); //open loop wheel mode
+        int mode_ret = sm_st.writeByte(ID[i], SMS_STS_MODE, 2); // Set open-loop mode
+        std::cout << "Set Operating_Mode=2 (open-loop) for motor " << (int)ID[i] << " (ret=" << mode_ret << ")" << std::endl;
+        usleep(100000);
+        int torque_ret = sm_st.EnableTorque(ID[i], 1);
+        std::cout << "Enable Torque for motor " << (int)ID[i] << " (ret=" << torque_ret << ")" << std::endl;
+        usleep(100000);
     }
+    usleep(500000);
     
 	while(1){
         sm_st.SyncWritePwm(ID, sizeof(ID)/sizeof(ID[0]), Pwm1); //ID, PWM=500 (50%, forward)

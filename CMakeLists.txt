@@ -6,8 +6,8 @@ project(${project} LANGUAGES CXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
 
 # Only include SMSCL, SMS_STS, SCSerial, SCS, and INST files
-set(hdrs SMSCL.h SMS_STS.h SCSerial.h SCS.h SCSCL.h INST.h)
-set(srs SMSCL.cpp SMS_STS.cpp SCSerial.cpp SCS.cpp SCSCL.cpp)
+set(hdrs SMSCL.h SMS_STS.h SCSerial.h SCS.h SCSCL.h INST.h SMSBL.h)
+set(srs SMSCL.cpp SMS_STS.cpp SCSerial.cpp SCS.cpp SCSCL.cpp SMSBL.cpp)
 
 add_library(${project} STATIC ${hdrs} ${srs})
 set_target_properties(${project} PROPERTIES POSITION_INDEPENDENT_CODE ON)

@@ -1,18 +1,50 @@
 /**
  * @file WritePos.cpp
- * @brief Example: Write position commands to servo
+ * @brief Example: Write position commands to SCSCL servo
  * 
- * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ * @details Demonstrates basic position control using the SCSCL servo class.
+ * This example moves a servo back and forth between two positions using the
+ * WritePos() function with time and speed parameters.
+ *
+ * **Hardware Requirements:**
+ * - SCSCL series servo motor
+ * - Serial port connection (USB-to-TTL or direct UART)
+ * - Proper power supply for servo (typically 6-12V)
+ *
+ * **Key Features Demonstrated:**
+ * - Serial port initialization at 115200 baud
+ * - Position control with speed parameter
+ * - Timing calculation: [(P1-P0)/V]*1000+100 ms
+ * - Continuous motion loop
+ *
+ * **Usage:**
+ * @code{.sh}
+ * ./WritePos /dev/ttyUSB0
+ * @endcode
+ *
+ * **Motion Pattern:**
+ * - Move to position 1000 at 1500 steps/sec
+ * - Wait for motion to complete (754ms)
+ * - Move to position 20 at 1500 steps/sec  
+ * - Wait for motion to complete (754ms)
+ * - Repeat indefinitely
+ *
+ * @note Factory speed unit is 0.0146 rpm, example uses V=1500 steps/sec
+ * @note Servo ID is hardcoded to 1
+ * @see SCSCL::WritePos() for function details
  */
-/*
-舵机出厂速度单位是0.0146rpm，速度为V=1500
-*/
 
 #include <iostream>
 #include "SCServo.h"
 
-SCSCL sc;
+SCSCL sc;  ///< SCSCL servo controller instance
 
+/**
+ * @brief Main function - demonstrates position control
+ * @param argc Argument count (must be 2)
+ * @param argv Argument vector [program_name, serial_port]
+ * @return 1 on success, 0 on error
+ */
 int main(int argc, char **argv)
 {
 	if(argc<2){

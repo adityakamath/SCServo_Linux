@@ -1,8 +1,69 @@
 /**
  * @file SyncRead.cpp
- * @brief Example: Synchronized read from multiple servos
+ * @brief Synchronized bulk feedback reading from multiple SMS/STS protocol servos
  * 
- * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ * @details
+ * This example demonstrates efficient bulk reading of position and speed data from
+ * multiple servos using the Sync Read protocol. Unlike individual FeedBack() calls
+ * to each servo, Sync Read sends a single query command and receives individual
+ * responses from each servo, significantly reducing communication overhead for
+ * multi-servo systems.
+ * 
+ * Hardware Requirements:
+ * - Two Feetech SMS or STS protocol servos (IDs: 1, 2)
+ * - USB-to-Serial adapter or direct serial port
+ * - Power supply appropriate for servo models
+ * - Serial connection at 115200 baud
+ * - Servos must be on same serial bus
+ * 
+ * Key Features Demonstrated:
+ * - syncReadBegin(): Initialize sync read buffers for expected data size
+ * - syncReadPacketTx(): Broadcast sync read query to all servos
+ * - syncReadPacketRx(): Receive and decode individual servo responses
+ * - Bulk position and speed reading from multiple servos
+ * - Efficient multi-servo polling loop
+ * - Error handling for missing or corrupted responses
+ * 
+ * Usage:
+ * @code
+ * ./SyncRead /dev/ttyUSB0
+ * @endcode
+ * 
+ * Sync Read Protocol Flow:
+ * 1. syncReadBegin() - Allocate buffers for 2 servos, 4 bytes per servo
+ * 2. syncReadPacketTx() - Broadcast: "All servos, send position+speed data"
+ * 3. For each servo:
+ *    - syncReadPacketRx() - Receive 4-byte packet (2 bytes position, 2 bytes speed)
+ *    - Decode position (little-endian int16)
+ *    - Decode speed (little-endian int16)
+ * 4. Display all data, repeat
+ * 
+ * Data Format:
+ * - rxPacket[0:1]: Position low/high bytes (int16_t, little-endian)
+ * - rxPacket[2:3]: Speed low/high bytes (int16_t, little-endian)
+ * - Starting address: SMS_STS_PRESENT_POSITION_L (0x38)
+ * - Data length: 4 bytes per servo
+ * 
+ * Performance Benefits:
+ * - Single broadcast query vs N individual queries
+ * - Reduced bus traffic and latency
+ * - Better synchronization of multi-servo state
+ * - Scalable to many servos (up to protocol limits)
+ * 
+ * @note Position values are signed 16-bit integers. Speed values can be positive
+ *       (forward) or negative (reverse).
+ * 
+ * @warning If a servo fails to respond, syncReadPacketRx() will timeout and return
+ *          false. The loop continues to read other servos, but missing data may
+ *          indicate communication issues or servo errors.
+ * 
+ * @warning Ensure sufficient timeout values for all servos to respond. Adding more
+ *          servos increases total response time.
+ * 
+ * @see SMS_STS::syncReadBegin()
+ * @see SMS_STS::syncReadPacketTx()
+ * @see SMS_STS::syncReadPacketRx()
+ * @see SMS_STS::FeedBack() for single-servo alternative
  */
 /*
 Synchronous read command, reads back position and speed information of two servos ID1 and ID2

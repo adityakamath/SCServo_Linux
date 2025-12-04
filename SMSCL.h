@@ -1,8 +1,32 @@
-/*
- * SMSCL.h
- * ����SMSCLϵ�д��ж���ӿ�
- * ����: 2020.6.17
- * ����: 
+/**
+ * @file SMSCL.h
+ * @brief Feetech SMSCL series serial servo application layer
+ *
+ * @details This file provides the application programming interface for
+ * controlling Feetech SMSCL series serial bus servo motors. The SMSCL series
+ * supports position control mode and velocity control mode.
+ *
+ * **Operating Modes:**
+ * - Mode 0: Servo mode (position control with time and speed parameters)
+ * - Mode 1: Wheel mode (continuous rotation with speed control)
+ *
+ * **Key Features:**
+ * - Write operations: immediate, asynchronous (Reg), and synchronized (Sync)
+ * - Comprehensive feedback: position, speed, load, voltage, temperature, current
+ * - EEPROM management: lock/unlock for persistent configuration
+ * - LSP compliant: uniform InitMotor() and Mode() methods
+ *
+ * **Usage Example:**
+ * @code
+ * SMSCL servo;
+ * servo.begin(1000000, "/dev/ttyUSB0");
+ * servo.InitMotor(1, 0, 1);  // ID=1, Mode=0 (servo), Enable torque
+ * servo.WritePosEx(1, 2048, 1000, 50);  // Move to center position
+ * @endcode
+ *
+ * @note Remember to call begin() before using any servo methods
+ * @note WheelMode() is deprecated - use Mode(ID, 1) instead
+ * @see SCSerial for serial communication layer methods
  */
 
 #ifndef _SMSCL_H
@@ -18,12 +42,12 @@
 #define	SMSCL_57600	6
 #define	SMSCL_38400	7
 
-//�ڴ������
-//-------EPROM(ֻ��)--------
+//Memory table definitions
+//-------EEPROM (Read-only)--------
 #define SMSCL_VERSION_L 3
 #define SMSCL_VERSION_H 4
 
-//-------EPROM(��д)--------
+//-------EEPROM (Read/Write)--------
 #define SMSCL_ID 5
 #define SMSCL_BAUD_RATE 6
 #define SMSCL_RETURN_DELAY_TIME 7
@@ -52,7 +76,7 @@
 #define SMSCL_MAX_CURRENT_L 36
 #define SMSCL_MAX_CURRENT_H 37	
 
-//-------SRAM(��д)--------
+//-------SRAM (Read/Write)--------
 #define SMSCL_TORQUE_ENABLE 40
 #define SMSCL_ACC 41
 #define SMSCL_GOAL_POSITION_L 42
@@ -63,7 +87,7 @@
 #define SMSCL_GOAL_SPEED_H 47
 #define SMSCL_LOCK 48
 
-//-------SRAM(ֻ��)--------
+//-------SRAM (Read-only)--------
 #define SMSCL_PRESENT_POSITION_L 56
 #define SMSCL_PRESENT_POSITION_H 57
 #define SMSCL_PRESENT_SPEED_L 58
@@ -77,8 +101,14 @@
 #define SMSCL_PRESENT_CURRENT_L 69
 #define SMSCL_PRESENT_CURRENT_H 70
 
+// Direction bit positions
+#define SMSCL_DIRECTION_BIT_POS 15
+#define SMSCL_LOAD_DIRECTION_BIT_POS 10
+
 #include "SCSerial.h"
 #include "INST.h"
+#include "ServoErrors.h"
+#include "ServoUtils.h"
 
 class SMSCL : public SCSerial
 {
@@ -86,23 +116,25 @@ public:
 	SMSCL();
 	SMSCL(u8 End);
 	SMSCL(u8 End, u8 Level);
-	virtual int WritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//��ͨд�������λ��ָ��
-	virtual int RegWritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);//�첽д�������λ��ָ��(RegWriteAction��Ч)
-	virtual void SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 ACC[]);//ͬ��д������λ��ָ��
-	virtual int WheelMode(u8 ID);//����ģʽ
-	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);//����ģʽ����ָ��
-	virtual int EnableTorque(u8 ID, u8 Enable);//Ť������ָ��
-	virtual int unLockEprom(u8 ID);//eprom����
-	virtual int LockEprom(u8 ID);//eprom����
-	virtual int CalibrationOfs(u8 ID);//��λУ׼
-	virtual int FeedBack(int ID);//���������Ϣ
-	virtual int ReadPos(int ID);//��λ��
-	virtual int ReadSpeed(int ID);//���ٶ�
-	virtual int ReadLoad(int ID);//�����������ĵ�ѹ�ٷֱ�(0~1000)
-	virtual int ReadVoltage(int ID);//����ѹ
-	virtual int ReadTemper(int ID);//���¶�
-	virtual int ReadMove(int ID);////���ƶ�״̬
-	virtual int ReadCurrent(int ID);//������
+	virtual int WritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);// Write position command for a single servo
+	virtual int RegWritePosEx(u8 ID, s16 Position, u16 Speed, u8 ACC = 0);// Asynchronous write position command for a single servo (effective after RegWriteAction)
+	virtual void SyncWritePosEx(u8 ID[], u8 IDN, s16 Position[], u16 Speed[], u8 ACC[]);// Synchronous write position command for multiple servos
+	virtual int Mode(u8 ID, u8 mode); // Set operating mode (0=servo, 1=wheel)
+	virtual int InitMotor(u8 ID, u8 mode, u8 enableTorque = 1); // Initialize motor with mode and torque (unlocks EEPROM, sets mode, locks EEPROM, enables/disables torque)
+	[[deprecated("Use Mode(ID, 1) instead")]] virtual int WheelMode(u8 ID);// Constant speed mode - DEPRECATED: use Mode(ID, 1)
+	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);// Constant speed mode control command
+	virtual int EnableTorque(u8 ID, u8 Enable);// Torque control command
+	virtual int unLockEeprom(u8 ID);// EEPROM unlock
+	virtual int LockEeprom(u8 ID);// EEPROM lock
+	virtual int CalibrationOfs(u8 ID);// Center position calibration - Sets offset register to 128 for midpoint calibration (different from InitMotor which sets operating mode)
+	virtual int FeedBack(int ID);// Feedback servo information
+	virtual int ReadPos(int ID);// Read position
+	virtual int ReadSpeed(int ID);// Read speed
+	virtual int ReadLoad(int ID);// Read output voltage percentage to motor (0~1000)
+	virtual int ReadVoltage(int ID);// Read voltage
+	virtual int ReadTemper(int ID);// Read temperature
+	virtual int ReadMove(int ID);// Read movement status
+	virtual int ReadCurrent(int ID);// Read current
 private:
 	u8 Mem[SMSCL_PRESENT_CURRENT_H-SMSCL_PRESENT_POSITION_L+1];
 };

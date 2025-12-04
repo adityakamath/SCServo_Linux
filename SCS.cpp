@@ -1,8 +1,20 @@
-﻿/*
- * SCS.cpp
- * Feetech Serial Servo Communication Layer Protocol Program
- * Date: 2022.3.29
- * Author: 
+﻿/**
+ * @file SCS.cpp
+ * @brief Feetech serial servo communication protocol layer implementation
+ *
+ * @details This file implements the low-level protocol for Feetech serial servo
+ * communication. It handles packet construction, checksum calculation, command
+ * encoding/decoding, and synchronized read/write operations.
+ *
+ * **Key Responsibilities:**
+ * - Protocol packet formatting (header, ID, length, instruction, data, checksum)
+ * - Command execution (PING, READ, WRITE, REG_WRITE, REG_ACTION, SYNC_WRITE, SYNC_READ)
+ * - Checksum validation
+ * - Byte ordering (endianness handling)
+ * - Response parsing and error detection
+ *
+ * @note This is an abstract base class - use concrete implementations (SCSerial)
+ * @see SCS.h for class interface documentation
  */
 #include <stdio.h>
 #include <string.h>

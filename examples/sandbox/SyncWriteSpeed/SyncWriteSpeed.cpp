@@ -1,16 +1,94 @@
 /**
  * @file SyncWriteSpeed.cpp
- * @brief Test sequence for Feetech serial servos using SyncWriteSpe
- *
- * This sequence demonstrates the use of the SyncWriteSpe function to perform a multi-motor test sequence.
- * The test procedure:
- *   - Ramps all motors smoothly from 0 to -2400 (reverse max speed)
- *   - Sweeps input command from -2400 to +2400 in steps, measuring actual speed and detecting min/max input
- *   - Ramps all motors smoothly from +2400 back to 0 (stop)
- *   - Prints test summary: minimum/maximum input command, max measured speed, and effective input range
- *   - Ensures motors are stopped and torque is disabled on exit, error, or user termination
- *
- * This file is intended for hardware testing of Feetech SMS/STS servos using the SCServo library.
+ * @brief Comprehensive multi-servo velocity testing and calibration utility
+ * 
+ * @details
+ * This advanced test program performs thorough characterization of SMS/STS servo velocity
+ * mode performance using synchronized SyncWriteSpe() commands. It automatically measures
+ * speed response curves, determines minimum/maximum effective input commands, calculates
+ * deadband offsets, and verifies velocity regulation across multiple servos simultaneously.
+ * Essential for hardware validation, factory testing, and calibrating multi-wheel robots.
+ * 
+ * Hardware Requirements:
+ * - Three Feetech SMS or STS protocol servos (IDs: 7, 8, 9)
+ * - USB-to-Serial adapter or direct serial port
+ * - Adequate power supply for sustained velocity testing
+ * - Serial connection at 1000000 baud (1Mbps for STS)
+ * - Servos must support velocity mode (wheel mode)
+ * - Free-spinning load or dynamometer for accurate measurements
+ * 
+ * Key Features Demonstrated:
+ * - Automated velocity sweep from -2400 to +2400 steps/s
+ * - Real-time speed measurement via Present_Speed register
+ * - Deadband and offset detection per servo
+ * - Minimum/maximum effective speed command detection
+ * - Synchronized multi-servo testing with SyncWriteSpe()
+ * - Safe ramp-up/ramp-down for smooth acceleration
+ * - Comprehensive test summary report
+ * - Graceful error handling and shutdown
+ * 
+ * Usage:
+ * @code
+ * ./SyncWriteSpeed /dev/ttyUSB0
+ * # Test sequence runs automatically:
+ * # 1. Ramp from 0 to -2400 (forward max)
+ * # 2. Sweep -2400 to +2400 measuring response
+ * # 3. Ramp from +2400 to 0 (stop)
+ * # 4. Print test summary with deadband/offset data
+ * @endcode
+ * 
+ * Test Procedure:
+ * 1. Initialize all motors in velocity mode with torque enabled
+ * 2. Smooth ramp from rest to -2400 steps/s (forward maximum)
+ * 3. Systematic sweep from -2400 to +2400 in small increments
+ *    - At each step: command speed, wait for stabilization, measure actual speed
+ *    - Detect minimum input command that produces motion (deadband)
+ *    - Record maximum measured speed
+ * 4. Smooth ramp from +2400 to 0 (stop)
+ * 5. Generate summary report:
+ *    - Per-servo minimum effective input command
+ *    - Per-servo maximum effective input command
+ *    - Per-servo maximum measured speed
+ *    - Per-servo effective input range
+ *    - Per-servo calibrated offset for deadband compensation
+ * 6. Safe shutdown: stop all motors, disable torque
+ * 
+ * Output Data:
+ * - speed_offsets[]: Calibrated deadband compensation per servo
+ * - min_speeds[]: Minimum measurable speed per servo
+ * - max_speeds[]: Maximum measured speed per servo
+ * - Effective input range: Commands that produce actual motion
+ * 
+ * Applications:
+ * - Factory servo testing and quality control
+ * - Multi-wheel robot calibration (odometry accuracy)
+ * - Velocity controller tuning
+ * - Hardware validation and acceptance testing
+ * - Speed regulation performance analysis
+ * - Deadband compensation coefficient calculation
+ * 
+ * @note Test takes several minutes to complete depending on sweep resolution.
+ *       Ensure servos have adequate cooling for sustained operation.
+ * 
+ * @note Measured speeds may differ from commanded speeds due to:
+ *       - Motor deadband (minimum voltage to overcome friction)
+ *       - Load-dependent speed regulation
+ *       - Power supply voltage variation
+ *       - Temperature effects on motor parameters
+ * 
+ * @warning Servos will run at maximum speed during test. Ensure:
+ *          - Free-spinning load or controlled dynamometer
+ *          - No mechanical obstructions
+ *          - Adequate ventilation for cooling
+ *          - Power supply capable of sustained maximum current
+ * 
+ * @warning Do NOT run this test on servos with heavy mechanical loads or in
+ *          position-critical applications. Use dedicated test bench.
+ * 
+ * @see SMS_STS::InitMotor()
+ * @see SMS_STS::SyncWriteSpe()
+ * @see SMS_STS::FeedBack() and ReadSpeed() for measurement
+ * @see RegWriteSpeed.cpp for deferred execution alternative
  */
 
 #include <iostream>
@@ -200,15 +278,13 @@ int main(int argc, char **argv)
     // Explicitly set registers for robust initialization
     std::cout << "Initializing motors..." << std::endl;
     for(size_t i=0; i<sizeof(ID)/sizeof(ID[0]); i++){
-        int mode_ret = sm_st.writeByte(ID[i], SMS_STS_MODE, 1); // Set velocity mode
-        std::cout << "Set Operating_Mode=1 (velocity) for motor " << (int)ID[i] << " (ret=" << mode_ret << ")" << std::endl;
-        usleep(100000); // Wait 100ms for mode change
-        int acc_ret = sm_st.writeByte(ID[i], SMS_STS_ACC, 254); // Set acceleration to max
-        std::cout << "Set Acceleration=254 for motor " << (int)ID[i] << " (ret=" << acc_ret << ")" << std::endl;
-        usleep(100000); // Wait 100ms for acceleration
-        int torque_ret = sm_st.EnableTorque(ID[i], 1);
-        std::cout << "Enable Torque for motor " << (int)ID[i] << " (ret=" << torque_ret << ")" << std::endl;
-        usleep(100000); // Wait 100ms for torque enable
+        // Initialize motor in velocity mode with torque enabled
+        int init_ret = sm_st.InitMotor(ID[i], 1, 1);
+        std::cout << "Initialize motor " << (int)ID[i] << " in velocity mode (ret=" << init_ret << ")" << std::endl;
+        usleep(100000); // Wait 100ms for mode change to take effect
+        //int acc_ret = sm_st.writeByte(ID[i], SMS_STS_ACC, 254); // Set acceleration to max
+        //std::cout << "Set Acceleration=254 for motor " << (int)ID[i] << " (ret=" << acc_ret << ")" << std::endl;
+        //usleep(100000); // Wait 100ms for acceleration
     }
     usleep(500000); // Wait 0.5s for all motors to process changes
     

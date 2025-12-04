@@ -1,8 +1,22 @@
-/*
- * INST.h
- * 飞特串行舵机协议指令定义
- * 日期: 2021.12.8
- * 作者: 
+/**
+ * @file INST.h
+ * @brief Feetech serial servo protocol instruction definitions and data types
+ *
+ * @details This file defines the fundamental protocol instructions, data types,
+ * and buffer size constants used across all Feetech servo series. It provides
+ * the low-level protocol command set for servo communication.
+ *
+ * **Protocol Instructions:**
+ * - PING: Check servo connection
+ * - READ/WRITE: Memory table access
+ * - REG_WRITE/REG_ACTION: Asynchronous write operations
+ * - SYNC_READ/SYNC_WRITE: Synchronized multi-servo operations
+ *
+ * **Data Types:**
+ * - Signed/unsigned 8, 16, and 32-bit integers
+ * - Platform-independent type definitions
+ *
+ * @note This file is included by all servo class headers (SMS_STS, SMSCL, SMSBL, SCSCL)
  */
 
 #ifndef _INST_H

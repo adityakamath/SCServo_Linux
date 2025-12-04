@@ -1,8 +1,40 @@
-﻿/*
- * SCSerial.h
- * 飞特串行舵机硬件接口层程序
- * 日期: 2022.3.29
- * 作者: 
+/**
+ * @file SCSerial.h
+ * @brief Feetech serial servo hardware interface layer
+ *
+ * @details This file provides the hardware interface layer for serial communication
+ * with Feetech servo motors on Linux platforms. It handles POSIX serial port operations,
+ * baud rate configuration, and low-level data transmission/reception.
+ *
+ * **Key Features:**
+ * - POSIX serial port communication (termios)
+ * - Configurable baud rates (38400 to 1M)
+ * - Timeout handling for robust communication
+ * - Resource management (file descriptor ownership)
+ * - Buffer management for transmit operations
+ *
+ * **Inherits From:**
+ * - SCS: Protocol layer for command encoding/decoding
+ *
+ * **Derived Classes:**
+ * - SMS_STS: SMS/STS series servo control
+ * - SMSCL: SMSCL series servo control
+ * - SMSBL: SMSBL series servo control
+ * - SCSCL: SCSCL series servo control
+ *
+ * **Usage Example:**
+ * @code
+ * SCSerial serial;
+ * if (!serial.begin(1000000, "/dev/ttyUSB0")) {
+ *     printf("Failed to open serial port\n");
+ *     return -1;
+ * }
+ * // Use serial communication methods
+ * serial.end();  // Clean up
+ * @endcode
+ *
+ * @note This class owns the file descriptor and implements RAII cleanup
+ * @see SCS for protocol-level operations
  */
 
 #ifndef _SCSERIAL_H
@@ -28,13 +60,13 @@ public:
 	SCSerial& operator=(const SCSerial&) = delete;
 
 protected:
-	int writeSCS(unsigned char *nDat, int nLen);//输出nLen字节
-	int readSCS(unsigned char *nDat, int nLen);//输入nLen字节
-	int writeSCS(unsigned char bDat);//输出1字节
+	int writeSCS(unsigned char *nDat, int nLen);// Output nLen bytes
+	int readSCS(unsigned char *nDat, int nLen);// Input nLen bytes
+	int writeSCS(unsigned char bDat);// Output 1 byte
 	void rFlushSCS();//
 	void wFlushSCS();//
 public:
-	unsigned long int IOTimeOut;//输入输出超时
+	unsigned long int IOTimeOut;// Input/output timeout
 	int Err;
 public:
 	virtual int getErr(){  return Err;  }

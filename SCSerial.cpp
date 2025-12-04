@@ -1,8 +1,25 @@
-/*
- * SCSerial.h
- * Feetech Serial Servo Hardware Interface Layer Program
- * Date: 2022.3.29
- * Author: 
+/**
+ * @file SCSerial.cpp
+ * @brief Feetech serial servo hardware interface layer implementation
+ *
+ * @details This file implements POSIX serial port communication for Feetech
+ * servo motors on Linux platforms. It provides the hardware abstraction layer
+ * between the protocol layer (SCS) and the actual serial port device.
+ *
+ * **Key Responsibilities:**
+ * - Serial port initialization and configuration (termios)
+ * - Baud rate configuration (38400 to 1M baud)
+ * - Raw data transmission and reception
+ * - Timeout handling using select()
+ * - Buffer flushing and flow control
+ * - Resource cleanup (file descriptor management)
+ *
+ * **Platform Support:**
+ * - Linux (POSIX termios API)
+ * - Supports USB-to-serial adapters (/dev/ttyUSB*, /dev/ttyACM*)
+ *
+ * @note Uses POSIX termios for serial port control
+ * @see SCSerial.h for class interface documentation
  */
 
 #include "SCSerial.h"
@@ -74,7 +91,33 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
     fcntl(fd, F_SETFL, FNDELAY);
     tcgetattr(fd, &orgopt);
     tcgetattr(fd, &curopt);
-    speed_t CR_BAUDRATE = baudRate;
+    speed_t CR_BAUDRATE;
+    switch(baudRate){
+    case 9600:
+        CR_BAUDRATE = B9600;
+        break;
+    case 19200:
+        CR_BAUDRATE = B19200;
+        break;
+    case 38400:
+        CR_BAUDRATE = B38400;
+        break;
+    case 57600:
+        CR_BAUDRATE = B57600;
+        break;
+    case 115200:
+        CR_BAUDRATE = B115200;
+        break;
+    case 500000:
+        CR_BAUDRATE = B500000;
+        break;
+    case 1000000:
+        CR_BAUDRATE = B1000000;
+        break;
+    default:
+        CR_BAUDRATE = B115200;
+        break;
+    }
     cfsetispeed(&curopt, CR_BAUDRATE);
     cfsetospeed(&curopt, CR_BAUDRATE);
 
@@ -121,7 +164,7 @@ int SCSerial::readSCS(unsigned char *nDat, int nLen)
     fd_set fs_read;
 	int rvLen = 0;
 
-    //使用select实现串口的多路通信
+	// Use select() to implement multi-channel serial communication
 	while(1){
 		// Reinitialize timeout for each select() call
 		// select() modifies the timeout structure on Linux

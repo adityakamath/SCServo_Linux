@@ -1,18 +1,49 @@
 /**
  * @file Broadcast.cpp
- * @brief Example: Broadcast command to all servos
+ * @brief Example: Broadcast position commands to all SMS/STS servos
  * 
- * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ * @details Demonstrates the broadcast feature (ID=0xFE) to control multiple
+ * SMS/STS servos simultaneously with a single command. Uses WritePosEx which
+ * includes speed and acceleration parameters for smooth motion planning.
+ *
+ * **Hardware Requirements:**
+ * - Multiple SMS/STS series servo motors
+ * - All servos connected to same serial bus
+ * - Each servo must have unique ID (but all respond to broadcast ID 0xFE)
+ *
+ * **Key Features Demonstrated:**
+ * - Broadcast ID usage (0xFE)
+ * - Simultaneous multi-servo control  
+ * - Position control with speed and acceleration
+ * - Timing calculation: [(P1-P0)/V]*1000 + [V/(A*100)]*1000 ms
+ *
+ * **Usage:**
+ * @code{.sh}
+ * ./Broadcast /dev/ttyUSB0
+ * @endcode
+ *
+ * **Motion Pattern:**
+ * All servos move together:
+ * - To position 4095 at 2400 steps/sec with 50 accel
+ * - Back to position 0 at 2400 steps/sec with 50 accel
+ * - Repeat indefinitely
+ *
+ * @warning Broadcast commands receive no acknowledgment from servos
+ * @note Factory speed unit is 0.0146 rpm, example uses V=2400 steps/sec
+ * @see SMS_STS::WritePosEx() for function details
  */
-/*
-Factory speed unit of servo is 0.0146rpm, speed changed to V=2400
-*/
 
 #include <iostream>
 #include "SCServo.h"
 
-SMS_STS sm_st;
+SMS_STS sm_st;  ///< SMS_STS servo controller instance
 
+/**
+ * @brief Main function - broadcasts position commands to all servos
+ * @param argc Argument count (must be 2)
+ * @param argv Argument vector [program_name, serial_port]
+ * @return 1 on success, 0 on error
+ */
 int main(int argc, char **argv)
 {
 	if(argc<2){

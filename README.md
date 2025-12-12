@@ -1,7 +1,7 @@
 # SCServo_Linux
 
-![Tested Motor](https://img.shields.io/badge/Tested-STS3215-success?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4em0tMi05aDR2NmgtNHptMC00aDR2MmgtNnoiLz48L3N2Zz4=)
-![Supported Motors](https://img.shields.io/badge/Supported-SMS%2FSTS%20%7C%20SCSCL%20%7C%20SMSBL%20%7C%20SMSCL-blue) ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux) ![Tested Motor](https://img.shields.io/badge/Tested-STS3215-success?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4em0tMi05aDR2NmgtNHptMC00aDR2MmgtNnoiLz48L3N2Zz4=)
+![Supported Motors](https://img.shields.io/badge/Supported-SMS%2FSTS%20%7C%20SCSCL%20%7C%20SMSBL%20%7C%20SMSCL-blue) ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux) 
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
 
 > C++ library for Feetech serial servo motors with Python bindings

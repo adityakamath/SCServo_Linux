@@ -60,12 +60,22 @@
  */
 
 #include <iostream>
+#include <csignal>
 #include "SCServo.h"
 
 HLSCL hlscl;
+volatile bool running = true;
+
+void signalHandler(int signum) {
+	std::cout << "\nInterrupt signal (" << signum << ") received. Shutting down..." << std::endl;
+	running = false;
+}
 
 int main(int argc, char **argv)
 {
+	// Register signal handler for graceful shutdown
+	signal(SIGINT, signalHandler);
+	
 	if(argc<2){
         std::cout<<"argc error!"<<std::endl;
         return 0;
@@ -75,7 +85,7 @@ int main(int argc, char **argv)
         std::cout<<"Failed to init HLS motor!"<<std::endl;
         return 0;
     }
-	while(1){
+	while(running){
 		// Buffer commands: Servos (ID1/ID2) with max speed V=60×0.732=43.92rpm,
 		// acceleration A=50×8.7deg/s², max torque current T=500×6.5=3250mA, move to P1=4095
 		hlscl.RegWritePosEx(1, 4095, 60, 50, 500);
@@ -85,6 +95,8 @@ int main(int argc, char **argv)
 		std::cout<<"pos = "<<4095<<std::endl;
 		// Wait time calculation: [(P1-P0)/(V×50)]×1000 + [(V×50)/(A×100)]×1000 + 50ms (error margin)
 		usleep(((4095-0)*1000/(60*50)+(60*50)*10/(50)+50)*1000);
+
+		if (!running) break;  // Check before next command
 
 		// Buffer commands: Servos (ID1/ID2) with max speed V=60×0.732=43.92rpm,
 		// acceleration A=50×8.7deg/s², max torque current T=500×6.5=3250mA, move to P0=0
@@ -97,6 +109,6 @@ int main(int argc, char **argv)
 		usleep(((4095-0)*1000/(60*50)+(60*50)*10/(50)+50)*1000);
 	}
 	hlscl.end();
-	return 1;
+	return 0;
 }
 

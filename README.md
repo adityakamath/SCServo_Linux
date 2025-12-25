@@ -42,7 +42,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 |----------|--------|-------------------|---------------------|------------------|
 | SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (1M) | 12-bit (0-4095) | Standard modes |
 | SCSCL    | SC09, SC15 | 115200 | 10-bit (0-1023) | Position + PWM |
-| HLSCL    | HLS series (TTL) | 115200 | 12-bit (0-4095) | **Includes force/torque mode** |
+| HLSCL    | HLS series | 115200 | 12-bit (0-4095) | **Includes force/torque mode** |
 
 ### Connection Requirements
 
@@ -164,6 +164,7 @@ The SMS/STS servos support three distinct operating modes:
 - **Control parameters**: Position (0-4095), Speed, Acceleration
 - **Functions**: `WritePosEx()`, `RegWritePosEx()`, `SyncWritePosEx()`
 - **Behavior**: Motor moves to target position and holds
+- **Protocols**: SMS/STS, SCSCL, HLSCL
 
 ### Mode 1: Closed-Loop Wheel Mode (Velocity Control)
 
@@ -171,21 +172,28 @@ The SMS/STS servos support three distinct operating modes:
 - **Control parameters**: Speed (±3400 steps/s), Acceleration
 - **Functions**: `WriteSpe()`, `RegWriteSpe()`, `SyncWriteSpe()`
 - **Behavior**: Motor maintains target speed using encoder feedback
+- **Protocols**: SMS/STS, HLSCL
 
-### Mode 2: Open-Loop Wheel Mode (PWM Control)
+### Mode 2: Protocol-Specific Modes
+
+Mode 2 behavior differs by protocol:
+
+#### SMS/STS Mode 2: Open-Loop Wheel Mode (PWM Control)
 
 - **Use case**: Direct motor power control without feedback
 - **Control parameters**: PWM duty cycle (-1000 to +1000, represents -100% to +100% duty cycle)
 - **Functions**: `WritePwm()`, `RegWritePwm()`, `SyncWritePwm()`
 - **Behavior**: No speed feedback; actual speed depends on load
+- **Protocols**: SMS/STS only
 
-### Mode 2 (HLSCL): Force/Torque Mode (Electric Mode)
+#### HLSCL Mode 2: Force/Torque Mode (Electric Mode)
 
 - **Use case**: Constant force/torque output (grippers, tensioning, compliant manipulation)
 - **Control parameters**: Torque (±1000, negative=CCW, positive=CW)
 - **Functions**: `WriteEle()` (HLSCL only)
 - **Behavior**: Motor maintains constant torque regardless of position or speed
-- **⚠️ Note**: This mode is **specific to HLS series** servos. Conversion factors and behavior should be verified against your specific HLS servo model's datasheet.
+- **Protocols**: HLSCL only
+- **⚠️ Note**: Conversion factors and behavior should be verified against your specific HLS servo model's datasheet.
 
 For detailed parameter specifications, ranges, and memory map, see [API.md](docs/API.md#memory-table-reference).
 

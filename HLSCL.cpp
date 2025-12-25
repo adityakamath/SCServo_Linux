@@ -220,7 +220,13 @@ int HLSCL::EnableTorque(u8 ID, u8 Enable)
 
 int HLSCL::unLockEprom(u8 ID)
 {
-	EnableTorque(ID, 0);
+	// Disable torque before unlocking EEPROM
+	int ret = EnableTorque(ID, 0);
+	if(ret != 1){
+		return ret;  // Propagate error if torque disable failed
+	}
+	
+	// Unlock EEPROM
 	return writeByte(ID, HLSCL_LOCK, 0);
 }
 
@@ -231,8 +237,21 @@ int HLSCL::LockEprom(u8 ID)
 
 int HLSCL::CalibrationOfs(u8 ID)
 {
-	EnableTorque(ID, 0);
-	unLockEprom(ID);
+	int ret;
+	
+	// Disable torque before calibration
+	ret = EnableTorque(ID, 0);
+	if(ret != 1){
+		return ret;  // Propagate error
+	}
+	
+	// Unlock EEPROM to allow calibration write
+	ret = unLockEprom(ID);
+	if(ret != 1){
+		return ret;  // Propagate error
+	}
+	
+	// Send calibration command
 	return writeByte(ID, HLSCL_TORQUE_ENABLE, 128);  // 128 = Calibration command
 }
 

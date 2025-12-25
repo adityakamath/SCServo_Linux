@@ -68,6 +68,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include <csignal>
 #include "SCServo.h"
 
 SMS_STS sms_sts;
@@ -75,9 +76,19 @@ uint8_t ID[] = {1, 2};
 uint8_t rxPacket[4];
 int16_t Position;
 int16_t Speed;
+volatile sig_atomic_t running = 1;
+
+void signalHandler(int signum) {
+	std::cout << "\nInterrupt signal (" << signum << ") received. Shutting down..." << std::endl;
+	running = 0;
+}
 
 int main(int argc, char **argv)
 {
+	// Register signal handlers for graceful shutdown
+	signal(SIGINT, signalHandler);
+	signal(SIGTERM, signalHandler);
+	
 	if(argc<2){
         std::cout<<"argc error!"<<std::endl;
         return 0;
@@ -91,7 +102,7 @@ int main(int argc, char **argv)
 	// Initialize sync read: 2 servos, 4 bytes per servo
 	sms_sts.syncReadBegin(sizeof(ID), sizeof(rxPacket));
 
-	while(1){
+	while(running){
 		// Send sync read request for position+speed from both servos
 		sms_sts.syncReadPacketTx(ID, sizeof(ID), SMS_STS_PRESENT_POSITION_L, sizeof(rxPacket));
 
@@ -114,6 +125,6 @@ int main(int argc, char **argv)
 
 	sms_sts.syncReadEnd();
 	sms_sts.end();
-	return 1;
+	return 0;
 }
 

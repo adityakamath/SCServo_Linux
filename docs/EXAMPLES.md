@@ -20,7 +20,8 @@ This library includes 25+ example programs demonstrating various servo control t
 
 - **Official SMS_STS Examples** (`examples/SMS_STS/`): Original Feetech SDK examples for SMS/STS protocol servos with English translations and documentation
 - **Official SCSCL Examples** (`examples/SCSCL/`): Original Feetech SDK examples for SCSCL protocol servos with English translations and documentation
-- **Sandbox Examples** (`examples/sandbox/`): Enhanced examples with detailed comments and advanced features
+- **Official HLSCL Examples** (`examples/HLSCL/`): Original Feetech SDK examples for HLSCL protocol servos with English translations and documentation
+- **Sandbox Examples** (`examples/sandbox/`): Enhanced examples with detailed comments and advanced features, specifically for STS3215 motors
 - **Python Examples** (`examples/sandbox/python/`): Python demonstrations using nanobind bindings
 
 All examples include:

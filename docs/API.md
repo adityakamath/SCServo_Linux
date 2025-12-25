@@ -265,14 +265,11 @@ Set motor velocity with torque limiting.
 - `ID` - Motor ID (0-253, 254=broadcast)
 - `Speed` - Target velocity in steps/s
   - Range: ±3400 steps/s (approximately)
-  - Conversion: Speed × 0.732 = RPM (for HLS series)
-  - Example: 60 steps/s × 0.732 = 43.92 RPM
+  - **Note:** Conversion to RPM depends on specific servo model. Verify with servo datasheet.
 - `Acc` - Acceleration (0-254)
-  - Units: 8.7 deg/s² per unit
-  - Example: A=50 → 50 × 8.7 = 435 deg/s² acceleration
+  - **Note:** Acceleration units depend on specific servo model. Verify with servo datasheet.
 - `Torque` - Torque limit (0-1000)
-  - Units: 6.5 mA per unit
-  - Example: T=500 → 500 × 6.5 = 3250 mA max current
+  - **Note:** Torque to current conversion depends on specific servo model. Verify with servo datasheet.
 
 **Returns:**
 - `1` - Success
@@ -282,13 +279,14 @@ Set motor velocity with torque limiting.
 ```cpp
 HLSCL hlscl;
 hlscl.WheelMode(1);
-hlscl.WriteSpe(1, 60, 50, 500);   // 43.92 RPM, A=435 deg/s², 3250mA limit
+hlscl.WriteSpe(1, 60, 50, 500);   // 60 steps/s, A=50, 500 torque limit
 hlscl.WriteSpe(1, -60, 50, 500);  // Reverse
 hlscl.WriteSpe(1, 0, 50, 500);    // Stop with deceleration
 ```
 
 **Notes:**
-- HLS series provides torque limiting in wheel mode for overcurrent protection
+- Conversion factors (steps/s to RPM, acceleration units, torque to current) are servo model-specific
+- Consult your specific HLS servo datasheet for accurate conversion values
 - Torque limit protects both servo and mechanical system
 
 ---
@@ -414,7 +412,9 @@ servo.SyncWritePwm(IDs, 3, pwm);
 
 ## Force Control (Mode 2 - HLSCL Only)
 
-Force/torque control mode provides constant torque output regardless of position or speed. This mode is **unique to HLS series servos** and enables compliant manipulation, grippers, tensioning, and force-feedback applications.
+Force/torque control mode provides constant torque output regardless of position or speed. This mode is **specific to HLS series servos** and enables compliant manipulation, grippers, tensioning, and force-feedback applications.
+
+> **⚠️ Note on HLS Series Documentation**: Official Feetech documentation for HLSCL/HLS series servos and force/torque mode is limited. This implementation is based on analysis of SDK code and may require verification against your specific HLS servo model. Please test thoroughly and consult Feetech technical support for model-specific details.
 
 ### `int WriteEle(u8 ID, s16 Torque)` *(HLSCL only)*
 
@@ -427,7 +427,7 @@ Set constant torque output.
   - Negative = Counter-clockwise torque
   - Positive = Clockwise torque
   - Magnitude represents torque strength
-  - Units: Proportional to motor current (approximately 6.5 mA per unit)
+  - **Note:** Torque to current conversion is servo model-specific. Consult servo datasheet for your HLS model.
 
 **Returns:**
 - `1` - Success

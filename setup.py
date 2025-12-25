@@ -39,9 +39,8 @@ servo.WritePosEx(1, 2048, 1000, 50)
 @section module_contents Module Contents
 The scservo_python module provides Python bindings for:
 - SMS_STS: SMS/STS series servo control
-- SMSCL: SMSCL series servo control
-- SMSBL: SMSBL series servo control
 - SCSCL: SCSCL series servo control
+- HLSCL: HLSCL/HLS series servo control
 
 @section dependencies Dependencies
 - nanobind: Modern C++ to Python binding library

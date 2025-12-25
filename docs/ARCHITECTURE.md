@@ -24,7 +24,7 @@ SCServo_Linux is a layered C++ library for controlling Feetech serial bus servo 
 ### Key Design Goals
 
 1. **Portability**: Abstract platform-specific code (POSIX serial I/O) from protocol logic
-2. **Extensibility**: Support multiple servo protocols (SMS, STS, SCSCL, SMSBL) with minimal code duplication
+2. **Extensibility**: Support multiple servo protocols (SMS, STS, SCSCL, HLSCL) with minimal code duplication
 3. **Performance**: Efficient packet handling and minimal overhead for real-time robotics applications
 4. **Safety**: Resource management (RAII), error handling, and memory safety
 5. **Usability**: Simple API for common operations while providing low-level access when needed
@@ -43,7 +43,7 @@ The library is organized into four distinct layers:
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │              Protocol API Layer                          │
-│  SMS_STS │ SMSCL │ SMSBL │ SCSCL                        │
+│  SMS_STS │ SCSCL │ HLSCL                                │
 │  - Motor control functions (WritePosEx, WriteSpe, etc)  │
 │  - Memory table definitions                             │
 │  - Protocol-specific encoding/decoding                  │
@@ -130,7 +130,7 @@ Checksum = ~(ID + Length + Instruction + Param1 + Param2 + ...) & 0xFF
 
 ---
 
-#### 3. Protocol API Layer (`SMS_STS`, `SCSCL`, `SMSBL`, `SMSCL`)
+#### 3. Protocol API Layer (`SMS_STS`, `SCSCL`, `HLSCL`)
 
 **Purpose**: Provide servo-specific APIs and memory table definitions.
 
@@ -144,8 +144,7 @@ Checksum = ~(ID + Length + Instruction + Param1 + Param2 + ...) & 0xFF
 **Key Files**:
 - `SMS_STS.h` / `SMS_STS.cpp` - SMS/STS series (12-bit, 1M baud default)
 - `SCSCL.h` / `SCSCL.cpp` - SCSCL series (10-bit, 115200 baud default)
-- `SMSBL.h` / `SMSBL.cpp` - SMSBL series
-- `SMSCL.h` / `SMSCL.cpp` - SMSCL series
+- `HLSCL.h` / `HLSCL.cpp` - HLSCL/HLS series (12-bit, 115200 baud default)
 
 **Differences Between Protocols**:
 
@@ -224,15 +223,15 @@ Checksum = ~(ID + Length + Instruction + Param1 + Param2 + ...) & 0xFF
                │
       ┌────────┼────────┬────────┐
       │        │        │        │
-┌─────▼───┐ ┌─▼────┐ ┌─▼────┐ ┌─▼─────┐
-│SMS_STS  │ │SMSCL │ │SMSBL │ │SCSCL  │
-│         │ │      │ │      │ │       │
-│Memory   │ │Memory│ │Memory│ │Memory │
-│  Table  │ │Table │ │Table │ │Table  │
-│         │ │      │ │      │ │       │
-│API      │ │API   │ │API   │ │API    │
-│Methods  │ │Method│ │Method│ │Methods│
-└─────────┘ └──────┘ └──────┘ └───────┘
+┌─────▼───┐ ┌─▼────┐ ┌─▼────┐
+│SMS_STS  │ │SCSCL │ │HLSCL │
+│         │ │      │ │      │
+│Memory   │ │Memory│ │Memory│
+│  Table  │ │Table │ │Table │
+│         │ │      │ │      │
+│API      │ │API   │ │API   │
+│Methods  │ │Method│ │Method│
+└─────────┘ └──────┘ └──────┘
 ```
 
 ### Key Classes

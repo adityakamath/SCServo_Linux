@@ -67,6 +67,7 @@
  */
 
 #include <iostream>
+#include <cstdint>
 #include "SCServo.h"
 
 SMS_STS sms_sts;

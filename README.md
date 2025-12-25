@@ -40,7 +40,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 |----------|--------|-------------------|---------------------|------------------|
 | SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (1M) | 12-bit (0-4095) | Standard modes |
 | SCSCL    | SC09, SC15 | 115200 | 10-bit (0-1023) | Position + PWM |
-| HLSCL    | HLS series (TTL) | 115200 | 12-bit (0-4095) | **Force/Torque mode** |
+| HLSCL    | HLS series (TTL) | 115200 | 12-bit (0-4095) | **Includes force/torque mode** |
 
 ### Connection Requirements
 
@@ -57,7 +57,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 - Other Linux distributions with POSIX serial support
 
-> **⚠️ Important:** This library has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL/HLSCL series motors according to the protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models. The HLSCL protocol support is newly added and requires testing with actual HLS series hardware. Please report any compatibility issues via GitHub Issues.
+> **⚠️ Important:** This library has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
 
 ## Installation
 
@@ -183,7 +183,7 @@ The SMS/STS servos support three distinct operating modes:
 - **Control parameters**: Torque (±1000, negative=CCW, positive=CW)
 - **Functions**: `WriteEle()` (HLSCL only)
 - **Behavior**: Motor maintains constant torque regardless of position or speed
-- **⚠️ Note**: This mode is **unique to HLS series** servos and provides force control without position tracking
+- **⚠️ Note**: This mode is **specific to HLS series** servos. Conversion factors and behavior should be verified against your specific HLS servo model's datasheet.
 
 For detailed parameter specifications, ranges, and memory map, see [API.md](docs/API.md#memory-table-reference).
 

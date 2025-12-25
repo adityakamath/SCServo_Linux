@@ -1,10 +1,9 @@
 /**
  * @file ServoUtils.h
- * @brief Utility functions for SCServo library implementing DRY principle
+ * @brief Utility functions for SCServo SDK implementing DRY principle
  *
  * @details This file provides reusable utility functions that eliminate code
- * duplication across the servo library. Part of Phase 1 refactoring to reduce
- * ~300 lines of duplicated direction bit encoding/decoding logic.
+ * duplication across the servo SDK.
  *
  * **Key Functions:**
  * - Direction bit encoding/decoding for signed values

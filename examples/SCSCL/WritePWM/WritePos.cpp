@@ -2,7 +2,7 @@
  * @file WritePos.cpp
  * @brief Example: Write position commands to servo
  * 
- * Demonstrates usage of SCServo library functions for Feetech serial servos.
+ * Demonstrates usage of SCServo SDK functions for Feetech serial servos.
  */
 #include <iostream>
 #include "SCServo.h"

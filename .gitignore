@@ -7,6 +7,9 @@ CMakeFiles/
 cmake_install.cmake
 Makefile
 
+# Build output directory
+build/
+
 # Object files (intermediate build artifacts)
 *.d
 *.slo
@@ -42,10 +45,3 @@ Thumbs.db
 # Test/debug output files
 *.log
 debug.log
-
-# Compiled libraries - KEEP THESE (comment out to track them)
-# libSCServo.a
-# scservo_python*.so
-
-# Example executables - KEEP THESE (comment out to track them)
-# We want to keep the compiled example binaries for out-of-the-box usage

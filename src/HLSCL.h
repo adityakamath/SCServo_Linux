@@ -8,8 +8,6 @@
  * - Mode 0: Servo (position control)
  * - Mode 1: Wheel (constant velocity control with feedback)
  * - Mode 2: Electric/Force (constant torque output control)
- *
- * @date 2025.9.27
  */
 
 #ifndef _HLSCL_H

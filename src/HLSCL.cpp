@@ -19,7 +19,6 @@
  * - Uses SyncWriteBuffer for automatic memory management (RAII)
  * - Standardized error handling with ServoErrors
  *
- * @date 2025.9.27
  * @see HLSCL.h for class interface and usage examples
  */
 

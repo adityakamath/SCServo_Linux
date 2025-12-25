@@ -1,6 +1,6 @@
 /**
  * @file bindings.cpp
- * @brief Python bindings for SCServo_Linux library using nanobind
+ * @brief Python bindings for SCServo_Linux SDK using nanobind
  *
  * @details This file provides Python bindings for the core Feetech servo classes.
  * Only safe, default-constructible methods are exposed to Python for security

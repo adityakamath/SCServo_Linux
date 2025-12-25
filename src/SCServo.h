@@ -1,6 +1,6 @@
 /**
  * @file SCServo.h
- * @brief Master include file for Feetech Serial Servo Library
+ * @brief Master include file for Feetech Serial Servo SDK
  *
  * @details This is the main header file that includes all servo series interfaces.
  * Include this single file to access all Feetech servo series classes.

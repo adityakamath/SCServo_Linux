@@ -82,12 +82,14 @@ cd SCServo_Linux
 # git submodule update --init --recursive
 
 # Build library
-cmake .
+mkdir -p build
+cd build
+cmake ..
 make -j4
 
 # The build produces:
-# - libSCServo.a (static library)
-# - scservo_python.cpython-312-*.so (Python module)
+# - build/libSCServo.a (static library)
+# - build/scservo_python.cpython-312-*.so (Python module)
 ```
 
 ### Serial Port Permissions

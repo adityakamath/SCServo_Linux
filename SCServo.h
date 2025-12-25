@@ -5,14 +5,10 @@
  * @details This is the main header file that includes all servo series interfaces.
  * Include this single file to access all Feetech servo series classes.
  *
- * **Primary Supported Servo Series (with examples):**
+ * **Supported Servo Series:**
  * - SMS_STS: SMS and STS series (3 operating modes: servo, wheel closed-loop, wheel open-loop)
  * - SCSCL: SCSCL series (position control and PWM mode)
  * - HLSCL: HLS series (servo, wheel, and force control modes)
- *
- * **Additional Protocol Support (headers included, no examples):**
- * - SMSCL: SMSCL series (servo and wheel modes)
- * - SMSBL: SMSBL series (servo and wheel modes with acceleration control)
  *
  * **Usage:**
  * @code
@@ -25,16 +21,13 @@
  * @endcode
  *
  * @note This file only includes headers; link against libSCServo.a for implementations
- * @see SMS_STS.h, SCSCL.h, HLSCL.h for primary protocol documentation
- * @see SMSCL.h, SMSBL.h for additional protocol headers (untested, no examples)
+ * @see SMS_STS.h, SCSCL.h, HLSCL.h for protocol documentation
  */
 
 #ifndef _SCSERVO_H
 #define _SCSERVO_H
 
-#include "SMSBL.h"
 #include "SCSCL.h"
-#include "SMSCL.h"
 #include "SMS_STS.h"
 #include "HLSCL.h"
 #endif

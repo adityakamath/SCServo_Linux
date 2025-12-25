@@ -18,9 +18,8 @@
  *
  * **Derived Classes:**
  * - SMS_STS: SMS/STS series servo control
- * - SMSCL: SMSCL series servo control
- * - SMSBL: SMSBL series servo control
  * - SCSCL: SCSCL series servo control
+ * - HLSCL: HLSCL series servo control
  *
  * **Usage Example:**
  * @code

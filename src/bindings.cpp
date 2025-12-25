@@ -30,8 +30,8 @@
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/string.h>
 #include "SMS_STS.h"
-#include "SMSCL.h"
-#include "SMSBL.h"
+#include "SCSCL.h"
+#include "HLSCL.h"
 #include "SCS.h"
 
 namespace nb = nanobind;
@@ -40,13 +40,13 @@ namespace nb = nanobind;
  * @brief Python module definition for scservo_python
  *
  * @details Defines the Python module "scservo_python" containing bindings for
- * SMS_STS, SMSCL, SMSBL, and SCSerial classes. The SCS class is intentionally
+ * SMS_STS, SCSCL, HLSCL, and SCSerial classes. The SCS class is intentionally
  * not bound as it is an abstract base class.
  *
  * **Bound Classes:**
  * - SMS_STS: Full-featured SMS/STS series servo control (most complete binding)
- * - SMSCL: SMSCL series servo control (basic binding)
- * - SMSBL: SMSBL series servo control (basic binding)
+ * - SCSCL: SCSCL series servo control (basic binding)
+ * - HLSCL: HLSCL series servo control (basic binding)
  * - SCSerial: Low-level serial communication and error handling
  *
  * **Not Bound:**
@@ -109,31 +109,32 @@ NB_MODULE(scservo_python, m) {
         .def("ReadSpeed", &SMS_STS::ReadSpeed);       // Read current motor speed
 
     /**
-     * SMSCL class binding
+     * SCSCL class binding
      *
-     * Basic bindings for SMSCL series servo motors.
+     * Basic bindings for SCSCL series servo motors.
      * Currently only includes serial communication methods.
      */
-    nb::class_<SMSCL>(m, "SMSCL")
+    nb::class_<SCSCL>(m, "SCSCL")
         .def(nb::init<>())
-        .def("begin", &SMSCL::begin)  // Initialize serial port
-        .def("end", &SMSCL::end);     // Close serial port
+        .def("begin", &SCSCL::begin)  // Initialize serial port
+        .def("end", &SCSCL::end);     // Close serial port
 
     /**
-     * SMSBL class binding
+     * HLSCL class binding
      *
-     * Basic bindings for SMSBL series servo motors.
-     * Currently only includes torque control.
+     * Basic bindings for HLSCL series servo motors.
+     * Currently only includes serial communication methods.
      */
-    nb::class_<SMSBL>(m, "SMSBL")
+    nb::class_<HLSCL>(m, "HLSCL")
         .def(nb::init<>())
-        .def("EnableTorque", &SMSBL::EnableTorque);  // Enable/disable motor torque
+        .def("begin", &HLSCL::begin)  // Initialize serial port
+        .def("end", &HLSCL::end);     // Close serial port
 
     /**
      * SCS class is intentionally NOT bound
      *
      * SCS is an abstract base class that cannot be instantiated.
-     * Use concrete implementations (SMS_STS, SMSCL, SMSBL) instead.
+     * Use concrete implementations (SMS_STS, SCSCL, HLSCL) instead.
      */
 
     /**

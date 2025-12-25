@@ -24,14 +24,13 @@
  * SCS (abstract protocol layer)
  *  └── SCSerial (concrete Linux serial implementation)
  *       ├── SMS_STS (SMS/STS series application layer)
- *       ├── SMSCL (SMSCL series application layer)
- *       ├── SMSBL (SMSBL series application layer)
- *       └── SCSCL (SCSCL series application layer)
+ *       ├── SCSCL (SCSCL series application layer)
+ *       └── HLSCL (HLSCL series application layer)
  * @endcode
  *
  * @note This is an abstract base class - use SCSerial or its derivatives
  * @see SCSerial.h for concrete implementation
- * @see SMS_STS.h, SMSCL.h, SMSBL.h, SCSCL.h for application layers
+ * @see SMS_STS.h, SCSCL.h, HLSCL.h for application layers
  */
 
 #ifndef _SCS_H

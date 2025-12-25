@@ -7,9 +7,8 @@ CMakeFiles/
 cmake_install.cmake
 Makefile
 
-# Build output directories
-lib/
-bin/
+# Build output directory
+build/
 
 # Object files (intermediate build artifacts)
 *.d

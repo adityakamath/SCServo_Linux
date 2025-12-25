@@ -85,9 +85,9 @@ cd SCServo_Linux
 cmake .
 make -j4
 
-# The build produces (in lib/ directory):
-# - lib/libSCServo.a (static library)
-# - lib/scservo_python.cpython-312-*.so (Python module)
+# The build produces (in build/ directory):
+# - build/libSCServo.a (static library)
+# - build/scservo_python.cpython-312-*.so (Python module)
 ```
 
 ### Serial Port Permissions

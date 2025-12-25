@@ -3,8 +3,7 @@
  * @brief Standardized error handling for SCServo library
  *
  * @details This file provides structured error codes and result types for
- * consistent error handling across the servo library. Part of Phase 2
- * refactoring to replace inconsistent -1 return values with named error codes.
+ * consistent error handling across the servo library.
  *
  * **Components:**
  * - ServoError enum: Named error codes for all failure modes
@@ -178,3 +177,4 @@ inline bool isSuccess(int returnValue) {
 }
 
 #endif // _SERVOERRORS_H
+

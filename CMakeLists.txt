@@ -7,9 +7,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -O3")
 
 # Only include SMSCL, SMS_STS, SCSerial, SCS, and INST files
 # Phase 1 refactoring: Added utility headers for DRY compliance
-set(hdrs SMSCL.h SMS_STS.h SCSerial.h SCS.h SCSCL.h INST.h SMSBL.h
+set(hdrs SMSCL.h SMS_STS.h SCSerial.h SCS.h SCSCL.h INST.h SMSBL.h HLSCL.h
          ServoUtils.h SyncWriteBuffer.h ServoErrors.h)
-set(srs SMSCL.cpp SMS_STS.cpp SCSerial.cpp SCS.cpp SCSCL.cpp SMSBL.cpp)
+set(srs SMSCL.cpp SMS_STS.cpp SCSerial.cpp SCS.cpp SCSCL.cpp SMSBL.cpp HLSCL.cpp)
 
 add_library(${project} STATIC ${hdrs} ${srs})
 set_target_properties(${project} PROPERTIES POSITION_INDEPENDENT_CODE ON)

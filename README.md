@@ -106,6 +106,8 @@ sudo ./WritePos /dev/ttyUSB0
 
 ## Quick Start
 
+**⚠️ Note:** Before running any example, double check the baud rate and motor ID in the example code, and change them if needed to match your setup. Then build the example before running it. 
+
 ### Step 1: Connect Hardware
 
 ```
@@ -140,18 +142,6 @@ cmake . && make
 
 # Servo will oscillate between position 0 and 4095
 # Press Ctrl+C to stop (torque automatically disabled)
-```
-
-### Step 4: Explore More Examples
-
-```bash
-# Official examples (from Feetech SDK, enhanced with English translations)
-ls examples/SMS_STS/
-ls examples/SCSCL/
-ls examples/HLSCL/
-
-# Custom examples (enhanced with English comments)
-ls examples/sandbox/
 ```
 
 ## Operating Modes
@@ -278,33 +268,11 @@ Contributions are welcome! Please follow these guidelines:
 - Update README if adding major features
 - Ensure all examples build without warnings
 
-### Development Setup
-
-```bash
-# Install development tools (including code formatter)
-sudo apt-get install clang-format
-
-# Build with debug symbols
-cmake -DCMAKE_BUILD_TYPE=Debug .
-make -j4
-
-# Run examples with verbose output (from example directory)
-cd examples/SMS_STS/WritePos
-cmake . && make
-./WritePos /dev/ttyUSB0 2>&1 | tee debug.log
-
-# Format code (run from repository root)
-cd /path/to/SCServo_Linux
-clang-format -i *.cpp *.h src/*.cpp
-```
-
-The repository includes a [.clang-format](.clang-format) configuration file based on LLVM style with custom settings for consistency.
-
 ## References & Acknowledgments
 
 This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gitee.com/ftservo/FTServo_Linux) with the following enhancements:
 
-**Improvements in This Fork:**
+**Improvements in this fork:**
 - Comprehensive English documentation (README, API reference, architecture guide, troubleshooting guide)
 - Python bindings via [nanobind](https://github.com/wjakob/nanobind)
 - HLSCL protocol support for HLS series servos
@@ -312,15 +280,6 @@ This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gite
 - Additional example programs with detailed explanations
 - Code quality improvements (includes, error handling, consistency)
 - Build system improvements and example organization
-
-**Development Approach:**
-Most enhancements (documentation, examples, code improvements) were AI-generated under strict human supervision, with thorough review and testing of all changes. The original Feetech SDK on Gitee remains fully functional and can be used if you prefer the unmodified version.
-
-**Credits:**
-- Original SDK: [Feetech FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux)
-- Alternative SDK: [Feetech SCServo SDK](https://gitee.com/ftservo/SCServoSDK) 
-- Python Bindings: [nanobind](https://github.com/wjakob/nanobind) by Wenzel Jakob
-
 
 ---
 

@@ -4,7 +4,7 @@ project(${project})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
-include_directories(../../../)
+include_directories(../../../src)
 link_directories(../../../)
 link_libraries(libSCServo.a)
 

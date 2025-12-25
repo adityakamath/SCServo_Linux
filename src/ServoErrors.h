@@ -1,9 +1,9 @@
 /**
  * @file ServoErrors.h
- * @brief Standardized error handling for SCServo library
+ * @brief Standardized error handling for SCServo SDK
  *
  * @details This file provides structured error codes and result types for
- * consistent error handling across the servo library.
+ * consistent error handling across the servo SDK.
  *
  * **Components:**
  * - ServoError enum: Named error codes for all failure modes

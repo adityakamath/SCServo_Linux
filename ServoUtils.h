@@ -24,7 +24,7 @@
  * @endcode
  *
  * @note All functions are inline for zero-overhead abstraction
- * @see SMS_STS.cpp, SMSCL.cpp, SMSBL.cpp, SCSCL.cpp for usage examples
+ * @see SMS_STS.cpp, SCSCL.cpp, HLSCL.cpp for usage examples
  */
 
 #ifndef _SERVO_UTILS_H
@@ -42,7 +42,7 @@ namespace ServoUtils {
  * @return Encoded unsigned value with direction bit set if negative
  *
  * This eliminates 13+ instances of duplicate direction encoding logic across:
- * SMS_STS.cpp, SMSCL.cpp, SMSBL.cpp, SCSCL.cpp
+ * SMS_STS.cpp, SCSCL.cpp, HLSCL.cpp
  */
 inline u16 encodeSignedValue(s16 value, u8 directionBit = 15) {
     if (value < 0) {
@@ -99,7 +99,7 @@ inline s16 readSignedWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHig
 
 /**
  * @brief Read a single byte from cached buffer or directly from servo
- * @param servoInstance Reference to servo object (SMS_STS, SMSCL, etc)
+ * @param servoInstance Reference to servo object (SMS_STS, SCSCL, HLSCL, etc)
  * @param ID Motor ID (-1 to read from cache, >=0 to read from servo)
  * @param registerAddr Register address to read from servo
  * @param cachedBuffer Cached memory buffer

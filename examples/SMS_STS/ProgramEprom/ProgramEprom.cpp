@@ -36,7 +36,7 @@
  * 4. Power cycle servo to fully apply some changes
  * 
  * Common EEPROM Parameters:
- * - SMSBL_ID: Servo ID (1-253, 254=broadcast)
+ * - SMS_STS_ID: Servo ID (1-253, 254=broadcast)
  * - MIN/MAX_ANGLE_LIMIT: Position limits (0-4095)
  * - MAX_TEMPERATURE: Temperature shutdown limit (°C)
  * - MAX_VOLTAGE/MIN_VOLTAGE: Voltage operating range (0.1V units)
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
 	sm_st.unLockEeprom(1);//Enable EEPROM save function
 	std::cout<<"unLock Eeprom"<<std::endl;
-	sm_st.writeByte(1, SMSBL_ID, 2);//ID
+	sm_st.writeByte(1, SMS_STS_ID, 2);//ID
 	std::cout<<"write ID:"<<2<<std::endl;
 	sm_st.LockEeprom(2);//Disable EEPROM save function
 	std::cout<<"Lock Eeprom"<<std::endl;

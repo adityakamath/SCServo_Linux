@@ -1,12 +1,14 @@
 # SCServo_Linux
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux) ![Tested Motor](https://img.shields.io/badge/Tested-STS3215-success?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4em0tMi05aDR2NmgtNHptMC00aDR2MmgtNnoiLz48L3N2Zz4=)
-![Supported Motors](https://img.shields.io/badge/Supported-SMS%2FSTS%20%7C%20SCSCL%20%7C%20SMSBL%20%7C%20SMSCL-blue) ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux) 
+![Supported Motors](https://img.shields.io/badge/Supported-SMS%2FSTS%20%7C%20SCSCL%20%7C%20HLSCL-blue) ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux)
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
 
-> C++ library for Feetech serial servo motors with Python bindings
+> Linux SDK for Feetech serial servo motors with C++ and Python support
 
-A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/SMSBL/SMSCL series serial bus servo motors. Features position, velocity, and PWM control with multi-servo synchronization support.
+A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
+
+> **📌 About This Fork:** This repository is a fork of Feetech's official [FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux) SDK with enhanced documentation, code quality improvements, and Python bindings. Most enhancements were AI-generated, but under strict human supervision. The original repository on Gitee is fully functional and can be used if you prefer the unmodified SDK. This fork focuses on improved usability, comprehensive documentation, and additional examples for the Linux platform.
 
 ## Table of Contents
 
@@ -23,8 +25,8 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/SMSBL/SMSCL s
 
 ## Features
 
-- **Protocol Support**: SMS/STS, SCSCL, SMSBL, SMSCL series
-- **Control Modes**: Position (servo with velocity/acceleration), Velocity (closed-loop wheel), PWM (open-loop wheel)
+- **Protocol Support**: SMS/STS, SCSCL, HLSCL series
+- **Control Modes**: Position (servo with velocity/acceleration), Velocity (closed-loop wheel), PWM (open-loop wheel), Force/Torque (constant force output - HLSCL only)
 - **Multi-Servo Operations**: Synchronized Write / Broadcast commands
 - **Comprehensive Feedback**: Position, speed, load, voltage, temperature, current readings
 - **Configuration Tools**: EEPROM programming, midpoint calibration, ID management
@@ -36,12 +38,11 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/SMSBL/SMSCL s
 
 ### Supported Servo Models
 
-| Protocol | Models | Default Baud Rate | Position Resolution |
-|----------|--------|-------------------|---------------------|
-| SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (1M) | 12-bit (0-4095) |
-| SCSCL    | SC09, SC15 | 115200 | 10-bit (0-1023) |
-| SMSBL    | SMS_BL series | 115200 | 12-bit (0-4095) |
-| SMSCL    | SMS_CL series | 115200 | 10-bit (0-1023) |
+| Protocol | Models | Default Baud Rate | Position Resolution | Special Features |
+|----------|--------|-------------------|---------------------|------------------|
+| SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (1M) | 12-bit (0-4095) | Standard modes |
+| SCSCL    | SC09, SC15 | 115200 | 10-bit (0-1023) | Position + PWM |
+| HLSCL    | HLS series | 115200 | 12-bit (0-4095) | **Includes force/torque mode** |
 
 ### Connection Requirements
 
@@ -58,7 +59,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/SMSBL/SMSCL s
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 - Other Linux distributions with POSIX serial support
 
-> **⚠️ Important:** This library has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL/SMSBL/SMSCL series motors according to the protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models. Please report any compatibility issues via GitHub Issues.
+> **⚠️ Important:** This SDK has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
 
 ## Installation
 
@@ -147,6 +148,7 @@ cmake . && make
 # Official examples (from Feetech SDK, enhanced with English translations)
 ls examples/SMS_STS/
 ls examples/SCSCL/
+ls examples/HLSCL/
 
 # Custom examples (enhanced with English comments)
 ls examples/sandbox/
@@ -162,6 +164,7 @@ The SMS/STS servos support three distinct operating modes:
 - **Control parameters**: Position (0-4095), Speed, Acceleration
 - **Functions**: `WritePosEx()`, `RegWritePosEx()`, `SyncWritePosEx()`
 - **Behavior**: Motor moves to target position and holds
+- **Protocols**: SMS/STS, SCSCL, HLSCL
 
 ### Mode 1: Closed-Loop Wheel Mode (Velocity Control)
 
@@ -169,19 +172,34 @@ The SMS/STS servos support three distinct operating modes:
 - **Control parameters**: Speed (±3400 steps/s), Acceleration
 - **Functions**: `WriteSpe()`, `RegWriteSpe()`, `SyncWriteSpe()`
 - **Behavior**: Motor maintains target speed using encoder feedback
+- **Protocols**: SMS/STS, HLSCL
 
-### Mode 2: Open-Loop Wheel Mode (PWM Control)
+### Mode 2: Protocol-Specific Modes
+
+Mode 2 behavior differs by protocol:
+
+#### SMS/STS Mode 2: Open-Loop Wheel Mode (PWM Control)
 
 - **Use case**: Direct motor power control without feedback
 - **Control parameters**: PWM duty cycle (-1000 to +1000, represents -100% to +100% duty cycle)
 - **Functions**: `WritePwm()`, `RegWritePwm()`, `SyncWritePwm()`
 - **Behavior**: No speed feedback; actual speed depends on load
+- **Protocols**: SMS/STS only
+
+#### HLSCL Mode 2: Force/Torque Mode (Electric Mode)
+
+- **Use case**: Constant force/torque output (grippers, tensioning, compliant manipulation)
+- **Control parameters**: Torque (±1000, negative=CCW, positive=CW)
+- **Functions**: `WriteEle()` (HLSCL only)
+- **Behavior**: Motor maintains constant torque regardless of position or speed
+- **Protocols**: HLSCL only
+- **⚠️ Note**: Conversion factors and behavior should be verified against your specific HLS servo model's datasheet.
 
 For detailed parameter specifications, ranges, and memory map, see [API.md](docs/API.md#memory-table-reference).
 
 ## Usage Examples
 
-The library includes 25+ comprehensive examples demonstrating all servo control modes and techniques.
+The SDK includes 25+ comprehensive examples demonstrating all servo control modes and techniques.
 
 ### Quick Example - Basic Position Control
 
@@ -200,7 +218,7 @@ For complete examples with full source code, hardware requirements, and detailed
 
 ## Python Bindings
 
-The library includes high-performance Python bindings via [nanobind](https://github.com/wjakob/nanobind).
+The SDK includes high-performance Python bindings via [nanobind](https://github.com/wjakob/nanobind).
 
 ### Installation
 
@@ -284,11 +302,26 @@ The repository includes a [.clang-format](.clang-format) configuration file base
 
 ## References & Acknowledgments
 
-Based on Feetech's official SCServo SDK. This modified version includes enhancements and improvements specifically for Linux platforms.
+This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gitee.com/ftservo/FTServo_Linux) with the following enhancements:
 
-**Credits:** Original repository: [Feetech SCServo SDK](https://gitee.com/ftservo/SCServoSDK) | [nanobind](https://github.com/wjakob/nanobind) for Python bindings
+**Improvements in This Fork:**
+- Comprehensive English documentation (README, API reference, architecture guide, troubleshooting guide)
+- Python bindings via [nanobind](https://github.com/wjakob/nanobind)
+- HLSCL protocol support for HLS series servos
+- Enhanced code comments and Doxygen documentation
+- Additional example programs with detailed explanations
+- Code quality improvements (includes, error handling, consistency)
+- Build system improvements and example organization
+
+**Development Approach:**
+Most enhancements (documentation, examples, code improvements) were AI-generated under strict human supervision, with thorough review and testing of all changes. The original Feetech SDK on Gitee remains fully functional and can be used if you prefer the unmodified version.
+
+**Credits:**
+- Original SDK: [Feetech FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux)
+- Alternative SDK: [Feetech SCServo SDK](https://gitee.com/ftservo/SCServoSDK) 
+- Python Bindings: [nanobind](https://github.com/wjakob/nanobind) by Wenzel Jakob
 
 
 ---
 
-> **⚠️ Note on Documentation:** This README was manually written and verified, with AI assistance used to improve language clarity and focus. The documentation files in the `docs/` folder ([API.md](docs/API.md), [EXAMPLES.md](docs/EXAMPLES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)) were generated using AI assistance and may contain inconsistencies with the actual implementation. When in doubt, always verify against the source code and examples.
+> **⚠️ Note on AI-Generated Content:** This README was written with AI assistance to improve clarity and organization, with all content manually reviewed and verified against the actual implementation. The documentation files in the `docs/` folder ([API.md](docs/API.md), [EXAMPLES.md](docs/EXAMPLES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)) were primarily AI-generated under human supervision and may contain inconsistencies with the actual codebase. When in doubt, always verify against the source code, header files, and working examples. Issue reports and corrections are welcome via GitHub Issues.

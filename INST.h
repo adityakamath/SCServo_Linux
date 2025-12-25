@@ -16,7 +16,7 @@
  * - Signed/unsigned 8, 16, and 32-bit integers
  * - Platform-independent type definitions
  *
- * @note This file is included by all servo class headers (SMS_STS, SMSCL, SMSBL, SCSCL)
+ * @note This file is included by all servo class headers (SMS_STS, SCSCL, HLSCL)
  */
 
 #ifndef _INST_H

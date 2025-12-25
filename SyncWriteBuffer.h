@@ -15,9 +15,8 @@
  *
  * **Replaced Manual Allocations:**
  * - SMS_STS::SyncWritePosEx, SyncWriteSpe, SyncWritePwm
- * - SMSCL::SyncWritePosEx
- * - SMSBL::SyncWritePosEx
  * - SCSCL::SyncWritePos
+ * - HLSCL::SyncWritePosEx
  *
  * **Usage Example:**
  * @code
@@ -43,9 +42,8 @@
  *
  * This class eliminates the 6+ instances of manual buffer management:
  * - SMS_STS::SyncWritePosEx, SyncWriteSpe, SyncWritePwm
- * - SMSCL::SyncWritePosEx
- * - SMSBL::SyncWritePosEx
  * - SCSCL::SyncWritePwm
+ * - HLSCL::SyncWritePosEx
  *
  * Benefits:
  * - Automatic cleanup (no memory leaks)

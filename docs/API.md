@@ -10,10 +10,13 @@ Complete API documentation for the SCServo_Linux library.
 - [Position Control (Mode 0)](#position-control-mode-0)
 - [Velocity Control (Mode 1)](#velocity-control-mode-1)
 - [PWM Control (Mode 2)](#pwm-control-mode-2)
+- [Force Control (Mode 2 - HLSCL Only)](#force-control-mode-2---hlscl-only)
 - [Feedback & Status](#feedback--status)
 - [Configuration & Management](#configuration--management)
 - [Low-Level Memory Access](#low-level-memory-access)
 - [Memory Table Reference](#memory-table-reference)
+  - [SMS/STS Series](#smssts-series)
+  - [HLSCL Series](#hlscl-series)
 
 ---
 
@@ -222,7 +225,7 @@ servo.SyncWritePosEx(IDs, 3, positions, speeds, accel);
 
 Velocity control mode provides continuous rotation at a specified speed.
 
-### `int WriteSpe(u8 ID, s16 Speed, u8 Acc)`
+### `int WriteSpe(u8 ID, s16 Speed, u8 Acc)` *(SMS/STS/SCSCL)*
 
 Set motor velocity.
 
@@ -251,6 +254,42 @@ servo.WriteSpe(1, 0, 254);      // Stop
 - Motor maintains speed using encoder feedback
 - Speed is regulated regardless of load (within motor limits)
 - Use higher Acc values for smoother speed changes
+
+---
+
+### `int WriteSpe(u8 ID, s16 Speed, u8 Acc, u16 Torque)` *(HLSCL only)*
+
+Set motor velocity with torque limiting.
+
+**Parameters:**
+- `ID` - Motor ID (0-253, 254=broadcast)
+- `Speed` - Target velocity in steps/s
+  - Range: ±3400 steps/s (approximately)
+  - Conversion: Speed × 0.732 = RPM (for HLS series)
+  - Example: 60 steps/s × 0.732 = 43.92 RPM
+- `Acc` - Acceleration (0-254)
+  - Units: 8.7 deg/s² per unit
+  - Example: A=50 → 50 × 8.7 = 435 deg/s² acceleration
+- `Torque` - Torque limit (0-1000)
+  - Units: 6.5 mA per unit
+  - Example: T=500 → 500 × 6.5 = 3250 mA max current
+
+**Returns:**
+- `1` - Success
+- `0` - Communication failure
+
+**Example:**
+```cpp
+HLSCL hlscl;
+hlscl.WheelMode(1);
+hlscl.WriteSpe(1, 60, 50, 500);   // 43.92 RPM, A=435 deg/s², 3250mA limit
+hlscl.WriteSpe(1, -60, 50, 500);  // Reverse
+hlscl.WriteSpe(1, 0, 50, 500);    // Stop with deceleration
+```
+
+**Notes:**
+- HLS series provides torque limiting in wheel mode for overcurrent protection
+- Torque limit protects both servo and mechanical system
 
 ---
 
@@ -370,6 +409,98 @@ s16 pwm[3] = {500, 500, 500};
 
 servo.SyncWritePwm(IDs, 3, pwm);
 ```
+
+---
+
+## Force Control (Mode 2 - HLSCL Only)
+
+Force/torque control mode provides constant torque output regardless of position or speed. This mode is **unique to HLS series servos** and enables compliant manipulation, grippers, tensioning, and force-feedback applications.
+
+### `int WriteEle(u8 ID, s16 Torque)` *(HLSCL only)*
+
+Set constant torque output.
+
+**Parameters:**
+- `ID` - Motor ID (0-253, 254=broadcast)
+- `Torque` - Target torque
+  - Range: -1000 to +1000
+  - Negative = Counter-clockwise torque
+  - Positive = Clockwise torque
+  - Magnitude represents torque strength
+  - Units: Proportional to motor current (approximately 6.5 mA per unit)
+
+**Returns:**
+- `1` - Success
+- `0` - Communication failure
+
+**Example:**
+```cpp
+HLSCL hlscl;
+hlscl.begin(115200, "/dev/ttyUSB0");
+
+// Enable force mode
+hlscl.EleMode(1);
+
+// Apply constant torque
+hlscl.WriteEle(1, 500);   // CW torque
+hlscl.WriteEle(1, -500);  // CCW torque
+hlscl.WriteEle(1, 0);     // Zero torque (free rotation)
+```
+
+**Notes:**
+- Servo must be in Mode 2 (electric/force mode) using `EleMode(ID)` or `Mode(ID, 2)`
+- Motor maintains constant torque regardless of position or speed
+- Useful for constant-force gripping, spring-like behavior, and compliant control
+- Monitor current draw and temperature to prevent overheating
+- This mode is **NOT available** on SMS/STS/SCSCL series servos
+
+---
+
+### `int EleMode(u8 ID)` *(HLSCL only)*
+
+Configure servo for force/torque control mode.
+
+**Parameters:**
+- `ID` - Motor ID (0-253, 254=broadcast)
+
+**Returns:**
+- `1` - Success
+- `0` - Failure
+
+**Example:**
+```cpp
+hlscl.EleMode(1);  // Enable force mode
+hlscl.WriteEle(1, 300);  // Apply constant torque
+```
+
+**Notes:**
+- Equivalent to calling `Mode(ID, 2)` with EEPROM unlock/lock
+- Mode persists across power cycles
+- After enabling force mode, use `WriteEle()` to control torque
+
+---
+
+### `int WheelMode(u8 ID)` *(HLSCL)*
+
+Configure servo for constant velocity mode.
+
+**Parameters:**
+- `ID` - Motor ID (0-253, 254=broadcast)
+
+**Returns:**
+- `1` - Success
+- `0` - Failure
+
+**Example:**
+```cpp
+hlscl.WheelMode(1);  // Enable wheel mode
+hlscl.WriteSpe(1, 60, 50, 500);  // Rotate at constant speed
+```
+
+**Notes:**
+- Equivalent to calling `Mode(ID, 1)` with EEPROM unlock/lock
+- Mode persists across power cycles
+- After enabling wheel mode, use `WriteSpe()` to control velocity
 
 ---
 
@@ -787,6 +918,10 @@ Read 16-bit word from memory table.
 
 ## Memory Table Reference
 
+Complete memory maps for all supported servo protocols.
+
+### SMS/STS Series
+
 Complete memory map for SMS/STS series servos.
 
 ### EEPROM (Read-Only) - Model Information
@@ -895,3 +1030,96 @@ Common error sources:
 - **Incorrect ID**: Servo not present or wrong ID
 - **EEPROM locked**: Call `unLockEeprom()` first
 - **Invalid parameter**: Value out of range
+
+---
+
+### HLSCL Series
+
+Complete memory map for HLS series servos (HLSCL protocol).
+
+#### EEPROM (Read-Only) - Model Information
+
+| Address | Constant | Description | Default |
+|---------|----------|-------------|---------|
+| 3-4 | HLSCL_MODEL_L/H | Model number | Varies by model |
+
+#### EEPROM (Read/Write) - Persistent Configuration
+
+These settings are saved to EEPROM and persist across power cycles. **Requires unlocking EEPROM before writing.**
+
+| Address | Constant | Description | Range | Default |
+|---------|----------|-------------|-------|---------|
+| 5 | HLSCL_ID | Servo ID | 0-253 | 1 |
+| 6 | HLSCL_BAUD_RATE | Baud rate | 0-7 | 4 (115200) |
+| 7 | HLSCL_SECOND_ID | Secondary ID | 0-253 | 0 |
+| 9-10 | HLSCL_MIN_ANGLE_LIMIT_L/H | Minimum position limit | 0-4095 | 0 |
+| 11-12 | HLSCL_MAX_ANGLE_LIMIT_L/H | Maximum position limit | 0-4095 | 4095 |
+| 26 | HLSCL_CW_DEAD | CW deadzone | 0-255 | 0 |
+| 27 | HLSCL_CCW_DEAD | CCW deadzone | 0-255 | 0 |
+| 31-32 | HLSCL_OFS_L/H | Position offset (calibration) | -2048 to +2047 | 0 |
+| 33 | HLSCL_MODE | Operating mode | 0-2 | 0 |
+
+**Operating Mode Values:**
+- 0 = Servo mode (position control) - `HLSCL_MODE_SERVO`
+- 1 = Wheel mode (constant velocity control) - `HLSCL_MODE_WHEEL`
+- 2 = Electric/Force mode (constant torque output) - `HLSCL_MODE_ELECTRIC`
+
+**Baud Rate Values:**
+- 0 = 1000000 bps (1M)
+- 1 = 500000 bps (500K)
+- 2 = 250000 bps (250K)
+- 3 = 128000 bps (128K)
+- 4 = 115200 bps (default)
+- 5 = 76800 bps
+- 6 = 57600 bps
+- 7 = 38400 bps
+
+#### SRAM (Read/Write) - Runtime Control
+
+These settings control real-time operation and are lost on power cycle.
+
+| Address | Constant | Description | Range | Default |
+|---------|----------|-------------|-------|---------|
+| 40 | HLSCL_TORQUE_ENABLE | Torque on/off | 0-1 | 0 |
+| 41 | HLSCL_ACC | Acceleration | 0-254 | 0 |
+| 42-43 | HLSCL_GOAL_POSITION_L/H | Target position | 0-4095 | - |
+| 44-45 | HLSCL_GOAL_TORQUE_L/H | Target torque (force mode) | -1000 to +1000 | - |
+| 46-47 | HLSCL_GOAL_SPEED_L/H | Target speed/velocity | -3400 to +3400 | - |
+| 48-49 | HLSCL_TORQUE_LIMIT_L/H | Torque limit | 0-1000 | 1000 |
+| 55 | HLSCL_LOCK | Lock EEPROM | 0-1 | 0 |
+
+#### SRAM (Read-Only) - Status
+
+| Address | Constant | Description | Units |
+|---------|----------|-------------|-------|
+| 56-57 | HLSCL_PRESENT_POSITION_L/H | Current position | steps (0-4095) |
+| 58-59 | HLSCL_PRESENT_SPEED_L/H | Current speed | steps/s (signed) |
+| 60-61 | HLSCL_PRESENT_LOAD_L/H | Current load | ±1000 |
+| 62 | HLSCL_PRESENT_VOLTAGE | Input voltage | 0.1V |
+| 63 | HLSCL_PRESENT_TEMPERATURE | Temperature | °C |
+| 66 | HLSCL_MOVING | Motion status | 0-1 |
+| 69-70 | HLSCL_PRESENT_CURRENT_L/H | Current draw | mA |
+
+#### HLSCL Protocol Differences
+
+Key differences from SMS/STS protocol:
+
+1. **Force Control Mode**: HLSCL supports Mode 2 (Electric/Force mode) for constant torque output via `GOAL_TORQUE` registers
+2. **Torque Limiting**: Wheel mode includes torque limit parameter (`WriteSpe()` has 4 parameters instead of 3)
+3. **Secondary ID**: HLSCL supports a secondary ID for advanced bus configurations
+4. **Default Baud**: HLS series defaults to 115200 bps (vs 1M for STS series)
+5. **Position Resolution**: 12-bit (0-4095) like STS, not 10-bit like SCSCL
+
+**Example - Force Mode:**
+```cpp
+HLSCL hlscl;
+hlscl.begin(115200, "/dev/ttyUSB0");
+
+// Enable force mode
+hlscl.unLockEprom(1);
+hlscl.writeByte(1, HLSCL_MODE, HLSCL_MODE_ELECTRIC);
+hlscl.LockEprom(1);
+
+// Apply constant torque
+hlscl.writeWord(1, HLSCL_GOAL_TORQUE_L, 500);  // 500 × 6.5 = 3250 mA
+```

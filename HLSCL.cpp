@@ -144,7 +144,7 @@ int HLSCL::CalibrationOfs(u8 ID)
 {
 	EnableTorque(ID, 0);
 	unLockEprom(ID);
-	return Recal(ID);
+	return writeByte(ID, HLSCL_TORQUE_ENABLE, 128);  // 128 = Calibration command
 }
 
 int HLSCL::FeedBack(int ID)

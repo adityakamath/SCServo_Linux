@@ -87,9 +87,8 @@ int main(int argc, char **argv)
         return 0;
     }
 
-	// Initialize sync read: 2 servos, 4 bytes per servo, 5ms timeout
-	// Calculation: 10μs×10×2=200μs < 5ms (safe margin)
-	sms_sts.syncReadBegin(sizeof(ID), sizeof(rxPacket), 5);
+	// Initialize sync read: 2 servos, 4 bytes per servo
+	sms_sts.syncReadBegin(sizeof(ID), sizeof(rxPacket));
 
 	while(1){
 		// Send sync read request for position+speed from both servos

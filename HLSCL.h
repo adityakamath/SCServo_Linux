@@ -65,7 +65,16 @@
 #define HLSCL_MODE_WHEEL 1        // Wheel mode (constant velocity control)
 #define HLSCL_MODE_ELECTRIC 2     // Electric/Force mode (constant torque output)
 
+// Direction bit positions (for encoding signed values)
+#define HLSCL_DIRECTION_BIT_POS 15    // Position direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_SPEED 15  // Speed direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_TORQUE 15 // Torque direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_LOAD 10   // Load direction bit (bit 10)
+#define HLSCL_DIRECTION_BIT_CURRENT 15 // Current direction bit (bit 15)
+
 #include "SCSerial.h"
+#include "ServoUtils.h"
+#include "ServoErrors.h"
 
 /**
  * @class HLSCL

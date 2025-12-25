@@ -74,14 +74,6 @@ int main(int argc, char **argv)
 	// Calibrate current position as center (midpoint offset)
 	hlscl.CalibrationOfs(1);
 	std::cout<<"Calibration Ofs"<<std::endl;
-
-	// Continuously read and display calibrated position
-	while(1){
-	  int pos = hlscl.ReadPos(1);
-	  if(!hlscl.getLastError()){
-		  std::cout<<"mid pos:"<<pos<<std::endl;
-	  }
-	}
 	hlscl.end();
 	return 1;
 }

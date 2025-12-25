@@ -4,9 +4,11 @@
 ![Supported Motors](https://img.shields.io/badge/Supported-SMS%2FSTS%20%7C%20SCSCL%20%7C%20HLSCL-blue) ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux)
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
 
-> C++ library for Feetech serial servo motors with Python bindings
+> Linux SDK for Feetech serial servo motors with C++ and Python support
 
 A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
+
+> **📌 About This Fork:** This repository is a fork of Feetech's official [FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux) SDK with enhanced documentation, code quality improvements, and Python bindings. Most enhancements were AI-generated, but under strict human supervision. The original repository on Gitee is fully functional and can be used if you prefer the unmodified SDK. This fork focuses on improved usability, comprehensive documentation, and additional examples for the Linux platform.
 
 ## Table of Contents
 
@@ -57,7 +59,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 - Other Linux distributions with POSIX serial support
 
-> **⚠️ Important:** This library has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
+> **⚠️ Important:** This SDK has only been extensively tested with **STS3215** servo motors. While it should work with other SMS/STS/SCSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
 
 ## Installation
 
@@ -189,7 +191,7 @@ For detailed parameter specifications, ranges, and memory map, see [API.md](docs
 
 ## Usage Examples
 
-The library includes 25+ comprehensive examples demonstrating all servo control modes and techniques.
+The SDK includes 25+ comprehensive examples demonstrating all servo control modes and techniques.
 
 ### Quick Example - Basic Position Control
 
@@ -208,7 +210,7 @@ For complete examples with full source code, hardware requirements, and detailed
 
 ## Python Bindings
 
-The library includes high-performance Python bindings via [nanobind](https://github.com/wjakob/nanobind).
+The SDK includes high-performance Python bindings via [nanobind](https://github.com/wjakob/nanobind).
 
 ### Installation
 
@@ -292,11 +294,26 @@ The repository includes a [.clang-format](.clang-format) configuration file base
 
 ## References & Acknowledgments
 
-Based on Feetech's official SCServo SDK. This modified version includes enhancements and improvements specifically for Linux platforms.
+This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gitee.com/ftservo/FTServo_Linux) with the following enhancements:
 
-**Credits:** Original repository: [Feetech SCServo SDK](https://gitee.com/ftservo/SCServoSDK) | [nanobind](https://github.com/wjakob/nanobind) for Python bindings
+**Improvements in This Fork:**
+- Comprehensive English documentation (README, API reference, architecture guide, troubleshooting guide)
+- Python bindings via [nanobind](https://github.com/wjakob/nanobind)
+- HLSCL protocol support for HLS series servos
+- Enhanced code comments and Doxygen documentation
+- Additional example programs with detailed explanations
+- Code quality improvements (includes, error handling, consistency)
+- Build system improvements and example organization
+
+**Development Approach:**
+Most enhancements (documentation, examples, code improvements) were AI-generated under strict human supervision, with thorough review and testing of all changes. The original Feetech SDK on Gitee remains fully functional and can be used if you prefer the unmodified version.
+
+**Credits:**
+- Original SDK: [Feetech FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux)
+- Alternative SDK: [Feetech SCServo SDK](https://gitee.com/ftservo/SCServoSDK) 
+- Python Bindings: [nanobind](https://github.com/wjakob/nanobind) by Wenzel Jakob
 
 
 ---
 
-> **⚠️ Note on Documentation:** This README was manually written and verified, with AI assistance used to improve language clarity and focus. The documentation files in the `docs/` folder ([API.md](docs/API.md), [EXAMPLES.md](docs/EXAMPLES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)) were generated using AI assistance and may contain inconsistencies with the actual implementation. When in doubt, always verify against the source code and examples.
+> **⚠️ Note on AI-Generated Content:** This README was written with AI assistance to improve clarity and organization, with all content manually reviewed and verified against the actual implementation. The documentation files in the `docs/` folder ([API.md](docs/API.md), [EXAMPLES.md](docs/EXAMPLES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)) were primarily AI-generated under human supervision and may contain inconsistencies with the actual codebase. When in doubt, always verify against the source code, header files, and working examples. Issue reports and corrections are welcome via GitHub Issues.

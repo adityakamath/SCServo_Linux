@@ -44,7 +44,7 @@ The scservo_python module provides Python bindings for:
 
 @section dependencies Dependencies
 - nanobind: Modern C++ to Python binding library
-- SCServo library: C++ implementation (linked statically)
+- SCServo SDK: C++ implementation (linked statically)
 
 @see src/bindings.cpp for Python binding implementation
 @see CMakeLists.txt for build configuration

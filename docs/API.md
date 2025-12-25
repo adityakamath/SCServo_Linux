@@ -2,7 +2,7 @@
 
 > **⚠️ AI-Generated Documentation**: This documentation was generated with AI assistance and may contain inconsistencies with the actual codebase. Always verify function signatures, parameter types, and behavior against the source code headers (`SMS_STS.h`, `SCSCL.h`, etc.) when in doubt.
 
-Complete API documentation for the SCServo_Linux library.
+Complete API documentation for the SCServo_Linux SDK.
 
 ## Table of Contents
 

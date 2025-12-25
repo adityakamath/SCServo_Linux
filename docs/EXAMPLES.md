@@ -16,7 +16,7 @@ Complete reference for all example programs included with the SCServo_Linux libr
 
 ## Overview
 
-This library includes 25+ example programs demonstrating various servo control techniques:
+This SDK includes 25+ example programs demonstrating various servo control techniques:
 
 - **Official SMS_STS Examples** (`examples/SMS_STS/`): Original Feetech SDK examples for SMS/STS protocol servos with English translations and documentation
 - **Official SCSCL Examples** (`examples/SCSCL/`): Original Feetech SDK examples for SCSCL protocol servos with English translations and documentation

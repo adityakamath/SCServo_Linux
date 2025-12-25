@@ -19,7 +19,7 @@ Detailed architecture and design documentation for SCServo_Linux.
 
 ## System Overview
 
-SCServo_Linux is a layered C++ library for controlling Feetech serial bus servo motors on Linux platforms. The architecture follows a clear separation of concerns with distinct layers for hardware abstraction, protocol implementation, and application-level APIs.
+SCServo_Linux is a layered C++ SDK for controlling Feetech serial bus servo motors on Linux platforms. The architecture follows a clear separation of concerns with distinct layers for hardware abstraction, protocol implementation, and application-level APIs.
 
 ### Key Design Goals
 

@@ -3,8 +3,7 @@
  * @brief RAII-based buffer management for synchronized write operations
  *
  * @details This file provides automatic buffer management for sync write operations,
- * eliminating manual allocation/deallocation and preventing memory leaks. Part of
- * Phase 4 refactoring to convert all manual buffer management to RAII pattern.
+ * eliminating manual allocation/deallocation and preventing memory leaks.
  *
  * **Benefits:**
  * - Automatic cleanup (no memory leaks)

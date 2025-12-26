@@ -1,6 +1,6 @@
 # API Reference
 
-> **⚠️ AI-Generated Documentation**: This documentation was generated with AI assistance and may contain inconsistencies with the actual codebase. Always verify function signatures, parameter types, and behavior against the source code headers (`SMS_STS.h`, `SCSCL.h`, etc.) when in doubt.
+> **⚠️ AI-Generated Documentation**: This documentation was generated with AI assistance and may contain inconsistencies with the actual codebase. Always verify function signatures, parameter types, and behavior against the source code headers (`src/SMS_STS.h`, `src/SCSCL.h`, etc.) when in doubt.
 
 Complete API documentation for the SCServo_Linux SDK.
 
@@ -997,7 +997,7 @@ For speed and load values, direction is encoded in the highest bit:
 - **Position/Speed**: Bit 15 indicates direction
 - **Load/PWM**: Bit 10 indicates direction
 
-Use the utility functions from `ServoUtils.h`:
+Use the utility functions from `src/ServoUtils.h`:
 ```cpp
 #include "ServoUtils.h"
 

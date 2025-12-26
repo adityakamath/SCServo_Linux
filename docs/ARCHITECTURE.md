@@ -84,7 +84,7 @@ The library is organized into four distinct layers:
 - Manage transmit buffer
 
 **Key Files**:
-- `SCSerial.h` / `SCSerial.cpp`
+- `src/SCSerial.h` / `src/SCSerial.cpp`
 
 **Platform Dependencies**:
 - Uses POSIX `termios` for serial configuration
@@ -113,8 +113,8 @@ The library is organized into four distinct layers:
 - Error detection and reporting
 
 **Key Files**:
-- `SCS.h` / `SCS.cpp`
-- `INST.h` (instruction definitions)
+- `src/SCS.h` / `src/SCS.cpp`
+- `src/INST.h` (instruction definitions)
 
 **Protocol Packet Format**:
 ```
@@ -142,9 +142,9 @@ Checksum = ~(ID + Length + Instruction + Param1 + Param2 + ...) & 0xFF
 - Manage EEPROM lock/unlock sequences
 
 **Key Files**:
-- `SMS_STS.h` / `SMS_STS.cpp` - SMS/STS series (12-bit, 1M baud default)
-- `SCSCL.h` / `SCSCL.cpp` - SCSCL series (10-bit, 115200 baud default)
-- `HLSCL.h` / `HLSCL.cpp` - HLSCL/HLS series (12-bit, 115200 baud default)
+- `src/SMS_STS.h` / `src/SMS_STS.cpp` - SMS/STS series (12-bit, 1M baud default)
+- `src/SCSCL.h` / `src/SCSCL.cpp` - SCSCL series (10-bit, 115200 baud default)
+- `src/HLSCL.h` / `src/HLSCL.cpp` - HLSCL/HLS series (12-bit, 115200 baud default)
 
 **Differences Between Protocols**:
 

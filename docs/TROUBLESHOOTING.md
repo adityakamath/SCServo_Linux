@@ -178,9 +178,10 @@ for (u8 id = 0; id < 254; id++) {
 
 Or use the Ping example:
 ```bash
-cd examples/SMS_STS/Ping
-cmake . && make
-./Ping /dev/ttyUSB0
+cd /home/ubuntu/SCServo_Linux
+mkdir -p build && cd build
+cmake .. && make
+./examples/SMS_STS/Ping/Ping /dev/ttyUSB0
 ```
 
 #### 4. Power Supply Issues
@@ -236,9 +237,10 @@ The servo's mechanical center doesn't match the software center (2048 for 12-bit
 Run midpoint calibration:
 
 ```bash
-cd examples/sandbox/MidpointCalib
-cmake . && make
-./MidpointCalib /dev/ttyUSB0
+cd /home/ubuntu/SCServo_Linux
+mkdir -p build && cd build
+cmake .. && make
+./examples/sandbox/MidpointCalib/MidpointCalib /dev/ttyUSB0
 ```
 
 Or manually:
@@ -353,7 +355,9 @@ If you have old code, update from the repository:
 ```bash
 cd SCServo_Linux
 git pull origin main
-cmake . && make clean && make -j4
+rm -rf build/
+mkdir -p build && cd build
+cmake .. && make -j4
 ```
 
 ---
@@ -575,11 +579,13 @@ sudo apt-get install build-essential git
 
 #### Clean Build
 ```bash
-# Remove old build files
-rm -rf CMakeCache.txt CMakeFiles/ cmake_install.cmake Makefile
+# Remove old build directory
+cd /home/ubuntu/SCServo_Linux
+rm -rf build/
 
 # Rebuild
-cmake .
+mkdir -p build && cd build
+cmake ..
 make -j4
 ```
 
@@ -629,7 +635,8 @@ sudo apt-get install python3-dev python3-pip
 ```bash
 cd SCServo_Linux
 git submodule update --init --recursive
-cmake . && make -j4
+mkdir -p build && cd build
+cmake .. && make -j4
 ```
 
 #### Wrong Python Version
@@ -874,7 +881,8 @@ If you're still stuck:
 
 4. **Test with examples first**:
    ```bash
-   cd examples/SMS_STS/Ping
-   cmake . && make
-   ./Ping /dev/ttyUSB0
+   cd /home/ubuntu/SCServo_Linux
+   mkdir -p build && cd build
+   cmake .. && make
+   ./examples/SMS_STS/Ping/Ping /dev/ttyUSB0
    ```

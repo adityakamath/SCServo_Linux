@@ -121,23 +121,25 @@ Connect your motors in a chain to the motor driver board, and connect the motor 
 # Find your serial port
 ls /dev/ttyUSB*  # or /dev/ttyACM*
 
+# Build all examples first
+cd /home/ubuntu/SCServo_Linux
+mkdir -p build && cd build
+cmake .. && make
+
 # Test with Ping example
-cd examples/SMS_STS/Ping
-cmake . && make
-./Ping /dev/ttyUSB0
+./examples/SMS_STS/Ping/Ping /dev/ttyUSB0
 
 # Expected output: "ID:1 PingOK!" (if servo ID=1 is connected)
 ```
 
 ### Step 3: Run Your First Example
 
-**⚠️ Important:** Before running any example, double check the baud rate and motor ID(s) in the example code, and change them if needed to match your setup. Then build the example before running it. 
+**⚠️ Important:** Before running any example, double check the baud rate and motor ID(s) in the example code, and change them if needed to match your setup. Then rebuild to apply changes.
 
 ```bash
-# Position control example
-cd examples/SMS_STS/WritePos
-cmake . && make
-./WritePos /dev/ttyUSB0
+# Position control example (from build directory)
+cd /home/ubuntu/SCServo_Linux/build
+./examples/SMS_STS/WritePos/WritePos /dev/ttyUSB0
 
 # Servo will oscillate between position 0 and 4095
 # Press Ctrl+C to stop (torque automatically disabled)

@@ -50,24 +50,34 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#motor-ids-dont-match) for more detai
 
 ## Building Examples
 
+> **Note:** The SDK now uses out-of-source builds. All build artifacts are placed in a `build/` directory to keep the source tree clean.
+
+### Building All Examples
+
+```bash
+cd /home/ubuntu/SCServo_Linux
+mkdir -p build
+cd build
+cmake ..
+make -j4
+```
+
+This builds the library, Python bindings, and all examples. Executables are located in `build/examples/*/`.
+
 ### Individual Example
 
 ```bash
-cd examples/SMS_STS/Ping
-cmake . && make
+cd /home/ubuntu/SCServo_Linux/build/examples/SMS_STS/Ping
 ./Ping /dev/ttyUSB0
 ```
 
-### All Sandbox Examples (Parallel Build)
+### Running Individual Examples
+
+After building the entire project, examples are in `build/examples/`:
 
 ```bash
-cd /home/ubuntu/SCServo_Linux/examples/sandbox
-for dir in WritePosition RegWritePosition SyncWritePosition WriteSpeed RegWriteSpeed SyncWriteSpeed WritePWM RegWritePWM SyncWritePWM MidpointCalib ReadData; do
-    echo "=== Building $dir ==="
-    cd $dir
-    make
-    cd ..
-done
+cd /home/ubuntu/SCServo_Linux/build/examples/sandbox/WritePosition
+./WritePosition /dev/ttyUSB0
 ```
 
 ### Python Examples
@@ -1177,10 +1187,12 @@ int pos = sm_st.ReadPos(ID);  // Direct query
 
 ```bash
 # Clean and rebuild
-cd examples/sandbox/WritePosition
-rm -rf CMakeCache.txt CMakeFiles/
-cmake .
-make
+cd /home/ubuntu/SCServo_Linux
+rm -rf build/
+mkdir -p build
+cd build
+cmake ..
+make -j4
 ```
 
 ### Permission Denied

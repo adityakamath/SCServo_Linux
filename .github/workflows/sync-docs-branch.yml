@@ -1,0 +1,40 @@
+name: Sync with_ai_docs with main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Sync with_ai_docs branch
+        run: |
+          # Switch to with_ai_docs branch
+          git checkout with_ai_docs
+          
+          # Merge main into with_ai_docs
+          git merge main -m "Auto-merge main into with_ai_docs [skip ci]"
+          
+          # Check if docs folder exists, if not restore it from previous commit
+          if [ ! -d "docs" ]; then
+            echo "Restoring docs folder..."
+            git checkout HEAD~1 -- docs/ || echo "No docs folder to restore"
+            git commit -am "Auto-restore docs folder after merge [skip ci]" || echo "No changes to commit"
+          fi
+          
+          # Push changes
+          git push origin with_ai_docs

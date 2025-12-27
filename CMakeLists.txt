@@ -14,12 +14,3 @@ set(srs src/SMS_STS.cpp src/SCSerial.cpp src/SCS.cpp src/SCSCL.cpp src/HLSCL.cpp
 add_library(${project} STATIC ${hdrs} ${srs})
 target_include_directories(${project} PUBLIC ${CMAKE_SOURCE_DIR}/src)
 set_target_properties(${project} PROPERTIES POSITION_INDEPENDENT_CODE ON)
-#add_executable(${project} main.cpp ${hdrs} ${srs})
-
-# --- Python bindings with nanobind ---
-find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module)
-add_subdirectory(extern/nanobind)
-
-nanobind_add_module(scservo_python src/bindings.cpp)
-target_include_directories(scservo_python PRIVATE ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(scservo_python PRIVATE ${project})

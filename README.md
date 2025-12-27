@@ -4,11 +4,11 @@
 ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux)
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
 
-> Linux SDK for Feetech serial servo motors with C++ and Python support
+> Linux SDK for Feetech serial servo motors with native C++ support
 
 A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
 
-> **📌 About This Fork:** This repository is a fork of Feetech's official [FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux) SDK with enhanced documentation, code quality improvements, and Python bindings. Most enhancements were AI-generated, but under strict human supervision. The original repository on Gitee is fully functional and can be used if you prefer the unmodified SDK. This fork focuses on improved usability, comprehensive documentation, and additional examples for the Linux platform.
+> **📌 About This Fork:** This repository is a fork of Feetech's official [FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux) SDK with enhanced documentation and code quality improvements. Most enhancements were AI-generated, but under strict human supervision. The original repository on Gitee is fully functional and can be used if you prefer the unmodified SDK. This fork focuses on improved usability, comprehensive documentation, and additional examples for the Linux platform.
 
 ## Table of Contents
 
@@ -18,7 +18,6 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - [Quick Start](#quick-start)
 - [Operating Modes](#operating-modes)
 - [Usage Examples](#usage-examples)
-- [Python Bindings](#python-bindings)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
@@ -31,7 +30,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - **Comprehensive Feedback**: Position, speed, load, voltage, temperature, current readings
 - **Configuration Tools**: EEPROM programming, midpoint calibration, ID management
 - **Platform Optimized**: Linux (x86_64, ARM64), Raspberry Pi tested
-- **Language Bindings**: Native C++ (C++17) and Python 3.8+ (via nanobind)
+- **Language**: Native C++ (C++17)
 - **Rich Examples**: 25+ comprehensive examples with full documentation
 
 ## Hardware Support
@@ -74,12 +73,9 @@ sudo apt-get install build-essential cmake git
 ### Build from Source
 
 ```bash
-# Clone repository with submodules
-git clone --recursive https://github.com/adityakamath/SCServo_Linux.git
+# Clone repository
+git clone https://github.com/adityakamath/SCServo_Linux.git
 cd SCServo_Linux
-
-# Or if already cloned without --recursive:
-# git submodule update --init --recursive
 
 # Build library
 mkdir -p build
@@ -89,7 +85,6 @@ make -j4
 
 # The build produces:
 # - build/libSCServo.a (static library)
-# - build/scservo_python.cpython-312-*.so (Python module)
 ```
 
 ### Serial Port Permissions
@@ -211,30 +206,6 @@ int main() {
 
 The SDK includes multiple example programs in the `examples/` directory, organized by protocol (SMS_STS, SCSCL, HLSCL) and `sandbox` for advanced multi-servo examples. Each example includes inline documentation and can be built individually using CMake.
 
-## Python Bindings
-
-The SDK includes experimental Python bindings via [nanobind](https://github.com/wjakob/nanobind).
-
-### Installation
-
-```bash
-cd SCServo_Linux
-pip install -e .
-```
-
-### Quick Example
-
-```python
-import scservo_python as sc
-
-servo = sc.SMS_STS()
-servo.begin(1000000, "/dev/ttyUSB0")
-servo.WritePosEx(1, 2048, 2400, 50)
-servo.end()
-```
-
-The Python API mirrors the C++ interface. See `examples/sandbox/python/` for a complete Python example including multi-motor control, velocity sweeps, and data collection.
-
 ## Documentation
 
 ### Source Code Documentation
@@ -265,7 +236,6 @@ This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gite
 **Improvements in this fork:**
 - Enhanced code comments and Doxygen documentation
 - Comprehensive English documentation (README, experimental AI-generated documentation including API reference, architecture guide, troubleshooting guide)
-- Experimental Python bindings via [nanobind](https://github.com/wjakob/nanobind)
 - HLSCL protocol support for HLS series servos
 - Additional example programs with detailed explanations
 - Code quality improvements (includes, error handling, consistency)

@@ -13,5 +13,5 @@ set(hdrs include/SMS_STS.h include/SCSerial.h include/SCS.h include/SCSCL.h
 set(srs src/SMS_STS.cpp src/SCSerial.cpp src/SCS.cpp src/SCSCL.cpp src/HLSCL.cpp)
 
 add_library(${project} STATIC ${hdrs} ${srs})
-target_include_directories(${project} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${project} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(${project} PROPERTIES POSITION_INDEPENDENT_CODE ON)

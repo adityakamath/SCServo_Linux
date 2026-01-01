@@ -24,6 +24,16 @@
 
 #include "SCSerial.h"
 
+// macOS compatibility: Define missing baud rate constants
+#ifdef __APPLE__
+#ifndef B500000
+#define B500000 500000
+#endif
+#ifndef B1000000
+#define B1000000 1000000
+#endif
+#endif
+
 /**
  * @brief Default constructor
  * 

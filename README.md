@@ -2,6 +2,7 @@
 
 [![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
 ![GitHub License](https://img.shields.io/github/license/adityakamath/SCServo_Linux)
+[![Website](https://img.shields.io/badge/Website-kamathrobotics.com-blue)](https://kamathrobotics.com)
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
 
 > Linux SDK for Feetech serial servo motors with native C++ support

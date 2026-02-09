@@ -1,11 +1,13 @@
 # SCServo_Linux
 
-[![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
-![License](https://img.shields.io/github/license/adityakamath/SCServo_Linux?label=License)
+![Project Status](https://img.shields.io/badge/Status-Active-green)
+[![Repository](https://img.shields.io/badge/Repo-adityakamath%2FSCServo__Linux-purple?style=flat&logo=github&logoSize=auto)](https://github.com/adityakamath/SCServo_Linux)
 [![Blog](https://img.shields.io/badge/Blog-kamathrobotics.com-darkorange?style=flat&logo=hashnode&logoSize=auto)](https://kamathrobotics.com/serial-bus-servo-motors-in-2025)
-![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/kamathsblog)
+[![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
+![C++](https://img.shields.io/badge/C++-17-blue?style=flat&logo=cplusplus&logoColor=white)
+![License](https://img.shields.io/github/license/adityakamath/SCServo_Linux?label=License)
 
-> Linux SDK for Feetech serial servo motors with native C++ support
+Linux SDK for Feetech serial servo motors with native C++ support
 
 A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
 

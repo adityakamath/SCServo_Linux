@@ -1,0 +1,34 @@
+# Site settings
+title: SCServo_Linux
+description: Linux SDK for Feetech serial servo motors with native C++ support
+author: Aditya Kamath
+
+# Beautiful Jekyll theme
+remote_theme: daattali/beautiful-jekyll@6.0.1
+
+# Personalization - use header image as logo in top left
+title-img: /assets/img/header_image.png
+navbar-links:
+  Kamath Robotics: "https://kamathrobotics.com"
+
+# Social network links
+social-network-links:
+  email: adityakamath@live.com
+  github: adityakamath
+  twitter: kamathsblog
+  linkedin: adityakamath
+  youtube: AdityaKamath2405
+
+# URL configuration
+url: "https://adityakamath.github.io"
+baseurl: "/SCServo_Linux"
+
+url-pretty: "kamathrobotics.com"
+
+# Markdown and syntax highlighting
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-sitemap

@@ -266,31 +266,47 @@ int SMS_STS::RegWriteSpe(u8 ID, s16 Speed, u8 ACC)
 }
 
 /**
- * @brief Synchronized speed write for multiple servos
- * 
- * Sends speed commands to multiple servos in wheel mode simultaneously.
- * 
- * @param ID Array of servo IDs
- * @param IDN Number of servos
- * @param Speed Array of target speeds
- * @param ACC Array of accelerations (NULL for 0 acceleration)
+ * @brief Synchronized speed and acceleration write for multiple servos (atomic)
+ *
+ * Sends speed and acceleration commands to multiple servos simultaneously in a
+ * single sync-write packet. The packet spans 7 bytes starting from SMS_STS_ACC
+ * (register 41): ACC + GOAL_POSITION(0) + GOAL_TIME(0) + GOAL_SPEED.
+ *
+ * This is the correct approach for per-servo ACC control in multi-motor systems
+ * (e.g. omni-wheel robots). Sending ACC and GOAL_SPEED in the same atomic packet
+ * guarantees every motor's acceleration profile is applied together with its
+ * speed command in a single bus transaction, with no risk of the ACC write being
+ * lost or arriving out of sync.
+ *
+ * @note GOAL_POSITION and GOAL_TIME bytes are set to 0 and are ignored by the
+ *       servo in wheel/velocity mode (Mode 1).
+ *
+ * @param ID    Array of servo IDs
+ * @param IDN   Number of servos
+ * @param Speed Array of target speeds (steps/s; negative = reverse direction)
+ * @param ACC   Array of accelerations (0-254, units of 100 steps/s²), or NULL
+ *              to use ACC=0 for all servos (maximum hardware slew rate)
  */
 void SMS_STS::SyncWriteSpe(u8 ID[], u8 IDN, s16 Speed[], u8 ACC[])
 {
-	SyncWriteBuffer buffer(IDN, 2);
+	// 7 bytes per servo: ACC(41) + GOAL_POS_L(42) + GOAL_POS_H(43)
+	//                  + GOAL_TIME_L(44) + GOAL_TIME_H(45)
+	//                  + GOAL_SPEED_L(46) + GOAL_SPEED_H(47)
+	SyncWriteBuffer buffer(IDN, 7);
 	if(!buffer.isValid()){
 		return;  // Allocation failed
 	}
 	for(u8 i = 0; i<IDN; i++){
 		u16 encodedSpeed = ServoUtils::encodeSignedValue(Speed[i], SMS_STS_DIRECTION_BIT_POS);
 
-		u8 bBuf[2];
-		bBuf[0] = ACC ? ACC[i] : 0;
-		genWrite(ID[i], SMS_STS_ACC, bBuf, 1);
-		Host2SCS(bBuf+0, bBuf+1, encodedSpeed);
-		buffer.writeMotorData(i, bBuf, 2);
+		u8 bBuf[7];
+		bBuf[0] = ACC ? ACC[i] : 0;  // SMS_STS_ACC (reg 41)
+		bBuf[1] = 0; bBuf[2] = 0;    // SMS_STS_GOAL_POSITION (regs 42-43, unused in wheel mode)
+		bBuf[3] = 0; bBuf[4] = 0;    // SMS_STS_GOAL_TIME (regs 44-45)
+		Host2SCS(bBuf+5, bBuf+6, encodedSpeed);  // SMS_STS_GOAL_SPEED (regs 46-47)
+		buffer.writeMotorData(i, bBuf, 7);
 	}
-	syncWrite(ID, IDN, SMS_STS_GOAL_SPEED_L, buffer.getBuffer(), 2);
+	syncWrite(ID, IDN, SMS_STS_ACC, buffer.getBuffer(), 7);
 }
 
 /**

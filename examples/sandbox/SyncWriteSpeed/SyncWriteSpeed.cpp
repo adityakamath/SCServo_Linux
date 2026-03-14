@@ -23,7 +23,8 @@
  * - Deadband and offset detection per servo
  * - Minimum/maximum effective speed command detection
  * - Synchronized multi-servo testing with SyncWriteSpe()
- * - Safe ramp-up/ramp-down for smooth acceleration
+ *   (ACC and GOAL_SPEED sent atomically in a single sync packet)
+ * - Safe ramp-up/ramp-down with per-servo ACC control
  * - Comprehensive test summary report
  * - Graceful error handling and shutdown
  * 

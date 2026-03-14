@@ -544,6 +544,22 @@ Compiled with `-fPIC` flag, enabling potential future conversion to shared libra
 
 Implements proper half-duplex communication handling for RS485/TTL serial buses, essential for daisy-chain topology.
 
+**Atomic ACC + Speed in `SyncWriteSpe()`:**
+
+`SyncWriteSpe()` uses a single 7-byte sync-write packet that spans registers
+`SMS_STS_ACC` (41) through `SMS_STS_GOAL_SPEED_H` (47): ACC, GOAL_POSITION (set
+to 0, ignored in wheel mode), GOAL_TIME (set to 0), and GOAL_SPEED. Writing both
+values in one atomic bus transaction ensures that each servo's acceleration
+profile and speed target arrive together, with no risk of the ACC value being
+lost or arriving ahead of (or behind) its speed command on a busy half-duplex bus.
+
+This is critical for synchronised multi-motor applications such as omni-wheel
+robots where different wheels need different per-wheel accelerations (proportional
+to their individual velocity deltas) so that all wheels finish ramping at the
+same wall-clock time. Sending ACC and GOAL_SPEED separately—even in rapid
+succession—creates a window where a servo could receive and execute a new speed
+command with its old (stale) ACC register value.
+
 ---
 
 ## API Structure

@@ -175,7 +175,19 @@ public:
 	/** @brief Async write speed */
     virtual int RegWriteSpe(u8 ID, s16 Speed, u8 ACC = 0);
 
-	/** @brief Sync write speed to multiple servos */
+	/** @brief Sync write speed and acceleration to multiple servos (atomic)
+	 *
+	 *  Sends ACC + GOAL_SPEED to all servos in a single 7-byte sync-write
+	 *  packet starting from SMS_STS_ACC (reg 41).  Writing both values in
+	 *  one atomic bus transaction ensures per-servo acceleration profiles
+	 *  are applied together with their speed commands, which is essential
+	 *  for synchronised multi-motor systems (e.g. omni-wheel robots).
+	 *
+	 *  @param ID    Array of servo IDs
+	 *  @param IDN   Number of servos
+	 *  @param Speed Array of target speeds (steps/s; negative = reverse)
+	 *  @param ACC   Array of accelerations (0-254, units of 100 steps/s²),
+	 *               or NULL to use ACC=0 for all servos (max slew rate) */
     virtual void SyncWriteSpe(u8 ID[], u8 IDN, s16 Speed[], u8 ACC[]);
 
 	/** @brief Write PWM to single servo (Mode 2)

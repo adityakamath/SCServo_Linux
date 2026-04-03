@@ -58,54 +58,11 @@ Supporting utilities:
 
 The library targets three servo protocol families with different capabilities:
 
-<style>
-  .modes-table {
-    transition: all 0.2s ease;
-  }
-
-  .modes-table:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
-  }
-</style>
-
-<table class="modes-table" style="width: 100%; border-collapse: separate; border-spacing: 0; margin: 2em auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: none;">
-  <thead>
-    <tr>
-      <th colspan="5" style="text-align: center; padding: 0.6em; background: #f8f9fa; border: none;">Hardware Support Matrix</th>
-    </tr>
-    <tr>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Protocol Family</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Models</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Resolution</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Baud Rates</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Control Modes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>SMS/STS</strong></td>
-      <td style="padding: 0.6em; border: none;">STS3215*, STS3032, STS3250, SMS40</td>
-      <td style="padding: 0.6em; border: none;">12-bit (0-4095)</td>
-      <td style="padding: 0.6em; border: none;">1M / 115.2k</td>
-      <td style="padding: 0.6em; border: none;">Position, Velocity, PWM</td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>SCSCL</strong></td>
-      <td style="padding: 0.6em; border: none;">SC09, SC15</td>
-      <td style="padding: 0.6em; border: none;">10-bit (0-1023)</td>
-      <td style="padding: 0.6em; border: none;">1M / 115.2k</td>
-      <td style="padding: 0.6em; border: none;">Position, PWM only</td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>HLSCL</strong></td>
-      <td style="padding: 0.6em; border: none;">HLS series</td>
-      <td style="padding: 0.6em; border: none;">12-bit (0-4095)</td>
-      <td style="padding: 0.6em; border: none;">1M / 115.2k</td>
-      <td style="padding: 0.6em; border: none;">Position, Velocity, Force</td>
-    </tr>
-  </tbody>
-</table>
+| Protocol Family | Models | Resolution | Baud Rates | Control Modes |
+| --- | --- | --- | --- | --- |
+| **SMS/STS** | STS3215*, STS3032, STS3250, SMS40 | 12-bit (0-4095) | 1M / 115.2k | Position, Velocity, PWM |
+| **SCSCL** | SC09, SC15 | 10-bit (0-1023) | 1M / 115.2k | Position, PWM only |
+| **HLSCL** | HLS series | 12-bit (0-4095) | 1M / 115.2k | Position, Velocity, Force |
 
 \* **Testing Note:** Only STS3215 extensively tested; other models require verification.
 
@@ -124,50 +81,12 @@ The library targets three servo protocol families with different capabilities:
 
 Each protocol family supports different control modes optimized for specific use cases:
 
-<table class="modes-table" style="width: 100%; border-collapse: separate; border-spacing: 0; margin: 2em auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: none;">
-  <thead>
-    <tr>
-      <th colspan="5" style="text-align: center; padding: 0.6em; background: #f8f9fa; border: none;">Operating Modes</th>
-    </tr>
-    <tr>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Mode</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Use Case</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Control Parameters</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Protocol Support</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Key Functions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Mode 0: Position</strong></td>
-      <td style="padding: 0.6em; border: none;">Robot arms, pan-tilt mechanisms</td>
-      <td style="padding: 0.6em; border: none;">Position, Speed, Acceleration/Time</td>
-      <td style="padding: 0.6em; border: none;">SMS/STS, SCSCL, HLSCL</td>
-      <td style="padding: 0.6em; border: none;"><code>WritePosEx()</code>, <code>WritePos()</code>, <code>SyncWritePosEx()</code></td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Mode 1: Velocity</strong></td>
-      <td style="padding: 0.6em; border: none;">Wheeled mobile robots, continuous rotation</td>
-      <td style="padding: 0.6em; border: none;">Speed (±3400 steps/s), Acceleration</td>
-      <td style="padding: 0.6em; border: none;">SMS/STS, HLSCL</td>
-      <td style="padding: 0.6em; border: none;"><code>WriteSpe()</code>, <code>RegWriteSpe()</code>, <code>SyncWriteSpe()</code></td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Mode 2: PWM</strong></td>
-      <td style="padding: 0.6em; border: none;">Direct motor power control</td>
-      <td style="padding: 0.6em; border: none;">PWM duty cycle (-1000 to +1000)</td>
-      <td style="padding: 0.6em; border: none;">SMS/STS, SCSCL</td>
-      <td style="padding: 0.6em; border: none;"><code>WritePwm()</code>, <code>WritePWM()</code> (SCSCL)</td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Mode 2: Force/Torque</strong></td>
-      <td style="padding: 0.6em; border: none;">Grippers, tensioning, compliant manipulation</td>
-      <td style="padding: 0.6em; border: none;">Torque (±1000)</td>
-      <td style="padding: 0.6em; border: none;">HLSCL only</td>
-      <td style="padding: 0.6em; border: none;"><code>WriteEle()</code></td>
-    </tr>
-  </tbody>
-</table>
+| Mode | Use Case | Control Parameters | Protocol Support | Key Functions |
+| --- | --- | --- | --- | --- |
+| **Mode 0: Position** | Robot arms, pan-tilt mechanisms | Position, Speed, Acceleration/Time | SMS/STS, SCSCL, HLSCL | `WritePosEx()`, `WritePos()`, `SyncWritePosEx()` |
+| **Mode 1: Velocity** | Wheeled mobile robots, continuous rotation | Speed (±3400 steps/s), Acceleration | SMS/STS, HLSCL | `WriteSpe()`, `RegWriteSpe()`, `SyncWriteSpe()` |
+| **Mode 2: PWM** | Direct motor power control | PWM duty cycle (-1000 to +1000) | SMS/STS, SCSCL | `WritePwm()`, `WritePWM()` (SCSCL) |
+| **Mode 2: Force/Torque** | Grippers, tensioning, compliant manipulation | Torque (±1000) | HLSCL only | `WriteEle()` |
 
 **Important Mode Behavior:**
 
@@ -184,50 +103,12 @@ Each protocol family supports different control modes optimized for specific use
 
 The SDK implements four synchronization strategies for multi-servo coordination:
 
-<table class="modes-table" style="width: 100%; border-collapse: separate; border-spacing: 0; margin: 2em auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: none;">
-  <thead>
-    <tr>
-      <th colspan="5" style="text-align: center; padding: 0.6em; background: #f8f9fa; border: none;">Multi-Servo Synchronization Strategies</th>
-    </tr>
-    <tr>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Strategy</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Timing Accuracy</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Packet Count</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Use Case</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Example Function</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Direct Write</strong></td>
-      <td style="padding: 0.6em; border: none;">~10ms skew</td>
-      <td style="padding: 0.6em; border: none;">Per-servo</td>
-      <td style="padding: 0.6em; border: none;">Single servo testing</td>
-      <td style="padding: 0.6em; border: none;"><code>WritePosEx()</code>, <code>WriteSpe()</code></td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Register Write</strong></td>
-      <td style="padding: 0.6em; border: none;">~1ms skew</td>
-      <td style="padding: 0.6em; border: none;">Per-servo + Action</td>
-      <td style="padding: 0.6em; border: none;">General multi-servo</td>
-      <td style="padding: 0.6em; border: none;"><code>RegWritePosEx()</code> + <code>RegWriteAction()</code></td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Synchronized Write</strong></td>
-      <td style="padding: 0.6em; border: none;">&lt;1ms skew</td>
-      <td style="padding: 0.6em; border: none;">Single packet</td>
-      <td style="padding: 0.6em; border: none;">Production systems</td>
-      <td style="padding: 0.6em; border: none;"><code>SyncWritePosEx()</code>, <code>SyncWriteSpe()</code></td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Broadcast</strong></td>
-      <td style="padding: 0.6em; border: none;">Simultaneous</td>
-      <td style="padding: 0.6em; border: none;">Single packet</td>
-      <td style="padding: 0.6em; border: none;">Identical commands to all servos</td>
-      <td style="padding: 0.6em; border: none;"><code>WritePosEx(0xFE, ...)</code></td>
-    </tr>
-  </tbody>
-</table>
+| Strategy | Timing Accuracy | Packet Count | Use Case | Example Function |
+| --- | --- | --- | --- | --- |
+| **Direct Write** | ~10ms skew | Per-servo | Single servo testing | `WritePosEx()`, `WriteSpe()` |
+| **Register Write** | ~1ms skew | Per-servo + Action | General multi-servo | `RegWritePosEx()` + `RegWriteAction()` |
+| **Synchronized Write** | <1ms skew | Single packet | Production systems | `SyncWritePosEx()`, `SyncWriteSpe()` |
+| **Broadcast** | Simultaneous | Single packet | Identical commands to all servos | `WritePosEx(0xFE, ...)` |
 
 **Synchronization Benefits:**
 
@@ -293,63 +174,15 @@ sudo usermod -a -G dialout $USER
 
 The SDK provides comprehensive feedback from servo motors:
 
-<table class="modes-table" style="width: 100%; border-collapse: separate; border-spacing: 0; margin: 2em auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: none;">
-  <thead>
-    <tr>
-      <th colspan="4" style="text-align: center; padding: 0.6em; background: #f8f9fa; border: none;">Feedback Interfaces</th>
-    </tr>
-    <tr>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Feedback Type</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Unit</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Read Function</th>
-      <th style="text-align: left; padding: 0.6em; background: #e9ecef; border: none;">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Position</strong></td>
-      <td style="padding: 0.6em; border: none;">Steps (0-4095 or 0-1023)</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadPos()</code></td>
-      <td style="padding: 0.6em; border: none;">Current angular position</td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Velocity</strong></td>
-      <td style="padding: 0.6em; border: none;">Steps/s (±3400 max)</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadSpeed()</code></td>
-      <td style="padding: 0.6em; border: none;">Current rotation speed</td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Load</strong></td>
-      <td style="padding: 0.6em; border: none;">±1000 (percentage)</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadLoad()</code></td>
-      <td style="padding: 0.6em; border: none;">Motor load (-100% to +100%)</td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Voltage</strong></td>
-      <td style="padding: 0.6em; border: none;">0.1V units</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadVoltage()</code></td>
-      <td style="padding: 0.6em; border: none;">Supply voltage</td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Temperature</strong></td>
-      <td style="padding: 0.6em; border: none;">°C</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadTemper()</code></td>
-      <td style="padding: 0.6em; border: none;">Internal temperature</td>
-    </tr>
-    <tr style="background: #f0f0f0;">
-      <td style="padding: 0.6em; border: none;"><strong>Current</strong></td>
-      <td style="padding: 0.6em; border: none;">6.5mA units</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadCurrent()</code></td>
-      <td style="padding: 0.6em; border: none;">Motor current draw</td>
-    </tr>
-    <tr style="background: #ffffff;">
-      <td style="padding: 0.6em; border: none;"><strong>Motion Status</strong></td>
-      <td style="padding: 0.6em; border: none;">Boolean</td>
-      <td style="padding: 0.6em; border: none;"><code>ReadMove()</code></td>
-      <td style="padding: 0.6em; border: none;">Is motor moving (1) or stopped (0)</td>
-    </tr>
-  </tbody>
-</table>
+| Feedback Type | Unit | Read Function | Description |
+| --- | --- | --- | --- |
+| **Position** | Steps (0-4095 or 0-1023) | `ReadPos()` | Current angular position |
+| **Velocity** | Steps/s (±3400 max) | `ReadSpeed()` | Current rotation speed |
+| **Load** | ±1000 (percentage) | `ReadLoad()` | Motor load (-100% to +100%) |
+| **Voltage** | 0.1V units | `ReadVoltage()` | Supply voltage |
+| **Temperature** | °C | `ReadTemper()` | Internal temperature |
+| **Current** | 6.5mA units | `ReadCurrent()` | Motor current draw |
+| **Motion Status** | Boolean | `ReadMove()` | Is motor moving (1) or stopped (0) |
 
 **Synchronized Feedback:**
 

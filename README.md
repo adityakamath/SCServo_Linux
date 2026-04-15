@@ -1,10 +1,9 @@
 # SCServo_Linux
 
 ![Project Status](https://img.shields.io/badge/Status-Active-green)
-[![Repository](https://img.shields.io/badge/Repo-adityakamath%2FSCServo__Linux-purple?style=flat&logo=github&logoSize=auto)](https://github.com/adityakamath/SCServo_Linux)
-[![Blog](https://img.shields.io/badge/Blog-kamathrobotics.com-darkorange?style=flat&logo=hashnode&logoSize=auto)](https://kamathrobotics.com/serial-bus-servo-motors-in-2025)
-[![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
 ![C++](https://img.shields.io/badge/C++-17-blue?style=flat&logo=cplusplus&logoColor=white)
+[![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
+[![Blog](https://img.shields.io/badge/Blog-kamathrobotics.com-darkorange?style=flat&logo=hashnode&logoSize=auto)](https://kamathrobotics.com/serial-bus-servo-motors-in-2025)
 ![License](https://img.shields.io/github/license/adityakamath/SCServo_Linux?label=License)
 
 Linux SDK for Feetech serial servo motors with native C++ support

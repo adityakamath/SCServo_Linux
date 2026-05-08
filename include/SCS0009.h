@@ -29,12 +29,19 @@
 //-------EEPROM (Read/Write)--------
 #define SCS0009_ID 5
 #define SCS0009_BAUD_RATE 6
-#define SCS0009_RETURN_DELAY        7
-#define SCS0009_STATUS_RETURN_LEVEL 8
+
+// hang-time of how long the servo waits to respond to a host
+// Might need to be tuned if you start seeing a lot of unacked status packets or retransmits
+// at either end of the conversation
+// These registers are present on the SCS0009 but not on some other Feetech servos 
+#define SCS0009_RETURN_DELAY        7    // 0x07 — response delay in 2µs units
+#define SCS0009_STATUS_RETURN_LEVEL 8    // 0x08 — 0=ping only, 1=read, 2=all
+
 #define SCS0009_MIN_ANGLE_LIMIT_L 9
 #define SCS0009_MIN_ANGLE_LIMIT_H 10
 #define SCS0009_MAX_ANGLE_LIMIT_L 11
 #define SCS0009_MAX_ANGLE_LIMIT_H 12
+
 #define SCS0009_CW_DEAD 26
 #define SCS0009_CCW_DEAD 27
 
@@ -64,16 +71,12 @@
 
 // Direction bit positions
 
-#define SCS0009_LOAD_DIRECTION_BIT_POS 15
-#define SCS0009_PWM_DIRECTION_BIT_POS 10
+#define SCS0009_DIRECTION_BIT_POS 15
 
 // hang-time of how long the servo waits to respond to a host
 // Might need to be tuned if you start seeing a lot of unacked status packets or retransmits
 // at either end of the conversation
-/ These registers are present on the SCS0009 but not on some other Feetech servos 
 
-#define SCS0009_RETURN_DELAY        7    // 0x07 — response delay in 2µs units
-#define SCS0009_STATUS_RETURN_LEVEL 8    // 0x08 — 0=ping only, 1=read, 2=all
 /**
  * @class SCS0009
  * @brief Application layer interface for SCS0009 series serial servos

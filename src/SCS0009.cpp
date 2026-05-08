@@ -213,7 +213,7 @@ int SCS0009::ReadSpeed(u8 ID)
 	this->Err = 0;
         int speed = this->readSignedWord(ID, SCS0009_PRESENT_SPEED_L, SCS0009_DIRECTION_BIT_POS);
 	if (speed == -1) this->Err = 1;
-	return speed;`
+	return speed;
 }
 
 /** @brief Read current load */
@@ -295,9 +295,9 @@ int SCS0009::ReadCurrent(u8 ID)
 		);
 	}
 	this->Err = 0;
-        current = this->readSignedWord(ID, SCS0009_PRESENT_CURRENT_L,
+        int current = this->readSignedWord(ID, SCS0009_PRESENT_CURRENT_L,
                                            SCS0009_DIRECTION_BIT_POS
                                       );
-+	if (current == -1) this->Err = 1;
-+	return current;
+	if (current == -1) this->Err = 1;
+	return current;
 }

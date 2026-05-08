@@ -109,6 +109,7 @@ int SCS0009::InitMotor(u8 ID, u8 mode, u8 enableTorque)
 	// Set mode
 	ret = Mode(ID, mode);
 	if (ret == 0) {
+                LockEeprom(ID);
 		this->Err = 1;
 		return 0;
 	}
@@ -210,7 +211,9 @@ int SCS0009::ReadSpeed(u8 ID)
 		);
 	}
 	this->Err = 0;
-	return this->readSignedWord(ID, SCS0009_PRESENT_SPEED_L, SCS0009_DIRECTION_BIT_POS);
+        int speed = this->readSignedWord(ID, SCS0009_PRESENT_SPEED_L, SCS0009_DIRECTION_BIT_POS);
+	if (speed == -1) this->Err = 1;
+	return speed;`
 }
 
 /** @brief Read current load */
@@ -225,7 +228,11 @@ int SCS0009::ReadLoad(u8 ID)
 		);
 	}
 	this->Err = 0;
-	return this->readSignedWord(ID, SCS0009_PRESENT_LOAD_L, SCS0009_DIRECTION_BIT_POS);
+        int load = this->readSignedWord(ID, SCS0009_PRESENT_LOAD_L, 
+                                            SCS0009_DIRECTION_BIT_POS
+                         );
+	if (load == -1) this->Err = 1;
+	return load;
 }
 
 /** @brief Read supply voltage */
@@ -288,5 +295,9 @@ int SCS0009::ReadCurrent(u8 ID)
 		);
 	}
 	this->Err = 0;
-	return this->readSignedWord(ID, SCS0009_PRESENT_CURRENT_L, SCS0009_DIRECTION_BIT_POS);
+        current = this->readSignedWord(ID, SCS0009_PRESENT_CURRENT_L,
+                                           SCS0009_DIRECTION_BIT_POS
+                                      );
++	if (current == -1) this->Err = 1;
++	return current;
 }

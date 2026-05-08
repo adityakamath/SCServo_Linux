@@ -9,7 +9,7 @@
  * - Troubleshooting communication issues
  *
  * **Hardware Requirements:**
- * - SCSCL series servo motor
+ * - SCS0009 series servo motor
  * - Serial port connection
  * - Servo ID must be known (default: ID=1)
  *

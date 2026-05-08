@@ -22,7 +22,7 @@
  * @endcode
  *
  * @note This file only includes headers; link against libSCServo.a for implementations
- * @see SMS_STS.h, SCSCL.h, HLSCL.h for protocol documentation
+ * @see SMS_STS.h, SCSCL.h, SCS0009.h HLSCL.h for protocol documentation
  */
 
 #ifndef _SCSERVO_H
@@ -31,5 +31,6 @@
 #include "SCSCL.h"
 #include "SMS_STS.h"
 #include "HLSCL.h"
-/*additional support for SC0009 from Amazing Hand */
+#include "SCS0009.h"
+/* additional support for SCS0009 from Amazing Hand */
 #endif

@@ -55,12 +55,15 @@ int main(int argc, char **argv)
         std::cout<<"Failed to init scs0009 motor!"<<std::endl;
         return 0;
     }
-	int ID = s9.Ping(1);
-	if(ID!=-1){
-		std::cout<<"ID:"<<ID<<std::endl;
-	}else{
-		std::cout<<"Ping servo ID error!"<<std::endl;
-	}
-	s9.end();
-	return 1;
+    
+    int ID = s9.Ping(1);
+    if(ID!=-1){
+        std::cout<<"ID:"<<ID<<std::endl;
+        s9.end();
+        return 1;
+    }else{
+        std::cout<<"Ping servo ID error!"<<std::endl;
+        s9.end();
+        return 0;
+    }
 }

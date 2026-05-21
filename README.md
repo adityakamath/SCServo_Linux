@@ -10,7 +10,9 @@ Linux SDK for Feetech serial servo motors with native C++ support
 
 A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
 
-> **📌 About This Fork:** This repository is a fork of Feetech's official [FTServo_Linux](https://gitee.com/ftservo/FTServo_Linux) SDK with enhanced documentation and code quality improvements. Most enhancements were AI-generated, but under strict human supervision. The original repository on Gitee is fully functional and can be used if you prefer the unmodified SDK. This fork focuses on improved usability, comprehensive documentation, and additional examples for the Linux platform.
+> **📌 Added support for the SCS0009 servo used in the [AmazingHand](https://github.com/pollen-robotics/AmazingHand) from [Pollen Robotics](https://www.pollen-robotics.com/). Feetech uses different firmware on each of their different servo product families, which means the SCS0009 has enough differences in register addresses, values, etc. to need its own driver. SCS0009 support is useful for those who want to use SCServo_Linux with an [AmazingHand](https://github.com/pollen-robotics/AmazingHand) or integrate it into programming their [Reachy](https://www.pollen-robotics.com/) or [SO-10x arm](https://github.com/TheRobotStudio/SO-ARM100).
+>
+> 
 
 ## Table of Contents
 
@@ -26,7 +28,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 
 ## Features
 
-- **Protocol Support**: SMS/STS, SCSCL, HLSCL series
+- **Protocol Support**: SMS/STS, SCSCL, HLSCL and SCS0009 series
 - **Control Modes**: Position (servo with velocity/acceleration), Velocity (closed-loop wheel), PWM (open-loop wheel), Force/Torque (constant force output - HLSCL only)
 - **Multi-Servo Operations**: Synchronized Write / Broadcast commands
 - **Comprehensive Feedback**: Position, speed, load, voltage, temperature, current readings
@@ -44,8 +46,9 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 | SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (STS), 115200 (SMS) | 12-bit (0-4095) | Standard modes |
 | SCSCL    | SC09, SC15 | 115200, 1000000 | 10-bit (0-1023) | Position + PWM |
 | HLSCL    | HLS series | 115200, 1000000 | 12-bit (0-4095) | **Includes force/torque mode** |
+| SCS0009 | SCS000 series | 115200,1000000 | 10-bit (0-1023) | Standard Modes, Response Timing, Status Messages |
 
-\* Factory default is typically 1000000 (1M) for most models, but can be reconfigured. Check your specific servo's current setting.
+* Factory default is typically 1000000 (1M) for most models, but can be reconfigured. Check your specific servo's current setting.
 
 ### Connection Requirements
 
@@ -61,7 +64,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - Ubuntu 20.04/22.04 (x86_64, ARM64)
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 
-> **⚠️ Important:** This SDK has only been tested with **STS3215** servo motors. While it should work with other SMS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
+> **⚠️ Important:** This SDK has only been tested with **STS3215** and **SCS0009** servo motors. While it should work with other SMS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
 
 ## Installation
 

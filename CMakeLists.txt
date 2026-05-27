@@ -38,7 +38,7 @@ target_include_directories(SCServo PUBLIC
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/scservo>
 )
 
-target_compile_features(SCServo PUBLIC cxx_std_17)
+target_compile_features(SCServo PRIVATE cxx_std_17)
 
 set_target_properties(SCServo PROPERTIES
   POSITION_INDEPENDENT_CODE ON

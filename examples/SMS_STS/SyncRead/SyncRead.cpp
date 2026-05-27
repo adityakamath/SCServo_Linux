@@ -71,7 +71,7 @@ Synchronous read command, reads back position and speed information of two servo
 
 #include <iostream>
 #include <cstdint>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 uint8_t ID[] = {1, 2};

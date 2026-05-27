@@ -98,7 +98,7 @@
 #include <cmath>
 #include <unistd.h>
 #include <vector>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 #include "INST.h"
 
 SMS_STS sm_st;

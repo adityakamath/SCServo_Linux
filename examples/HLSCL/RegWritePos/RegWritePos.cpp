@@ -61,7 +61,7 @@
 
 #include <iostream>
 #include <csignal>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 HLSCL hlscl;
 volatile bool running = true;

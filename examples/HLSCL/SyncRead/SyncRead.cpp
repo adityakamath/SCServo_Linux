@@ -69,7 +69,7 @@
 #include <iostream>
 #include <cstdint>
 #include <csignal>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sms_sts;
 uint8_t ID[] = {1, 2};

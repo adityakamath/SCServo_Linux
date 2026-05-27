@@ -33,7 +33,7 @@
  */
 
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 #include "SCS0009.h"
 
 SCS0009 s9;  /// servo controller instance

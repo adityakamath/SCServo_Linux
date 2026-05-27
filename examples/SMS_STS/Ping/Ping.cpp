@@ -67,7 +67,7 @@ Ping command test, tests whether the servo with the corresponding ID on the bus 
 */
 
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

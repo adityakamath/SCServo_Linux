@@ -73,7 +73,7 @@ Factory speed unit of servo is 0.0146rpm, speed changed to V=2400
 */
 
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

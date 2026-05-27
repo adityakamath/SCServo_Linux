@@ -62,7 +62,7 @@ Factory servo speed unit is 0.0146rpm, speed is V=1500
 */
 
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SCSCL sc;
 

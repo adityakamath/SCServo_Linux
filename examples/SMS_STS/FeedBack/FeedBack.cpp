@@ -72,7 +72,7 @@
  * @see SMS_STS::ReadCurrent()
  */
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

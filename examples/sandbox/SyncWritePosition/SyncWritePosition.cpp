@@ -90,7 +90,7 @@ The factory speed of the servo motor is 0.0146rpm, and the speed is changed to V
 
 #include <iostream>
 #include <csignal>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

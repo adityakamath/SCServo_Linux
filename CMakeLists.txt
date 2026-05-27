@@ -35,7 +35,7 @@ add_library(SCServo STATIC ${SCSERVO_SOURCES} ${SCSERVO_HEADERS})
 
 target_include_directories(SCServo PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/scservo>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 target_compile_features(SCServo PUBLIC cxx_std_17)

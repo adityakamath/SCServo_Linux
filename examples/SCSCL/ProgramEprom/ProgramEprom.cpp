@@ -78,7 +78,7 @@
  * @see SCSCL::writeWord()
  */
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SCSCL sc;
 

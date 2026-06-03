@@ -202,7 +202,7 @@ The SDK includes nearly 40 comprehensive examples demonstrating all servo contro
 ### Quick Example - Basic Position Control
 
 ```cpp
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 int main() {
     SMS_STS servo;
@@ -251,6 +251,17 @@ This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gite
 ---
 
 ## Releases
+
+### v1.0 — Namespaced headers *(current)*
+
+Headers moved to `include/scservo/` to prevent include-path collisions. Build-tree and install-tree include contracts are now identical. **Breaking change** — see [Migration Guide](#migration-guide).
+
+```cpp
+#include <scservo/SCServo.h>
+#include <scservo/SMS_STS.h>
+```
+
+---
 
 ### v0.1 — Initial release
 

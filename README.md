@@ -297,4 +297,4 @@ v1.0 moves all public headers into an `include/scservo/` subdirectory to prevent
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
-Original SDK copyright © 2024 FTServo / Feetech. Modifications and enhancements copyright © Aditya Kamath.
+Original SDK copyright © 2024 FTServo / Feetech. Modifications and enhancements copyright © Aditya Kamath (Kamath Robotics).

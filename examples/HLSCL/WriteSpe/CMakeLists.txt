@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 include_directories(../../../include)
-link_directories(../../..)
+link_directories(../../../build)
 link_libraries(libSCServo.a)
 
 file(GLOB hdrs *h)

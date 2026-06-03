@@ -61,10 +61,31 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 
 ### Tested Platforms
 
-- Ubuntu 20.04/22.04 (x86_64, ARM64)
+- Ubuntu 20.04/22.04/24.04 (x86_64, ARM64)
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 
 > **⚠️ Important:** This SDK has only been tested with **STS3215** and **SCS0009** servo motors. While it should work with other SMS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
+
+## Migration Guide
+
+### v0.x → v1.0 (namespaced headers)
+
+v1.0 moves all public headers into an `include/scservo/` subdirectory to prevent include-path collisions. This is a **breaking change** for any code that includes SDK headers directly.
+
+**Update all include directives:**
+```cpp
+// Before (v0.x):
+#include "SMS_STS.h"
+#include "SCServo.h"
+
+// After (v1.0):
+#include <scservo/SMS_STS.h>
+#include <scservo/SCServo.h>
+```
+
+**CMake consumers** using `add_subdirectory` or `find_package` and linking against the `SCServo` target only need to update their `#include` directives — no CMakeLists.txt changes are needed on the consumer side.
+
+---
 
 ## Installation
 

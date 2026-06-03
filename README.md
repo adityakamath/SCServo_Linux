@@ -24,6 +24,9 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
+- [References & Acknowledgments](#references--acknowledgments)
+- [Releases](#releases)
+- [Migration Guide](#migration-guide)
 - [License](#license)
 
 ## Features
@@ -35,7 +38,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - **Configuration Tools**: EEPROM programming, midpoint calibration, ID management
 - **Platform Optimized**: Linux (x86_64, ARM64), Raspberry Pi tested
 - **Language**: Native C++ (C++17)
-- **Rich Examples**: 25+ comprehensive examples with full documentation
+- **Rich Examples**: ~40 comprehensive examples with full documentation
 
 ## Hardware Support
 
@@ -46,7 +49,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 | SMS/STS  | STS3215, STS3032, STS3250, SMS40 | 1000000 (STS), 115200 (SMS) | 12-bit (0-4095) | Standard modes |
 | SCSCL    | SC09, SC15 | 115200, 1000000 | 10-bit (0-1023) | Position + PWM |
 | HLSCL    | HLS series | 115200, 1000000 | 12-bit (0-4095) | **Includes force/torque mode** |
-| SCS0009 | SCS000 series | 115200,1000000 | 10-bit (0-1023) | Standard Modes, Response Timing, Status Messages |
+| SCS0009 | SCS0009 series | 115200, 1000000 | 10-bit (0-1023) | Position + PWM, Response Timing, Status Level config |
 
 * Factory default is typically 1000000 (1M) for most models, but can be reconfigured. Check your specific servo's current setting.
 
@@ -65,27 +68,6 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - Raspberry Pi OS (Pi 3/4/5, Zero 2)
 
 > **⚠️ Important:** This SDK has only been tested with **STS3215** and **SCS0009** servo motors. While it should work with other SMS/SCSCL/HLSCL series motors according to protocol specifications, exercise caution and thoroughly test functionality before deploying with other motor models.
-
-## Migration Guide
-
-### v0.x → v1.0 (namespaced headers)
-
-v1.0 moves all public headers into an `include/scservo/` subdirectory to prevent include-path collisions. This is a **breaking change** for any code that includes SDK headers directly.
-
-**Update all include directives:**
-```cpp
-// Before (v0.x):
-#include "SMS_STS.h"
-#include "SCServo.h"
-
-// After (v1.0):
-#include <scservo/SMS_STS.h>
-#include <scservo/SCServo.h>
-```
-
-**CMake consumers** using `add_subdirectory` or `find_package` and linking against the `SCServo` target only need to update their `#include` directives — no CMakeLists.txt changes are needed on the consumer side.
-
----
 
 ## Installation
 
@@ -178,10 +160,10 @@ cmake . && make
 
 - **Use case**: Continuous rotation with speed feedback (wheeled mobile robots)
 - **Control parameters**: Speed (±3400 steps/s), Acceleration
-- **Functions**: `WriteSpe()`, `RegWriteSpe()` (SMS/STS only), `SyncWriteSpe()` (SMS/STS, HLSCL)
+- **Functions**: `WriteSpe()` (SMS/STS, HLSCL), `RegWriteSpe()` (SMS/STS only), `SyncWriteSpe()` (SMS/STS, HLSCL)
 - **Behavior**: Motor maintains target speed using encoder feedback
 - **Protocols**: SMS/STS, HLSCL
-- **Note**: SCSCL does not support velocity control mode
+- **Note**: SCSCL and SCS0009 do not support velocity control mode
 
 ### Mode 2: Protocol-Specific Modes
 
@@ -267,3 +249,52 @@ This repository is a fork of Feetech's official [FTServo_Linux SDK](https://gite
 - Code quality improvements (includes, error handling, consistency)
 
 ---
+
+## Releases
+
+### v0.1 — Initial release
+
+The first release of SCServo_Linux. Includes full support for SMS/STS, SCSCL, HLSCL, and SCS0009 servo protocols with position, velocity, PWM, and force control modes. Public headers are located flat in `include/`:
+
+```
+include/
+  SMS_STS.h      SCS.h       SCS0009.h
+  SCSCL.h        HLSCL.h     SCServo.h
+  SCSerial.h     INST.h      ServoErrors.h
+  ServoUtils.h   SyncWriteBuffer.h
+```
+
+Include using quoted paths:
+```cpp
+#include "SMS_STS.h"
+#include "SCServo.h"
+```
+
+---
+
+## Migration Guide
+
+### v0.x → v1.0 (namespaced headers)
+
+v1.0 moves all public headers into an `include/scservo/` subdirectory to prevent include-path collisions. This is a **breaking change** for any code that includes SDK headers directly.
+
+**Update all include directives:**
+```cpp
+// Before (v0.x):
+#include "SMS_STS.h"
+#include "SCServo.h"
+
+// After (v1.0):
+#include <scservo/SMS_STS.h>
+#include <scservo/SCServo.h>
+```
+
+**CMake consumers** using `add_subdirectory` or `find_package` and linking against the `SCServo` target only need to update their `#include` directives — no CMakeLists.txt changes are needed on the consumer side.
+
+---
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+Original SDK copyright © 2024 FTServo / Feetech. Modifications and enhancements copyright © Aditya Kamath.

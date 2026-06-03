@@ -9,17 +9,17 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 set(SCSERVO_HEADERS
-  include/INST.h
-  include/SCS.h
-  include/SCS0009.h
-  include/SCSCL.h
-  include/SCSerial.h
-  include/SCServo.h
-  include/SMS_STS.h
-  include/HLSCL.h
-  include/ServoErrors.h
-  include/ServoUtils.h
-  include/SyncWriteBuffer.h
+  include/scservo/INST.h
+  include/scservo/SCS.h
+  include/scservo/SCS0009.h
+  include/scservo/SCSCL.h
+  include/scservo/SCSerial.h
+  include/scservo/SCServo.h
+  include/scservo/SMS_STS.h
+  include/scservo/HLSCL.h
+  include/scservo/ServoErrors.h
+  include/scservo/ServoUtils.h
+  include/scservo/SyncWriteBuffer.h
 )
 
 set(SCSERVO_SOURCES
@@ -37,6 +37,9 @@ target_include_directories(SCServo PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
+target_include_directories(SCServo PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/scservo>
+)
 
 target_compile_features(SCServo PUBLIC cxx_std_17)
 
@@ -51,8 +54,8 @@ install(TARGETS SCServo
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-install(DIRECTORY include/
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/scservo
+install(DIRECTORY include/scservo
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
   FILES_MATCHING PATTERN "*.h"
 )
 

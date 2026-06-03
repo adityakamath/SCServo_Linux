@@ -99,7 +99,7 @@
 #include <unistd.h>
 #include <vector>
 #include <scservo/SCServo.h>
-#include "INST.h"
+#include <scservo/INST.h>
 
 SMS_STS sm_st;
 

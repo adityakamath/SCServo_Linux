@@ -75,7 +75,7 @@
  * @see CalibrationOfs.cpp for single-servo calibration example
  */
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

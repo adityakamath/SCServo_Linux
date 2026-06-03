@@ -98,8 +98,8 @@
 #include <cmath>
 #include <unistd.h>
 #include <vector>
-#include "SCServo.h"
-#include "INST.h"
+#include <scservo/SCServo.h>
+#include <scservo/INST.h>
 
 SMS_STS sm_st;
 

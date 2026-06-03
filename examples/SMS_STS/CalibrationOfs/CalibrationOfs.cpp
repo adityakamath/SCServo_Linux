@@ -59,7 +59,7 @@
  * @see SMS_STS::writeByte() for manual offset adjustment
  */
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SMS_STS sm_st;
 

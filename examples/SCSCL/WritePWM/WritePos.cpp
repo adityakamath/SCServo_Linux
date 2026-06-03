@@ -5,7 +5,7 @@
  * Demonstrates usage of SCServo SDK functions for Feetech serial servos.
  */
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SCSCL sc;
 

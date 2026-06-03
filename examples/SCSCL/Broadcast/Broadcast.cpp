@@ -34,7 +34,7 @@
  */
 
 #include <iostream>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 SCSCL sc;  ///< SCSCL servo controller instance
 

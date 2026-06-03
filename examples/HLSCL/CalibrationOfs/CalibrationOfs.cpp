@@ -56,7 +56,7 @@
 
 #include <iostream>
 #include <csignal>
-#include "SCServo.h"
+#include <scservo/SCServo.h>
 
 HLSCL hlscl;
 volatile sig_atomic_t running = 1;

@@ -9,7 +9,7 @@
  * - SMS_STS: SMS and STS series (3 operating modes: servo, wheel closed-loop, wheel open-loop)
  * - SCSCL: SCSCL series (position control and PWM mode)
  * - HLSCL: HLS series (servo, wheel, and force control modes)
- * - SCS0009: Servos used by the AmazingHand v1 servos 
+ * - SCS0009: Servos used by the AmazingHand v1 servos
  *
  * **Usage:**
  * @code
@@ -28,9 +28,9 @@
 #ifndef _SCSERVO_H
 #define _SCSERVO_H
 
-#include "SCSCL.h"
-#include "SMS_STS.h"
 #include "HLSCL.h"
 #include "SCS0009.h"
+#include "SCSCL.h"
+#include "SMS_STS.h"
 /* additional support for SCS0009 from Amazing Hand */
 #endif

@@ -13,7 +13,7 @@
 #ifndef _HLSCL_H
 #define _HLSCL_H
 
-//Memory table definition
+// Memory table definition
 //-------EPROM (Read only)--------
 #define HLSCL_MODEL_L 3
 #define HLSCL_MODEL_H 4
@@ -59,20 +59,20 @@
 #define HLSCL_PRESENT_CURRENT_H 70
 
 // Operating mode values
-#define HLSCL_MODE_SERVO 0        // Servo mode (position control)
-#define HLSCL_MODE_WHEEL 1        // Wheel mode (constant velocity control)
-#define HLSCL_MODE_ELECTRIC 2     // Electric/Force mode (constant torque output)
+#define HLSCL_MODE_SERVO 0    // Servo mode (position control)
+#define HLSCL_MODE_WHEEL 1    // Wheel mode (constant velocity control)
+#define HLSCL_MODE_ELECTRIC 2 // Electric/Force mode (constant torque output)
 
 // Direction bit positions (for encoding signed values)
-#define HLSCL_DIRECTION_BIT_POS 15    // Position direction bit (bit 15)
-#define HLSCL_DIRECTION_BIT_SPEED 15  // Speed direction bit (bit 15)
-#define HLSCL_DIRECTION_BIT_TORQUE 15 // Torque direction bit (bit 15)
-#define HLSCL_DIRECTION_BIT_LOAD 10   // Load direction bit (bit 10)
+#define HLSCL_DIRECTION_BIT_POS 15     // Position direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_SPEED 15   // Speed direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_TORQUE 15  // Torque direction bit (bit 15)
+#define HLSCL_DIRECTION_BIT_LOAD 10    // Load direction bit (bit 10)
 #define HLSCL_DIRECTION_BIT_CURRENT 15 // Current direction bit (bit 15)
 
 #include "SCSerial.h"
-#include "ServoUtils.h"
 #include "ServoErrors.h"
+#include "ServoUtils.h"
 
 /**
  * @class HLSCL
@@ -98,7 +98,7 @@
  */
 class HLSCL : public SCSerial
 {
-public:
+  public:
 	HLSCL();
 	HLSCL(u8 End);
 	HLSCL(u8 End, u8 Level);
@@ -270,8 +270,8 @@ public:
 	 */
 	int ReadCurrent(int ID);
 
-private:
-	u8 Mem[HLSCL_PRESENT_CURRENT_H-HLSCL_PRESENT_POSITION_L+1];
+  private:
+	u8 Mem[HLSCL_PRESENT_CURRENT_H - HLSCL_PRESENT_POSITION_L + 1];
 };
 
 #endif

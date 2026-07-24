@@ -32,7 +32,8 @@
 #include "SCServo.h"
 #include "ServoErrors.h"
 
-namespace ServoUtils {
+namespace ServoUtils
+{
 
 /**
  * @brief Encode a signed value with direction bit
@@ -43,12 +44,13 @@ namespace ServoUtils {
  * This eliminates 13+ instances of duplicate direction encoding logic across:
  * SMS_STS.cpp, SCSCL.cpp, HLSCL.cpp
  */
-inline u16 encodeSignedValue(s16 value, u8 directionBit = 15) {
-    if (value < 0) {
-        u16 absValue = static_cast<u16>(-value);
-        return absValue | (1 << directionBit);
-    }
-    return static_cast<u16>(value);
+inline u16 encodeSignedValue(s16 value, u8 directionBit = 15)
+{
+	if (value < 0) {
+		u16 absValue = static_cast<u16>(-value);
+		return absValue | (1 << directionBit);
+	}
+	return static_cast<u16>(value);
 }
 
 /**
@@ -59,11 +61,12 @@ inline u16 encodeSignedValue(s16 value, u8 directionBit = 15) {
  *
  * This eliminates 16+ instances of duplicate direction decoding logic
  */
-inline s16 decodeSignedValue(u16 encodedValue, u8 directionBit = 15) {
-    if (encodedValue & (1 << directionBit)) {
-        return -static_cast<s16>(encodedValue & ~(1 << directionBit));
-    }
-    return static_cast<s16>(encodedValue);
+inline s16 decodeSignedValue(u16 encodedValue, u8 directionBit = 15)
+{
+	if (encodedValue & (1 << directionBit)) {
+		return -static_cast<s16>(encodedValue & ~(1 << directionBit));
+	}
+	return static_cast<s16>(encodedValue);
 }
 
 /**
@@ -73,11 +76,12 @@ inline s16 decodeSignedValue(u16 encodedValue, u8 directionBit = 15) {
  * @param offsetHigh Offset for high byte (relative to buffer start)
  * @return Combined 16-bit value (high byte << 8 | low byte)
  */
-inline u16 readWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHigh) {
-    u16 value = buffer[offsetHigh];
-    value <<= 8;
-    value |= buffer[offsetLow];
-    return value;
+inline u16 readWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHigh)
+{
+	u16 value = buffer[offsetHigh];
+	value <<= 8;
+	value |= buffer[offsetLow];
+	return value;
 }
 
 /**
@@ -91,9 +95,10 @@ inline u16 readWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHigh) {
  * This eliminates the repeated pattern of reading two bytes, combining them,
  * and extracting the direction bit found in 16+ locations
  */
-inline s16 readSignedWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHigh, u8 directionBit) {
-    u16 value = readWordFromBuffer(buffer, offsetLow, offsetHigh);
-    return decodeSignedValue(value, directionBit);
+inline s16 readSignedWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHigh, u8 directionBit)
+{
+	u16 value = readWordFromBuffer(buffer, offsetLow, offsetHigh);
+	return decodeSignedValue(value, directionBit);
 }
 
 /**
@@ -110,25 +115,20 @@ inline s16 readSignedWordFromBuffer(const u8* buffer, u8 offsetLow, u8 offsetHig
  * - If ID == -1: read from cache
  * - Otherwise: read from servo and update error flag
  */
-template<typename ServoType>
-inline int readByteFromCacheOrServo(
-    ServoType& servoInstance,
-    int ID,
-    u8 registerAddr,
-    const u8* cachedBuffer,
-    u8 cacheOffset,
-    int& err
-) {
-    if (ID == -1) {
-        return cachedBuffer[cacheOffset];
-    } else {
-        err = 0;
-        int value = servoInstance.readByte(ID, registerAddr);
-        if (value == -1) {
-            err = 1;
-        }
-        return value;
-    }
+template <typename ServoType>
+inline int readByteFromCacheOrServo(ServoType& servoInstance, int ID, u8 registerAddr, const u8* cachedBuffer,
+                                    u8 cacheOffset, int& err)
+{
+	if (ID == -1) {
+		return cachedBuffer[cacheOffset];
+	} else {
+		err = 0;
+		int value = servoInstance.readByte(ID, registerAddr);
+		if (value == -1) {
+			err = 1;
+		}
+		return value;
+	}
 }
 
 /**
@@ -145,27 +145,20 @@ inline int readByteFromCacheOrServo(
  *
  * Combines the common pattern of reading signed words with direction bits
  */
-template<typename ServoType>
-inline s16 readSignedWordFromCacheOrServo(
-    ServoType& servoInstance,
-    int ID,
-    u8 registerAddrLow,
-    const u8* cachedBuffer,
-    u8 offsetLow,
-    u8 offsetHigh,
-    u8 directionBit,
-    int& err
-) {
-    if (ID == -1) {
-        return readSignedWordFromBuffer(cachedBuffer, offsetLow, offsetHigh, directionBit);
-    } else {
-        err = 0;
-        s16 value = servoInstance.readSignedWord(ID, registerAddrLow, directionBit);
-        if (value == -1) {
-            err = 1;
-        }
-        return value;
-    }
+template <typename ServoType>
+inline s16 readSignedWordFromCacheOrServo(ServoType& servoInstance, int ID, u8 registerAddrLow, const u8* cachedBuffer,
+                                          u8 offsetLow, u8 offsetHigh, u8 directionBit, int& err)
+{
+	if (ID == -1) {
+		return readSignedWordFromBuffer(cachedBuffer, offsetLow, offsetHigh, directionBit);
+	} else {
+		err = 0;
+		s16 value = servoInstance.readSignedWord(ID, registerAddrLow, directionBit);
+		if (value == -1) {
+			err = 1;
+		}
+		return value;
+	}
 }
 
 /**
@@ -176,8 +169,9 @@ inline s16 readSignedWordFromCacheOrServo(
  * This provides a semantic wrapper around the -1 comparison pattern
  * found throughout the codebase, improving readability
  */
-inline bool isCachedRead(int ID) {
-    return ID == -1;
+inline bool isCachedRead(int ID)
+{
+	return ID == -1;
 }
 
 /**
@@ -185,8 +179,9 @@ inline bool isCachedRead(int ID) {
  * @param ID Motor ID to validate
  * @return true if ID is valid (0-253 or -1 for cached), false otherwise
  */
-inline bool isValidMotorID(int ID) {
-    return (ID >= 0 && ID <= 253) || ID == -1;
+inline bool isValidMotorID(int ID)
+{
+	return (ID >= 0 && ID <= 253) || ID == -1;
 }
 
 } // namespace ServoUtils

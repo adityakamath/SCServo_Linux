@@ -33,14 +33,14 @@
 #include "ServoUtils.h"
 
 // Baud rate definitions
-#define	SCSCL_1M 0
-#define	SCSCL_0_5M 1
-#define	SCSCL_250K 2
-#define	SCSCL_128K 3
-#define	SCSCL_115200 4
-#define	SCSCL_76800	5
-#define	SCSCL_57600	6
-#define	SCSCL_38400	7
+#define SCSCL_1M 0
+#define SCSCL_0_5M 1
+#define SCSCL_250K 2
+#define SCSCL_128K 3
+#define SCSCL_115200 4
+#define SCSCL_76800 5
+#define SCSCL_57600 6
+#define SCSCL_38400 7
 
 // Memory table definitions
 //-------EEPROM (Read-only)--------
@@ -116,17 +116,18 @@
  */
 class SCSCL : public SCSerial
 {
-public:
+  public:
 	SCSCL();
 	SCSCL(u8 End);
 	SCSCL(u8 End, u8 Level);
-
 
 	virtual int WritePos(u8 ID, u16 Position, u16 Time, u16 Speed = 0);
 	virtual int RegWritePos(u8 ID, u16 Position, u16 Time, u16 Speed = 0);
 	virtual void SyncWritePos(u8 ID[], u8 IDN, u16 Position[], u16 Time[], u16 Speed[]);
 	virtual int Mode(u8 ID, u8 mode); // Set operating mode (implementation via angle limits for SCSCL)
-	virtual int InitMotor(u8 ID, u8 mode, u8 enableTorque = 1); // Initialize motor with mode and torque (unlocks EEPROM, sets mode, locks EEPROM, enables/disables torque)
+	virtual int InitMotor(u8 ID, u8 mode,
+	                      u8 enableTorque = 1); // Initialize motor with mode and torque (unlocks EEPROM, sets mode,
+	                                            // locks EEPROM, enables/disables torque)
 	virtual int PWMMode(u8 ID);
 	virtual int WritePWM(u8 ID, s16 pwmOut);
 	virtual int EnableTorque(u8 ID, u8 Enable);
@@ -140,8 +141,9 @@ public:
 	virtual int ReadTemper(u8 ID);
 	virtual int ReadMove(u8 ID);
 	virtual int ReadCurrent(u8 ID);
-private:
-	u8 Mem[SCSCL_PRESENT_CURRENT_H-SCSCL_PRESENT_POSITION_L+1];
+
+  private:
+	u8 Mem[SCSCL_PRESENT_CURRENT_H - SCSCL_PRESENT_POSITION_L + 1];
 };
 
 #endif

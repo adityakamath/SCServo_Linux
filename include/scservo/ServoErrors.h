@@ -42,15 +42,15 @@
  * named error codes for better debugging and error handling.
  */
 enum class ServoError {
-    SUCCESS = 0,              // Operation completed successfully
-    COMM_TIMEOUT = -1,        // Communication timeout
-    COMM_RX_FAIL = -2,        // Receive failure
-    COMM_TX_FAIL = -3,        // Transmit failure
-    INVALID_PARAMETER = -4,   // Invalid parameter passed
-    ALLOCATION_FAILED = -5,   // Memory allocation failed
-    REGISTER_WRITE_FAILED = -6, // Register write operation failed
-    CHECKSUM_ERROR = -7,      // Checksum validation failed
-    UNKNOWN_ERROR = -99       // Unknown error occurred
+	SUCCESS = 0,                // Operation completed successfully
+	COMM_TIMEOUT = -1,          // Communication timeout
+	COMM_RX_FAIL = -2,          // Receive failure
+	COMM_TX_FAIL = -3,          // Transmit failure
+	INVALID_PARAMETER = -4,     // Invalid parameter passed
+	ALLOCATION_FAILED = -5,     // Memory allocation failed
+	REGISTER_WRITE_FAILED = -6, // Register write operation failed
+	CHECKSUM_ERROR = -7,        // Checksum validation failed
+	UNKNOWN_ERROR = -99         // Unknown error occurred
 };
 
 /**
@@ -72,58 +72,49 @@ enum class ServoError {
  *   int value = someServoOperation(); // Implicit conversion
  *   if (value == -1) { ... }
  */
-class ServoResult {
-private:
-    ServoError errorCode;
-    int value;
+class ServoResult
+{
+  private:
+	ServoError errorCode;
+	int value;
 
-public:
-    /**
-     * @brief Construct a result with error code and value
-     * @param err Error code
-     * @param val Associated value (default 0)
-     */
-    ServoResult(ServoError err, int val = 0)
-        : errorCode(err), value(val) {}
+  public:
+	/**
+	 * @brief Construct a result with error code and value
+	 * @param err Error code
+	 * @param val Associated value (default 0)
+	 */
+	ServoResult(ServoError err, int val = 0) : errorCode(err), value(val) {}
 
-    /**
-     * @brief Construct a successful result with value
-     * @param val Value to return
-     */
-    ServoResult(int val)
-        : errorCode(ServoError::SUCCESS), value(val) {}
+	/**
+	 * @brief Construct a successful result with value
+	 * @param val Value to return
+	 */
+	ServoResult(int val) : errorCode(ServoError::SUCCESS), value(val) {}
 
-    /**
-     * @brief Check if operation was successful
-     * @return true if no error occurred
-     */
-    bool isSuccess() const {
-        return errorCode == ServoError::SUCCESS;
-    }
+	/**
+	 * @brief Check if operation was successful
+	 * @return true if no error occurred
+	 */
+	bool isSuccess() const { return errorCode == ServoError::SUCCESS; }
 
-    /**
-     * @brief Get the error code
-     * @return ServoError enum value
-     */
-    ServoError getError() const {
-        return errorCode;
-    }
+	/**
+	 * @brief Get the error code
+	 * @return ServoError enum value
+	 */
+	ServoError getError() const { return errorCode; }
 
-    /**
-     * @brief Get the associated value
-     * @return Integer value
-     */
-    int getValue() const {
-        return value;
-    }
+	/**
+	 * @brief Get the associated value
+	 * @return Integer value
+	 */
+	int getValue() const { return value; }
 
-    /**
-     * @brief Implicit conversion to int for backward compatibility
-     * @return Value on success, error code on failure
-     */
-    operator int() const {
-        return isSuccess() ? value : static_cast<int>(errorCode);
-    }
+	/**
+	 * @brief Implicit conversion to int for backward compatibility
+	 * @return Value on success, error code on failure
+	 */
+	operator int() const { return isSuccess() ? value : static_cast<int>(errorCode); }
 };
 
 /**
@@ -135,8 +126,9 @@ public:
  * @param ID Motor ID to check
  * @return true if ID == -1 (refers to cached data)
  */
-inline bool isInvalidID(int ID) {
-    return ID == -1;
+inline bool isInvalidID(int ID)
+{
+	return ID == -1;
 }
 
 /**
@@ -148,8 +140,9 @@ inline bool isInvalidID(int ID) {
  * @param ID Motor ID to check
  * @return true if ID == -1 (use cached data)
  */
-inline bool isCachedRequest(int ID) {
-    return ID == -1;
+inline bool isCachedRequest(int ID)
+{
+	return ID == -1;
 }
 
 /**
@@ -160,8 +153,9 @@ inline bool isCachedRequest(int ID) {
  * @param returnValue Value to check
  * @return true if value indicates error (< 0)
  */
-inline bool isError(int returnValue) {
-    return returnValue < 0;
+inline bool isError(int returnValue)
+{
+	return returnValue < 0;
 }
 
 /**
@@ -172,9 +166,9 @@ inline bool isError(int returnValue) {
  * @param returnValue Value to check
  * @return true if value indicates success (>= 0)
  */
-inline bool isSuccess(int returnValue) {
-    return returnValue >= 0;
+inline bool isSuccess(int returnValue)
+{
+	return returnValue >= 0;
 }
 
 #endif // _SERVOERRORS_H
-

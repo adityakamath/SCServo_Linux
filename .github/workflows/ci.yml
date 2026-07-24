@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: clang-format
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format-18
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-18 100
+
+      - name: Check formatting
+        run: |
+          EXIT_CODE=0
+          for file in $(find src include -name "*.cpp" -o -name "*.h"); do
+            if ! clang-format --dry-run --Werror "$file"; then
+              echo "Not formatted: $file"
+              EXIT_CODE=1
+            fi
+          done
+          exit $EXIT_CODE
+
+  # This is a plain CMake library, not a ROS package - no ament, no rclpy, no ros:kilted
+  # container needed. The library itself has zero ROS dependencies (it's what
+  # sts_hardware_interface links against), so this just verifies it compiles cleanly with
+  # a plain C++17 toolchain, on whatever architecture the runner happens to be (x86_64
+  # here, vs. the arm64 the library is normally developed and used on).
+  build:
+    name: cmake build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel

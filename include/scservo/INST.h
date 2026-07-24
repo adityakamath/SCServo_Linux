@@ -22,12 +22,12 @@
 #ifndef _INST_H
 #define _INST_H
 
-typedef	char s8;
-typedef	unsigned char u8;	
-typedef	unsigned short u16;	
-typedef	short s16;
-typedef	unsigned long u32;	
-typedef	long s32;
+typedef char s8;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned long u32;
+typedef long s32;
 
 #define INST_PING 0x01
 #define INST_READ 0x02
@@ -40,6 +40,6 @@ typedef	long s32;
 // Buffer size constants
 #define SCSERVO_BUFFER_SIZE 255
 #define SCSERVO_HEADER_SIZE 6
-#define SCSERVO_MAX_DATA_SIZE (SCSERVO_BUFFER_SIZE - SCSERVO_HEADER_SIZE)  // 249 bytes
+#define SCSERVO_MAX_DATA_SIZE (SCSERVO_BUFFER_SIZE - SCSERVO_HEADER_SIZE) // 249 bytes
 
 #endif

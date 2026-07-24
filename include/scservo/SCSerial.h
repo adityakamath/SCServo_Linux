@@ -40,16 +40,16 @@
 #define _SCSERIAL_H
 
 #include "SCS.h"
-#include <stdio.h>
-#include <termios.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/select.h>
+#include <termios.h>
+#include <unistd.h>
 
 class SCSerial : public SCS
 {
-public:
+  public:
 	SCSerial();
 	SCSerial(u8 End);
 	SCSerial(u8 End, u8 Level);
@@ -58,24 +58,26 @@ public:
 	SCSerial(const SCSerial&) = delete;
 	SCSerial& operator=(const SCSerial&) = delete;
 
-protected:
-	int writeSCS(unsigned char *nDat, int nLen);// Output nLen bytes
-	int readSCS(unsigned char *nDat, int nLen);// Input nLen bytes
-	int writeSCS(unsigned char bDat);// Output 1 byte
-	void rFlushSCS();//
-	void wFlushSCS();//
-public:
-	unsigned long int IOTimeOut;// Input/output timeout
+  protected:
+	int writeSCS(unsigned char* nDat, int nLen); // Output nLen bytes
+	int readSCS(unsigned char* nDat, int nLen);  // Input nLen bytes
+	int writeSCS(unsigned char bDat);            // Output 1 byte
+	void rFlushSCS();                            //
+	void wFlushSCS();                            //
+  public:
+	unsigned long int IOTimeOut; // Input/output timeout
 	int Err;
-public:
-	virtual int getErr(){  return Err;  }
+
+  public:
+	virtual int getErr() { return Err; }
 	virtual int setBaudRate(int baudRate);
 	virtual bool begin(int baudRate, const char* serialPort);
 	virtual void end() noexcept;
-protected:
-    int fd;//serial port handle
-    struct termios orgopt;//fd ort opt
-	struct termios curopt;//fd cur opt
+
+  protected:
+	int fd;                // serial port handle
+	struct termios orgopt; // fd ort opt
+	struct termios curopt; // fd cur opt
 	unsigned char txBuf[SCSERVO_BUFFER_SIZE];
 	int txBufLen;
 };

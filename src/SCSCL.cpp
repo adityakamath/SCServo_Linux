@@ -44,37 +44,37 @@ SCSCL::SCSCL(u8 End, u8 Level) : SCSerial(End, Level) {}
 int SCSCL::WritePos(u8 ID, u16 Position, u16 Time, u16 Speed)
 {
 	u8 bBuf[6];
-	this->Host2SCS(bBuf+0, bBuf+1, Position);
-	this->Host2SCS(bBuf+2, bBuf+3, Time);
-	this->Host2SCS(bBuf+4, bBuf+5, Speed);
-    
+	this->Host2SCS(bBuf + 0, bBuf + 1, Position);
+	this->Host2SCS(bBuf + 2, bBuf + 3, Time);
+	this->Host2SCS(bBuf + 4, bBuf + 5, Speed);
+
 	return this->genWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
 int SCSCL::RegWritePos(u8 ID, u16 Position, u16 Time, u16 Speed)
 {
 	u8 bBuf[6];
-	this->Host2SCS(bBuf+0, bBuf+1, Position);
-	this->Host2SCS(bBuf+2, bBuf+3, Time);
-	this->Host2SCS(bBuf+4, bBuf+5, Speed);
-    
+	this->Host2SCS(bBuf + 0, bBuf + 1, Position);
+	this->Host2SCS(bBuf + 2, bBuf + 3, Time);
+	this->Host2SCS(bBuf + 4, bBuf + 5, Speed);
+
 	return this->regWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
 void SCSCL::SyncWritePos(u8 ID[], u8 IDN, u16 Position[], u16 Time[], u16 Speed[])
 {
 	SyncWriteBuffer buffer(IDN, 6);
-	if(!buffer.isValid()){
+	if (!buffer.isValid()) {
 		return;
 	}
-	for(u8 i = 0; i<IDN; i++){
+	for (u8 i = 0; i < IDN; i++) {
 		u8 bBuf[6];
 		u16 T, V;
 		T = Time ? Time[i] : 0;
 		V = Speed ? Speed[i] : 0;
-		this->Host2SCS(bBuf+0, bBuf+1, Position[i]);
-		this->Host2SCS(bBuf+2, bBuf+3, T);
-		this->Host2SCS(bBuf+4, bBuf+5, V);
+		this->Host2SCS(bBuf + 0, bBuf + 1, Position[i]);
+		this->Host2SCS(bBuf + 2, bBuf + 3, T);
+		this->Host2SCS(bBuf + 4, bBuf + 5, V);
 		buffer.writeMotorData(i, bBuf, 6);
 	}
 	this->syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, buffer.getBuffer(), 6);
@@ -146,7 +146,7 @@ int SCSCL::WritePWM(u8 ID, s16 pwmOut)
 	u16 encodedPwm = ServoUtils::encodeSignedValue(pwmOut, SCSCL_PWM_DIRECTION_BIT_POS);
 
 	u8 bBuf[2];
-	this->Host2SCS(bBuf+0, bBuf+1, encodedPwm);
+	this->Host2SCS(bBuf + 0, bBuf + 1, encodedPwm);
 	return this->genWrite(ID, SCSCL_GOAL_TIME_L, bBuf, 2);
 }
 
@@ -176,26 +176,26 @@ int SCSCL::LockEeprom(u8 ID)
 int SCSCL::FeedBack(u8 ID)
 {
 	int nLen = this->Read(ID, SCSCL_PRESENT_POSITION_L, Mem, sizeof(Mem));
-	if(nLen!=sizeof(Mem)){
+	if (nLen != sizeof(Mem)) {
 		this->Err = 1;
 		return 0;
 	}
 	this->Err = 0;
 	return 1;
 }
-	
+
 /** @brief Read current position */
 int SCSCL::ReadPos(u8 ID)
 {
 	int Pos = -1;
-	if(ID==(u8)-1){
-		Pos = Mem[SCSCL_PRESENT_POSITION_L-SCSCL_PRESENT_POSITION_L];
+	if (ID == (u8) -1) {
+		Pos = Mem[SCSCL_PRESENT_POSITION_L - SCSCL_PRESENT_POSITION_L];
 		Pos <<= 8;
-		Pos |= Mem[SCSCL_PRESENT_POSITION_H-SCSCL_PRESENT_POSITION_L];
-	}else{
+		Pos |= Mem[SCSCL_PRESENT_POSITION_H - SCSCL_PRESENT_POSITION_L];
+	} else {
 		this->Err = 0;
 		Pos = this->readWord(ID, SCSCL_PRESENT_POSITION_L);
-		if(Pos==-1){
+		if (Pos == -1) {
 			this->Err = 1;
 		}
 	}
@@ -205,13 +205,10 @@ int SCSCL::ReadPos(u8 ID)
 /** @brief Read current speed */
 int SCSCL::ReadSpeed(u8 ID)
 {
-	if(ID == (u8)-1) {
-		return ServoUtils::readSignedWordFromBuffer(
-			Mem,
-			SCSCL_PRESENT_SPEED_L - SCSCL_PRESENT_POSITION_L,
-			SCSCL_PRESENT_SPEED_H - SCSCL_PRESENT_POSITION_L,
-			SCSCL_DIRECTION_BIT_POS
-		);
+	if (ID == (u8) -1) {
+		return ServoUtils::readSignedWordFromBuffer(Mem, SCSCL_PRESENT_SPEED_L - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_PRESENT_SPEED_H - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_DIRECTION_BIT_POS);
 	}
 	this->Err = 0;
 	return this->readSignedWord(ID, SCSCL_PRESENT_SPEED_L, SCSCL_DIRECTION_BIT_POS);
@@ -220,13 +217,10 @@ int SCSCL::ReadSpeed(u8 ID)
 /** @brief Read current load */
 int SCSCL::ReadLoad(u8 ID)
 {
-	if(ID == (u8)-1) {
-		return ServoUtils::readSignedWordFromBuffer(
-			Mem,
-			SCSCL_PRESENT_LOAD_L - SCSCL_PRESENT_POSITION_L,
-			SCSCL_PRESENT_LOAD_H - SCSCL_PRESENT_POSITION_L,
-			SCSCL_LOAD_DIRECTION_BIT_POS
-		);
+	if (ID == (u8) -1) {
+		return ServoUtils::readSignedWordFromBuffer(Mem, SCSCL_PRESENT_LOAD_L - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_PRESENT_LOAD_H - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_LOAD_DIRECTION_BIT_POS);
 	}
 	this->Err = 0;
 	return this->readSignedWord(ID, SCSCL_PRESENT_LOAD_L, SCSCL_LOAD_DIRECTION_BIT_POS);
@@ -236,12 +230,12 @@ int SCSCL::ReadLoad(u8 ID)
 int SCSCL::ReadVoltage(u8 ID)
 {
 	int Voltage = -1;
-	if(ID==(u8)-1){
-		Voltage = Mem[SCSCL_PRESENT_VOLTAGE-SCSCL_PRESENT_POSITION_L];
-	}else{
+	if (ID == (u8) -1) {
+		Voltage = Mem[SCSCL_PRESENT_VOLTAGE - SCSCL_PRESENT_POSITION_L];
+	} else {
 		this->Err = 0;
 		Voltage = this->readByte(ID, SCSCL_PRESENT_VOLTAGE);
-		if(Voltage==-1){
+		if (Voltage == -1) {
 			this->Err = 1;
 		}
 	}
@@ -252,12 +246,12 @@ int SCSCL::ReadVoltage(u8 ID)
 int SCSCL::ReadTemper(u8 ID)
 {
 	int Temper = -1;
-	if(ID==(u8)-1){
-		Temper = Mem[SCSCL_PRESENT_TEMPERATURE-SCSCL_PRESENT_POSITION_L];
-	}else{
+	if (ID == (u8) -1) {
+		Temper = Mem[SCSCL_PRESENT_TEMPERATURE - SCSCL_PRESENT_POSITION_L];
+	} else {
 		this->Err = 0;
 		Temper = this->readByte(ID, SCSCL_PRESENT_TEMPERATURE);
-		if(Temper==-1){
+		if (Temper == -1) {
 			this->Err = 1;
 		}
 	}
@@ -268,12 +262,12 @@ int SCSCL::ReadTemper(u8 ID)
 int SCSCL::ReadMove(u8 ID)
 {
 	int Move = -1;
-	if(ID==(u8)-1){
-		Move = Mem[SCSCL_MOVING-SCSCL_PRESENT_POSITION_L];
-	}else{
+	if (ID == (u8) -1) {
+		Move = Mem[SCSCL_MOVING - SCSCL_PRESENT_POSITION_L];
+	} else {
 		this->Err = 0;
 		Move = this->readByte(ID, SCSCL_MOVING);
-		if(Move==-1){
+		if (Move == -1) {
 			this->Err = 1;
 		}
 	}
@@ -283,13 +277,10 @@ int SCSCL::ReadMove(u8 ID)
 /** @brief Read motor current */
 int SCSCL::ReadCurrent(u8 ID)
 {
-	if(ID == (u8)-1) {
-		return ServoUtils::readSignedWordFromBuffer(
-			Mem,
-			SCSCL_PRESENT_CURRENT_L - SCSCL_PRESENT_POSITION_L,
-			SCSCL_PRESENT_CURRENT_H - SCSCL_PRESENT_POSITION_L,
-			SCSCL_DIRECTION_BIT_POS
-		);
+	if (ID == (u8) -1) {
+		return ServoUtils::readSignedWordFromBuffer(Mem, SCSCL_PRESENT_CURRENT_L - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_PRESENT_CURRENT_H - SCSCL_PRESENT_POSITION_L,
+		                                            SCSCL_DIRECTION_BIT_POS);
 	}
 	this->Err = 0;
 	return this->readSignedWord(ID, SCSCL_PRESENT_CURRENT_L, SCSCL_DIRECTION_BIT_POS);

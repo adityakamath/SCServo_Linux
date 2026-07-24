@@ -14,16 +14,16 @@
 #define _SMS_STS_H
 
 // Baud rate definition
-#define	SMS_STS_1M 0
-#define	SMS_STS_0_5M 1
-#define	SMS_STS_250K 2
-#define	SMS_STS_128K 3
-#define	SMS_STS_115200 4
-#define	SMS_STS_76800 5
-#define	SMS_STS_57600 6
-#define	SMS_STS_38400 7
+#define SMS_STS_1M 0
+#define SMS_STS_0_5M 1
+#define SMS_STS_250K 2
+#define SMS_STS_128K 3
+#define SMS_STS_115200 4
+#define SMS_STS_76800 5
+#define SMS_STS_57600 6
+#define SMS_STS_38400 7
 
-//Memory table definition
+// Memory table definition
 //-------EEPROM (Read only)--------
 #define SMS_STS_FIRMWARE_VER_L 0
 #define SMS_STS_FIRMWARE_VER_H 1
@@ -94,8 +94,8 @@
 #define SMS_STS_PRESENT_CURRENT_H 70
 
 // Bit position constants for data encoding
-#define SMS_STS_DIRECTION_BIT_POS 15    // Bit position for direction flag in position/speed
-#define SMS_STS_LOAD_DIRECTION_BIT_POS 10  // Bit position for direction flag in load/PWM
+#define SMS_STS_DIRECTION_BIT_POS 15      // Bit position for direction flag in position/speed
+#define SMS_STS_LOAD_DIRECTION_BIT_POS 10 // Bit position for direction flag in load/PWM
 
 // Operating mode values
 #define SMS_STS_MODE_SERVO 0        // Servo mode (position control)
@@ -104,13 +104,13 @@
 #define SMS_STS_MODE_STEPPER 3      // Stepper mode (not implemented in SDK)
 
 // Special servo IDs
-#define SMS_STS_BROADCAST_ID 0xFE   // Broadcast ID for all servos
+#define SMS_STS_BROADCAST_ID 0xFE // Broadcast ID for all servos
 
 // Calibration command
 #define SMS_STS_CALIBRATION_CMD 128 // Command value for midpoint calibration
 
-#include "SCSerial.h"
 #include "INST.h"
+#include "SCSerial.h"
 #include "ServoErrors.h"
 #include "ServoUtils.h"
 
@@ -145,7 +145,7 @@
  */
 class SMS_STS : public SCSerial
 {
-public:
+  public:
 	/** @brief Default constructor */
 	SMS_STS();
 	/** @brief Constructor with protocol end byte
@@ -201,7 +201,7 @@ public:
 	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);
 
 	/** @brief Async write speed */
-    virtual int RegWriteSpe(u8 ID, s16 Speed, u8 ACC = 0);
+	virtual int RegWriteSpe(u8 ID, s16 Speed, u8 ACC = 0);
 
 	/** @brief Sync write speed and acceleration to multiple servos (atomic)
 	 *
@@ -216,19 +216,19 @@ public:
 	 *  @param Speed Array of target speeds (steps/s; negative = reverse)
 	 *  @param ACC   Array of accelerations (0-254, units of 100 steps/s²),
 	 *               or NULL to use ACC=0 for all servos (max slew rate) */
-    virtual void SyncWriteSpe(u8 ID[], u8 IDN, s16 Speed[], u8 ACC[]);
+	virtual void SyncWriteSpe(u8 ID[], u8 IDN, s16 Speed[], u8 ACC[]);
 
 	/** @brief Write PWM to single servo (Mode 2)
 	 *  @param ID Servo ID
 	 *  @param Pwm PWM duty cycle (±1000 = ±100%)
 	 *  @return 1 on success, 0 on failure */
-    virtual int WritePwm(u8 ID, s16 Pwm);
+	virtual int WritePwm(u8 ID, s16 Pwm);
 
 	/** @brief Async write PWM */
-    virtual int RegWritePwm(u8 ID, s16 Pwm);
+	virtual int RegWritePwm(u8 ID, s16 Pwm);
 
 	/** @brief Sync write PWM to multiple servos */
-    virtual void SyncWritePwm(u8 ID[], u8 IDN, s16 Pwm[]);
+	virtual void SyncWritePwm(u8 ID[], u8 IDN, s16 Pwm[]);
 
 	/** @brief Enable/disable motor torque
 	 *  @param ID Servo ID
@@ -292,8 +292,9 @@ public:
 	 *  @param ID Servo ID, or -1 for cached read
 	 *  @return Current in milliamps, -1 on error */
 	virtual int ReadCurrent(int ID);
-private:
-	u8 Mem[SMS_STS_PRESENT_CURRENT_H-SMS_STS_PRESENT_POSITION_L+1];
+
+  private:
+	u8 Mem[SMS_STS_PRESENT_CURRENT_H - SMS_STS_PRESENT_POSITION_L + 1];
 };
 
 #endif

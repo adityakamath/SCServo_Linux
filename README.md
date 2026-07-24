@@ -10,7 +10,7 @@ Linux SDK for Feetech serial servo motors with native C++ support
 
 A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series serial bus servo motors. Features position, velocity, PWM, and force control with multi-servo synchronization support.
 
-> **📌 Added support for the SCS0009 servo used in the [AmazingHand](https://github.com/pollen-robotics/AmazingHand) from [Pollen Robotics](https://www.pollen-robotics.com/). Feetech uses different firmware on each of their different servo product families, which means the SCS0009 has enough differences in register addresses, values, etc. to need its own driver. SCS0009 support is useful for those who want to use SCServo_Linux with an [AmazingHand](https://github.com/pollen-robotics/AmazingHand) or integrate it into programming their [Reachy](https://www.pollen-robotics.com/) or [SO-10x arm](https://github.com/TheRobotStudio/SO-ARM100).
+> 📌 Added support for the SCS0009 servo used in the [AmazingHand](https://github.com/pollen-robotics/AmazingHand) from [Pollen Robotics](https://www.pollen-robotics.com/). Feetech uses different firmware on each of their different servo product families, which means the SCS0009 has enough differences in register addresses, values, etc. to need its own driver. SCS0009 support is useful for those who want to use SCServo_Linux with an [AmazingHand](https://github.com/pollen-robotics/AmazingHand) or integrate it into programming their [Reachy](https://www.pollen-robotics.com/) or [SO-10x arm](https://github.com/TheRobotStudio/SO-ARM100).
 >
 > 
 

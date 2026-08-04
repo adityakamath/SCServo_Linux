@@ -24,14 +24,9 @@
 
 #include "SCSerial.h"
 
-// macOS compatibility: Define missing baud rate constants
 #ifdef __APPLE__
-#ifndef B500000
-#define B500000 500000
-#endif
-#ifndef B1000000
-#define B1000000 1000000
-#endif
+#include <sys/ioctl.h>
+#include <IOKit/serial/ioss.h>  // IOSSIOSPEED for non-standard baud rates on macOS
 #endif
 
 /**
@@ -102,6 +97,7 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 	tcgetattr(fd, &orgopt);
 	tcgetattr(fd, &curopt);
 	speed_t CR_BAUDRATE;
+	bool use_iossiospeed = false;
 	switch (baudRate) {
 	case 9600:
 		CR_BAUDRATE = B9600;
@@ -119,10 +115,20 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 		CR_BAUDRATE = B115200;
 		break;
 	case 500000:
+#ifdef __APPLE__
+		CR_BAUDRATE = B9600;  // placeholder; overridden by IOSSIOSPEED below
+		use_iossiospeed = true;
+#else
 		CR_BAUDRATE = B500000;
+#endif
 		break;
 	case 1000000:
+#ifdef __APPLE__
+		CR_BAUDRATE = B9600;  // placeholder; overridden by IOSSIOSPEED below
+		use_iossiospeed = true;
+#else
 		CR_BAUDRATE = B1000000;
+#endif
 		break;
 	default:
 		CR_BAUDRATE = B115200;
@@ -141,12 +147,20 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 	curopt.c_cflag |= CLOCAL; // disable modem statuc check
 	cfmakeraw(&curopt);       // make raw mode
 	curopt.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	if (tcsetattr(fd, TCSANOW, &curopt) == 0) {
-		return true;
-	} else {
+	if (tcsetattr(fd, TCSANOW, &curopt) != 0) {
 		perror("tcsetattr:");
 		return false;
 	}
+#ifdef __APPLE__
+	if (use_iossiospeed) {
+		speed_t speed = (speed_t)baudRate;
+		if (ioctl(fd, IOSSIOSPEED, &speed) == -1) {
+			perror("IOSSIOSPEED:");
+			return false;
+		}
+	}
+#endif
+	return true;
 }
 
 /**

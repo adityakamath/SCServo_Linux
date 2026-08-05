@@ -97,7 +97,9 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 	tcgetattr(fd, &orgopt);
 	tcgetattr(fd, &curopt);
 	speed_t CR_BAUDRATE;
+#ifdef __APPLE__
 	bool use_iossiospeed = false;
+#endif
 	switch (baudRate) {
 	case 9600:
 		CR_BAUDRATE = B9600;

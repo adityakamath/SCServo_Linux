@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 		Position[1] = 20;
 		Speed[0] = 1500;
 		Speed[1] = 1500;
-		sc.SyncWritePos(ID, 2, Position, 0, Speed);//舵机((ID1/ID2))以最高速度V=1500步/秒,运行至P1=20
+		sc.SyncWritePos(ID, 2, Position, 0, Speed);//Servos (ID1/ID2) move to position P1=20 at maximum speed V=1500 steps/second
 		std::cout<<"pos = "<<20<<std::endl;
 		usleep(754*1000);//[(P1-P0)/V]*1000+100
 	}

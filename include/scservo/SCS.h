@@ -112,8 +112,8 @@ class SCS
 	 */
 	void syncWrite(u8 ID[], u8 IDN, u8 MemAddr, u8* nDat, u8 nLen);
 
-	int writeByte(u8 ID, u8 MemAddr, u8 bDat);  // 写1个字节
-	int writeWord(u8 ID, u8 MemAddr, u16 wDat); // 写2个字节
+	int writeByte(u8 ID, u8 MemAddr, u8 bDat);  // Write 1 byte
+	int writeWord(u8 ID, u8 MemAddr, u16 wDat); // Write 2 bytes
 
 	/**
 	 * @brief Read data from servo memory
@@ -125,8 +125,8 @@ class SCS
 	 */
 	int Read(u8 ID, u8 MemAddr, u8* nData, u8 nLen);
 
-	int readByte(u8 ID, u8 MemAddr); // 读1个字节
-	int readWord(u8 ID, u8 MemAddr); // 读2个字节
+	int readByte(u8 ID, u8 MemAddr); // Read 1 byte
+	int readWord(u8 ID, u8 MemAddr); // Read 2 bytes
 
 	/**
 	 * @brief Ping servo to check connection
@@ -134,14 +134,15 @@ class SCS
 	 * @return Servo error status on success, -1 on failure
 	 */
 	int Ping(u8 ID);
-	int syncReadPacketTx(u8 ID[], u8 IDN, u8 MemAddr, u8 nLen); // 同步读指令包发送
-	int syncReadPacketRx(u8 ID, u8* nDat);                      // 同步读返回包解码，成功返回内存字节数，失败返回0
-	int syncReadRxPacketToByte();                               // 解码一个字节
-	int syncReadRxPacketToWrod(u8 negBit = 0);                  // 解码两个字节，negBit为方向为，negBit=0表示无方向
-	void syncReadBegin(u8 IDN, u8 rxLen);                       // 同步读开始
-	void syncReadEnd();                                         // 同步读结束
+	int syncReadPacketTx(u8 ID[], u8 IDN, u8 MemAddr, u8 nLen); // Send sync-read instruction packet
+	int syncReadPacketRx(u8 ID,
+	                     u8* nDat); // Decode sync-read response packet; returns byte count on success, 0 on failure
+	int syncReadRxPacketToByte();   // Decode one byte
+	int syncReadRxPacketToWrod(u8 negBit = 0); // Decode two bytes; negBit selects sign bit, 0 = unsigned
+	void syncReadBegin(u8 IDN, u8 rxLen);      // Begin sync-read
+	void syncReadEnd();                        // End sync-read
   public:
-	u8 Level; // 舵机返回等级
+	u8 Level; // Servo status return level
 	u8 End;   // Processor endianness structure
 	u8 Error; // Servo status
 	u8 syncReadRxPacketIndex;

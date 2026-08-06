@@ -56,11 +56,11 @@ int main(int argc, char **argv)
         return 0;
     }
 	while(1){
-		sc.WritePos(0xfe, 1000, 0, 1500);//舵机(ID1)以最高速度V=1500步/秒,运行至P1=1000
+		sc.WritePos(0xfe, 1000, 0, 1500);//Servo (ID1) moves to P1=1000 at max speed V=1500 steps/sec
 		std::cout<<"pos = "<<1000<<std::endl;
 		usleep(754*1000);//[(P1-P0)/V]*1000+100
-  
-		sc.WritePos(0xfe, 20, 0, 1500);//舵机(ID1)以最高V=1500步/秒,运行至P1=20
+
+		sc.WritePos(0xfe, 20, 0, 1500);//Servo (ID1) moves to P1=20 at max speed V=1500 steps/sec
 		std::cout<<"pos = "<<20<<std::endl;
 		usleep(754*1000);//[(P1-P0)/V]*1000+100
 	}

@@ -25,8 +25,8 @@
 #include "SCSerial.h"
 
 #ifdef __APPLE__
+#include <IOKit/serial/ioss.h> // IOSSIOSPEED for non-standard baud rates on macOS
 #include <sys/ioctl.h>
-#include <IOKit/serial/ioss.h>  // IOSSIOSPEED for non-standard baud rates on macOS
 #endif
 
 /**
@@ -118,7 +118,7 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 		break;
 	case 500000:
 #ifdef __APPLE__
-		CR_BAUDRATE = B9600;  // placeholder; overridden by IOSSIOSPEED below
+		CR_BAUDRATE = B9600; // placeholder; overridden by IOSSIOSPEED below
 		use_iossiospeed = true;
 #else
 		CR_BAUDRATE = B500000;
@@ -126,7 +126,7 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 		break;
 	case 1000000:
 #ifdef __APPLE__
-		CR_BAUDRATE = B9600;  // placeholder; overridden by IOSSIOSPEED below
+		CR_BAUDRATE = B9600; // placeholder; overridden by IOSSIOSPEED below
 		use_iossiospeed = true;
 #else
 		CR_BAUDRATE = B1000000;
@@ -155,7 +155,7 @@ bool SCSerial::begin(int baudRate, const char* serialPort)
 	}
 #ifdef __APPLE__
 	if (use_iossiospeed) {
-		speed_t speed = (speed_t)baudRate;
+		speed_t speed = (speed_t) baudRate;
 		if (ioctl(fd, IOSSIOSPEED, &speed) == -1) {
 			perror("IOSSIOSPEED:");
 			return false;

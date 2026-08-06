@@ -135,11 +135,11 @@ class SCS
 	 */
 	int Ping(u8 ID);
 	int syncReadPacketTx(u8 ID[], u8 IDN, u8 MemAddr, u8 nLen); // 同步读指令包发送
-	int syncReadPacketRx(u8 ID, u8* nDat);     // 同步读返回包解码，成功返回内存字节数，失败返回0
-	int syncReadRxPacketToByte();              // 解码一个字节
-	int syncReadRxPacketToWrod(u8 negBit = 0); // 解码两个字节，negBit为方向为，negBit=0表示无方向
-	void syncReadBegin(u8 IDN, u8 rxLen);      // 同步读开始
-	void syncReadEnd();                        // 同步读结束
+	int syncReadPacketRx(u8 ID, u8* nDat);                      // 同步读返回包解码，成功返回内存字节数，失败返回0
+	int syncReadRxPacketToByte();                               // 解码一个字节
+	int syncReadRxPacketToWrod(u8 negBit = 0);                  // 解码两个字节，negBit为方向为，negBit=0表示无方向
+	void syncReadBegin(u8 IDN, u8 rxLen);                       // 同步读开始
+	void syncReadEnd();                                         // 同步读结束
   public:
 	u8 Level; // 舵机返回等级
 	u8 End;   // Processor endianness structure

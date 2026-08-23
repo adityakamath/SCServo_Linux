@@ -214,8 +214,15 @@ int SCS::RegWriteAction(u8 ID)
  */
 void SCS::syncWrite(u8 ID[], u8 IDN, u8 MemAddr, u8* nDat, u8 nLen)
 {
+	// mesLen is u8: an overflow here wraps and misframes the packet instead of failing loudly.
+	// No-op instead of sending a corrupt packet.
+	unsigned int fullLen = static_cast<unsigned int>(nLen + 1) * IDN + 4;
+	if (fullLen > 0xff) {
+		return;
+	}
+	u8 mesLen = static_cast<u8>(fullLen);
+
 	rFlushSCS();
-	u8 mesLen = ((nLen + 1) * IDN + 4);
 	u8 Sum = 0;
 	u8 bBuf[7];
 	bBuf[0] = 0xff;

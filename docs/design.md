@@ -213,6 +213,18 @@ servo.setID(ID, newID);     // Change configuration
 servo.LockEprom(ID);        // Lock EEPROM
 ```
 
+**SMS/STS Motion-Tuning Register Access:**
+
+For firmware-dependent tuning workflows, `SMS_STS` also exposes explicit helpers for direct register writes/reads:
+
+- Register 41 (`SMS_STS_ACC`): `WriteAcc()` / `ReadAcc()`
+- Register 84 (`SMS_STS_VMAX`): `WriteVMax()` / `ReadVMax()`
+- Register 85 (`SMS_STS_AMAX`): `WriteAMax()` / `ReadAMax()`
+- Register 86 (`SMS_STS_KACC`): `WriteKAcc()` / `ReadKAcc()`
+- Register 81 (`SMS_STS_DTS`): `WriteDTS()` / `ReadDTS()`
+
+These controls are intentionally value-agnostic because valid ranges and behavior can vary across servo firmware versions.
+
 ---
 
 ## Build System Design

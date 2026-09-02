@@ -411,6 +411,56 @@ int SMS_STS::LockEeprom(u8 ID)
 	return writeByte(ID, SMS_STS_LOCK, 1);
 }
 
+int SMS_STS::WriteAcc(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_ACC, value);
+}
+
+int SMS_STS::ReadAcc(int ID)
+{
+	return readByte(ID, SMS_STS_ACC);
+}
+
+int SMS_STS::WriteVMax(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_VMAX, value);
+}
+
+int SMS_STS::ReadVMax(int ID)
+{
+	return readByte(ID, SMS_STS_VMAX);
+}
+
+int SMS_STS::WriteAMax(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_AMAX, value);
+}
+
+int SMS_STS::ReadAMax(int ID)
+{
+	return readByte(ID, SMS_STS_AMAX);
+}
+
+int SMS_STS::WriteKAcc(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_KACC, value);
+}
+
+int SMS_STS::ReadKAcc(int ID)
+{
+	return readByte(ID, SMS_STS_KACC);
+}
+
+int SMS_STS::WriteDTS(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_DTS, value);
+}
+
+int SMS_STS::ReadDTS(int ID)
+{
+	return readByte(ID, SMS_STS_DTS);
+}
+
 /**
  * @brief Calibrate servo center position offset
  *

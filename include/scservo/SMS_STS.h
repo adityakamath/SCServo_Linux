@@ -80,6 +80,12 @@
 #define SMS_STS_TORQUE_LIMIT_H 49
 #define SMS_STS_LOCK 55
 
+//-------Undocumented extended registers (community discovered by @devemin on X, Sept 2026)--------
+#define SMS_STS_DTS 81   // Internal control-loop period
+#define SMS_STS_VMAX 84  // Internal velocity limit cap
+#define SMS_STS_AMAX 85  // Internal acceleration limit cap
+#define SMS_STS_KACC 86  // Internal acceleration profile coefficient
+
 //-------SRAM (Read only)--------
 #define SMS_STS_PRESENT_POSITION_L 56
 #define SMS_STS_PRESENT_POSITION_H 57
@@ -245,6 +251,61 @@ class SMS_STS : public SCSerial
 	 *  @param ID Servo ID
 	 *  @return 1 on success, 0 on failure */
 	virtual int LockEeprom(u8 ID);
+
+	/** @brief Set runtime acceleration register (addr 41)
+	 *  @param ID Servo ID
+	 *  @param value Acceleration register value (0-254)
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteAcc(u8 ID, u8 value);
+
+	/** @brief Read runtime acceleration register (addr 41)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadAcc(int ID);
+
+	/** @brief Set internal velocity cap register (addr 84)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteVMax(u8 ID, u8 value);
+
+	/** @brief Read internal velocity cap register (addr 84)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadVMax(int ID);
+
+	/** @brief Set internal acceleration cap register (addr 85)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteAMax(u8 ID, u8 value);
+
+	/** @brief Read internal acceleration cap register (addr 85)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadAMax(int ID);
+
+	/** @brief Set internal acceleration profile coefficient register (addr 86)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteKAcc(u8 ID, u8 value);
+
+	/** @brief Read internal acceleration profile coefficient register (addr 86)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadKAcc(int ID);
+
+	/** @brief Set internal control-loop period register (addr 81)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteDTS(u8 ID, u8 value);
+
+	/** @brief Read internal control-loop period register (addr 81)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadDTS(int ID);
 
 	/** @brief Calibrate servo midpoint position
 	 *  @param ID Servo ID

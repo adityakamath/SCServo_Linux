@@ -21,6 +21,7 @@ A high-performance Linux SDK for controlling Feetech SMS/STS/SCSCL/HLSCL series 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Operating Modes](#operating-modes)
+- [SMS/STS Register Access](#smssts-register-access)
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
@@ -194,6 +195,41 @@ Mode 2 behavior differs by protocol. SCSCL uses mode numbering differently (Mode
 - **Behavior**: Motor maintains constant torque regardless of position or speed
 - **Protocols**: HLSCL only
 - **⚠️ Note**: Conversion factors and behavior should be verified against your specific HLS servo model's datasheet.
+
+## SMS/STS Register Access
+
+The `SMS_STS` class now exposes explicit helper APIs for direct access to common motion-tuning registers.
+
+- `WriteAcc()` / `ReadAcc()` for register `SMS_STS_ACC` (41)
+- `WriteVMax()` / `ReadVMax()` for register `SMS_STS_VMAX` (84)
+- `WriteAMax()` / `ReadAMax()` for register `SMS_STS_AMAX` (85)
+- `WriteKAcc()` / `ReadKAcc()` for register `SMS_STS_KACC` (86)
+- `WriteDTS()` / `ReadDTS()` for register `SMS_STS_DTS` (81)
+
+These registers are model and firmware dependent. The SDK intentionally exposes write/read capability without prescribing target values.
+
+```cpp
+#include <scservo/SCServo.h>
+
+SMS_STS servo;
+servo.begin(1000000, "/dev/ttyUSB0");
+
+int id = 1;
+u8 vmax = /* user-defined */;
+u8 amax = /* user-defined */;
+u8 kacc = /* user-defined */;
+u8 dts = /* user-defined */;
+u8 acc = /* user-defined */;
+servo.unLockEeprom(id);
+servo.WriteVMax(id, vmax);
+servo.WriteAMax(id, amax);
+servo.WriteKAcc(id, kacc);
+servo.WriteDTS(id, dts);
+servo.LockEeprom(id);
+
+servo.WriteAcc(id, acc);  // runtime register
+servo.end();
+```
 
 ## Usage Examples
 

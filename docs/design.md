@@ -335,6 +335,7 @@ The SDK includes 25+ comprehensive examples organized by protocol:
 - Advanced synchronization benchmarks
 - Multi-servo coordination patterns
 - Performance testing utilities
+- `InternalTuningRegs` single-motor register workflow (read/report, write, read/report)
 
 Each example includes:
 - Inline documentation

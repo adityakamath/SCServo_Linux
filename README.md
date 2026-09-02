@@ -248,7 +248,18 @@ int main() {
 }
 ```
 
-The SDK includes multiple example programs in the `examples/` directory, organized by protocol (SMS_STS, SCSCL, HLSCL) and `sandbox` for advanced multi-servo examples. Each example includes inline documentation and can be built individually using CMake.
+The SDK includes multiple example programs in the `examples/` directory, organized by protocol (SMS_STS, SCSCL, HLSCL) and `sandbox` for advanced workflows. Each example includes inline documentation and can be built individually using CMake.
+
+For firmware-register workflows on a single SMS/STS motor, use:
+
+- `examples/sandbox/InternalTuningRegs`
+
+`InternalTuningRegs` performs a full sequence in one run:
+
+1. Read and print current ACC/VMAX/AMAX/KACC/DTS register values
+2. Write user-supplied target values to those registers
+3. Read and print the values again for verification
+4. Save a timestamped report to `/tmp`
 
 ## Documentation
 

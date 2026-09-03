@@ -87,12 +87,12 @@
 // block as 81/84/85/86; semantics below are inferred, not vendor-documented,
 // and may vary by firmware version.
 #define SMS_STS_MOVING_THRESHOLD 80 // Internal threshold for moving-state detection
-#define SMS_STS_DTS 81   // Internal control-loop period
-#define SMS_STS_VK_MS 82 // Internal velocity-profile/settling tuning ("Vk(ms)")
-#define SMS_STS_VMIN 83  // Internal minimum-speed / low-speed gating threshold
-#define SMS_STS_VMAX 84  // Internal velocity limit cap
-#define SMS_STS_AMAX 85  // Internal acceleration limit cap
-#define SMS_STS_KACC 86  // Internal acceleration profile coefficient
+#define SMS_STS_DTS 81              // Internal control-loop period
+#define SMS_STS_VK_MS 82            // Internal velocity-profile/settling tuning ("Vk(ms)")
+#define SMS_STS_VMIN 83             // Internal minimum-speed / low-speed gating threshold
+#define SMS_STS_VMAX 84             // Internal velocity limit cap
+#define SMS_STS_AMAX 85             // Internal acceleration limit cap
+#define SMS_STS_KACC 86             // Internal acceleration profile coefficient
 
 //-------SRAM (Read only)--------
 #define SMS_STS_PRESENT_POSITION_L 56

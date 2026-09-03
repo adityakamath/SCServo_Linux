@@ -12,6 +12,12 @@ struct RegSnapshot {
   int amax;
   int kacc;
   int dts;
+  // Read-only in this tool: 80/82/83 semantics are inferred from community firmware
+  // reverse-engineering, not a vendor datasheet, so this example doesn't prescribe
+  // target values for them - see SMS_STS_MOVING_THRESHOLD/VK_MS/VMIN in SMS_STS.h.
+  int moving_threshold;
+  int vk_ms;
+  int vmin;
 };
 
 static std::string now_stamp()
@@ -51,6 +57,9 @@ static RegSnapshot read_snapshot(SMS_STS &servo, int id)
   s.amax = read_checked(servo, id, SMS_STS_AMAX, "AMAX(85)");
   s.kacc = read_checked(servo, id, SMS_STS_KACC, "KACC(86)");
   s.dts = read_checked(servo, id, SMS_STS_DTS, "DTS(81)");
+  s.moving_threshold = read_checked(servo, id, SMS_STS_MOVING_THRESHOLD, "MOVING_THRESHOLD(80)");
+  s.vk_ms = read_checked(servo, id, SMS_STS_VK_MS, "VK_MS(82)");
+  s.vmin = read_checked(servo, id, SMS_STS_VMIN, "VMIN(83)");
   return s;
 }
 
@@ -58,10 +67,13 @@ static void print_snapshot(const char *label, const RegSnapshot &s)
 {
   std::cout << label << std::endl;
   std::cout << "  ACC(41)=" << s.acc << std::endl;
+  std::cout << "  MOVING_THRESHOLD(80)=" << s.moving_threshold << " (read-only in this tool)" << std::endl;
+  std::cout << "  DTS(81)=" << s.dts << std::endl;
+  std::cout << "  VK_MS(82)=" << s.vk_ms << " (read-only in this tool)" << std::endl;
+  std::cout << "  VMIN(83)=" << s.vmin << " (read-only in this tool)" << std::endl;
   std::cout << "  VMAX(84)=" << s.vmax << std::endl;
   std::cout << "  AMAX(85)=" << s.amax << std::endl;
   std::cout << "  KACC(86)=" << s.kacc << std::endl;
-  std::cout << "  DTS(81)=" << s.dts << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -143,9 +155,13 @@ int main(int argc, char **argv)
   r << "targets: ACC=" << target_acc << " VMAX=" << target_vmax << " AMAX=" << target_amax
     << " KACC=" << target_kacc << " DTS=" << target_dts << "\n\n";
   r << "Before: ACC=" << before.acc << " VMAX=" << before.vmax << " AMAX=" << before.amax
-    << " KACC=" << before.kacc << " DTS=" << before.dts << "\n";
+    << " KACC=" << before.kacc << " DTS=" << before.dts
+    << " MOVING_THRESHOLD=" << before.moving_threshold << " VK_MS=" << before.vk_ms
+    << " VMIN=" << before.vmin << "\n";
   r << "After : ACC=" << after.acc << " VMAX=" << after.vmax << " AMAX=" << after.amax
-    << " KACC=" << after.kacc << " DTS=" << after.dts << "\n";
+    << " KACC=" << after.kacc << " DTS=" << after.dts
+    << " MOVING_THRESHOLD=" << after.moving_threshold << " VK_MS=" << after.vk_ms
+    << " VMIN=" << after.vmin << " (80/82/83 read-only in this tool)\n";
   r.close();
 
   std::cout << "Report written to " << report_path << std::endl;

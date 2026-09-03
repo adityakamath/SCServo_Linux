@@ -461,6 +461,36 @@ int SMS_STS::ReadDTS(int ID)
 	return readByte(ID, SMS_STS_DTS);
 }
 
+int SMS_STS::WriteMovingThreshold(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_MOVING_THRESHOLD, value);
+}
+
+int SMS_STS::ReadMovingThreshold(int ID)
+{
+	return readByte(ID, SMS_STS_MOVING_THRESHOLD);
+}
+
+int SMS_STS::WriteVkMs(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_VK_MS, value);
+}
+
+int SMS_STS::ReadVkMs(int ID)
+{
+	return readByte(ID, SMS_STS_VK_MS);
+}
+
+int SMS_STS::WriteVMin(u8 ID, u8 value)
+{
+	return writeByte(ID, SMS_STS_VMIN, value);
+}
+
+int SMS_STS::ReadVMin(int ID)
+{
+	return readByte(ID, SMS_STS_VMIN);
+}
+
 /**
  * @brief Calibrate servo center position offset
  *

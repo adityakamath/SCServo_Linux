@@ -201,12 +201,15 @@ Mode 2 behavior differs by protocol. SCSCL uses mode numbering differently (Mode
 The `SMS_STS` class now exposes explicit helper APIs for direct access to common motion-tuning registers.
 
 - `WriteAcc()` / `ReadAcc()` for register `SMS_STS_ACC` (41)
+- `WriteMovingThreshold()` / `ReadMovingThreshold()` for register `SMS_STS_MOVING_THRESHOLD` (80)
+- `WriteDTS()` / `ReadDTS()` for register `SMS_STS_DTS` (81)
+- `WriteVkMs()` / `ReadVkMs()` for register `SMS_STS_VK_MS` (82)
+- `WriteVMin()` / `ReadVMin()` for register `SMS_STS_VMIN` (83)
 - `WriteVMax()` / `ReadVMax()` for register `SMS_STS_VMAX` (84)
 - `WriteAMax()` / `ReadAMax()` for register `SMS_STS_AMAX` (85)
 - `WriteKAcc()` / `ReadKAcc()` for register `SMS_STS_KACC` (86)
-- `WriteDTS()` / `ReadDTS()` for register `SMS_STS_DTS` (81)
 
-These registers are model and firmware dependent. The SDK intentionally exposes write/read capability without prescribing target values.
+These registers are model and firmware dependent. The SDK intentionally exposes write/read capability without prescribing target values. Registers 80, 82, and 83 (moving threshold, `Vk(ms)`, `Vmin`) come from community firmware reverse-engineering rather than a vendor datasheet — their exact semantics and safe ranges are inferred, not guaranteed, and may vary by firmware version. See [sts3215-firmware](https://github.com/0o8o0-blip/sts3215-firmware) for the source analysis.
 
 ```cpp
 #include <scservo/SCServo.h>
@@ -215,21 +218,30 @@ SMS_STS servo;
 servo.begin(1000000, "/dev/ttyUSB0");
 
 int id = 1;
+u8 moving_threshold = /* user-defined */;
+u8 dts = /* user-defined */;
+u8 vk_ms = /* user-defined */;
+u8 vmin = /* user-defined */;
 u8 vmax = /* user-defined */;
 u8 amax = /* user-defined */;
 u8 kacc = /* user-defined */;
-u8 dts = /* user-defined */;
 u8 acc = /* user-defined */;
 servo.unLockEeprom(id);
+servo.WriteMovingThreshold(id, moving_threshold);
+servo.WriteDTS(id, dts);
+servo.WriteVkMs(id, vk_ms);
+servo.WriteVMin(id, vmin);
 servo.WriteVMax(id, vmax);
 servo.WriteAMax(id, amax);
 servo.WriteKAcc(id, kacc);
-servo.WriteDTS(id, dts);
 servo.LockEeprom(id);
 
 servo.WriteAcc(id, acc);  // runtime register
 servo.end();
 ```
+
+For a hands-on read/write sandbox tool against real hardware, see
+[`examples/sandbox/InternalTuningRegs`](examples/sandbox/InternalTuningRegs).
 
 ## Usage Examples
 

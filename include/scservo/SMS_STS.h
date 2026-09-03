@@ -80,8 +80,16 @@
 #define SMS_STS_TORQUE_LIMIT_H 49
 #define SMS_STS_LOCK 55
 
-//-------Undocumented extended registers (community discovered by @devemin on X, Sept 2026)--------
+//-------Undocumented extended registers--------
+// 81/84/85/86 community discovered by @devemin on X, Sept 2026.
+// 80/82/83 identified via firmware reverse-engineering, see
+// https://github.com/0o8o0-blip/sts3215-firmware. Same undocumented tuning
+// block as 81/84/85/86; semantics below are inferred, not vendor-documented,
+// and may vary by firmware version.
+#define SMS_STS_MOVING_THRESHOLD 80 // Internal threshold for moving-state detection
 #define SMS_STS_DTS 81   // Internal control-loop period
+#define SMS_STS_VK_MS 82 // Internal velocity-profile/settling tuning ("Vk(ms)")
+#define SMS_STS_VMIN 83  // Internal minimum-speed / low-speed gating threshold
 #define SMS_STS_VMAX 84  // Internal velocity limit cap
 #define SMS_STS_AMAX 85  // Internal acceleration limit cap
 #define SMS_STS_KACC 86  // Internal acceleration profile coefficient
@@ -306,6 +314,39 @@ class SMS_STS : public SCSerial
 	 *  @param ID Servo ID
 	 *  @return Register value on success, -1 on failure */
 	virtual int ReadDTS(int ID);
+
+	/** @brief Set internal moving-state detection threshold register (addr 80)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteMovingThreshold(u8 ID, u8 value);
+
+	/** @brief Read internal moving-state detection threshold register (addr 80)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadMovingThreshold(int ID);
+
+	/** @brief Set internal velocity-profile/settling tuning register, "Vk(ms)" (addr 82)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteVkMs(u8 ID, u8 value);
+
+	/** @brief Read internal velocity-profile/settling tuning register, "Vk(ms)" (addr 82)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadVkMs(int ID);
+
+	/** @brief Set internal minimum-speed / low-speed gating threshold register (addr 83)
+	 *  @param ID Servo ID
+	 *  @param value Register value
+	 *  @return 1 on success, 0 on failure */
+	virtual int WriteVMin(u8 ID, u8 value);
+
+	/** @brief Read internal minimum-speed / low-speed gating threshold register (addr 83)
+	 *  @param ID Servo ID
+	 *  @return Register value on success, -1 on failure */
+	virtual int ReadVMin(int ID);
 
 	/** @brief Calibrate servo midpoint position
 	 *  @param ID Servo ID

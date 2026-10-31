@@ -3,7 +3,6 @@
 ![Project Status](https://img.shields.io/badge/Status-Active-green)
 ![C++](https://img.shields.io/badge/C++-17-blue?style=flat&logo=cplusplus&logoColor=white)
 [![CI](https://github.com/adityakamath/SCServo_Linux/actions/workflows/ci.yml/badge.svg)](https://github.com/adityakamath/SCServo_Linux/actions/workflows/ci.yml)
-[![Ask DeepWiki (Experimental)](https://deepwiki.com/badge.svg)](https://deepwiki.com/adityakamath/SCServo_Linux)
 ![License](https://img.shields.io/github/license/adityakamath/SCServo_Linux?label=License)
 
 Linux SDK for Feetech serial servo motors with native C++ support
